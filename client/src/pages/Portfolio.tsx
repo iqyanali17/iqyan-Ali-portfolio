@@ -84,19 +84,19 @@ export default function Portfolio() {
         <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none animate-pulse" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-secondary/20 rounded-full blur-[120px] pointer-events-none animate-pulse delay-700" />
 
-        <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1 text-center md:text-left">
+        <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12">
+          <div className="text-center md:text-left md:flex-1 w-full">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-primary font-mono mb-4 text-lg">Hello, I'm</h2>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 tracking-tight leading-none">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-bold mb-6 tracking-tight leading-none">
                 Khwaja <br />
                 <span className="text-gradient">Iqyan Ali</span>
               </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 font-light leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 font-light leading-relaxed">
                 A <span className="text-foreground font-medium">Full-Stack Web Developer</span> crafting futuristic digital experiences with the MERN stack.
               </p>
               
@@ -125,12 +125,12 @@ export default function Portfolio() {
             </motion.div>
           </div>
 
-          <div className="flex-1 relative hidden md:flex items-center justify-center">
+          <div className="md:flex-1 relative flex items-center justify-center md:mt-0 mt-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-[380px] h-[500px]"
+              className="relative w-[280px] h-[350px] sm:w-[320px] sm:h-[400px] md:w-[380px] md:h-[500px]"
             >
                {/* Gradient backdrop glow */}
                <div className="absolute -inset-4 bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 rounded-[3rem] blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-700" />
