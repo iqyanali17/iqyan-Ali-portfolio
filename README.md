@@ -35,7 +35,7 @@ portfolio/
 │   ├── public/
 │   │   ├── images/          # Project screenshots and profile picture
 │   │   ├── favicon-new.svg  # Favicon
-│   │   └── resume.pdf       # Resume download
+│   │   └── Khwaja_Iqyan_Ali_resume.pdf # Resume download
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── ui/          # Reusable UI components

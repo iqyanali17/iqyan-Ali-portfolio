@@ -99,10 +99,10 @@ export default function Portfolio() {
               <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 font-light leading-relaxed">
                 A <span className="text-foreground font-medium">Full-Stack Web Developer</span> crafting futuristic digital experiences with the MERN stack.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="rounded-full px-8 h-14 text-base font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
                   onClick={() => {
                     window.location.hash = '#contact';
@@ -111,13 +111,13 @@ export default function Portfolio() {
                 >
                   Let's Talk <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
+                <Button
+                  variant="outline"
+                  size="lg"
                   className="rounded-full px-8 h-14 text-base font-semibold border-white/10 bg-white/5 hover:bg-white/10 hover:text-primary transition-all duration-300 backdrop-blur-sm"
                   asChild
                 >
-                  <a href="/resume.pdf" download>
+                  <a href="/Khwaja_Iqyan_Ali_resume.pdf" download="Khwaja_Iqyan_Ali_Resume">
                     Resume <Download className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
@@ -132,27 +132,27 @@ export default function Portfolio() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative w-[280px] h-[350px] sm:w-[320px] sm:h-[400px] md:w-[380px] md:h-[500px]"
             >
-               {/* Gradient backdrop glow */}
-               <div className="absolute -inset-4 bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 rounded-[3rem] blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-700" />
-               
-               {/* Glass morphism container */}
-               <div className="relative w-full h-full bg-white/10 backdrop-blur-xl rounded-[2.5rem] border border-white/20 overflow-hidden shadow-2xl group hover:border-white/40 transition-all duration-700">
-                 {/* Profile image */}
-                 <img 
-                   src="/images/profile.jpg" 
-                   alt="Khwaja Iqyan Ali" 
-                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                 />
-                 
-                 {/* Subtle overlay gradient */}
-                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-               </div>
+              {/* Gradient backdrop glow */}
+              <div className="absolute -inset-4 bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 rounded-[3rem] blur-2xl opacity-75 group-hover:opacity-100 transition-opacity duration-700" />
+
+              {/* Glass morphism container */}
+              <div className="relative w-full h-full bg-white/10 backdrop-blur-xl rounded-[2.5rem] border border-white/20 overflow-hidden shadow-2xl group hover:border-white/40 transition-all duration-700">
+                {/* Profile image */}
+                <img
+                  src="/images/profile.jpg"
+                  alt="Khwaja Iqyan Ali"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+
+                {/* Subtle overlay gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              </div>
             </motion.div>
           </div>
         </div>
-        
+
         {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2 }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground"
@@ -167,7 +167,7 @@ export default function Portfolio() {
       <div className="py-12 border-y border-white/5 bg-black/20 overflow-hidden relative">
         <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
         <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
-        
+
         <div className="flex gap-16 animate-infinite-scroll w-max hover:pause">
           {[...TechIcons, ...TechIcons].map((tech, idx) => (
             <div key={`${tech.name}-${idx}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors cursor-default">
@@ -204,7 +204,7 @@ export default function Portfolio() {
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
               Whether it's designing REST APIs, managing MongoDB databases, or deploying full-stack apps, I love the challenge of bringing ideas to life through code.
             </p>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                 <Layout className="w-8 h-8 text-secondary mb-2" />
@@ -230,7 +230,7 @@ export default function Portfolio() {
               Technical Proficiency
               <div className="h-px flex-grow bg-white/10" />
             </h3>
-            
+
             {skillsLoading ? (
               <div className="space-y-4">
                 {[1, 2, 3, 4, 5].map((i) => (
@@ -251,7 +251,7 @@ export default function Portfolio() {
       {/* PROJECTS */}
       <Element name="projects" id="projects" className="py-24 bg-black/20">
         <div className="container mx-auto px-6">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -281,7 +281,7 @@ export default function Portfolio() {
 
       {/* MINOR PROJECTS */}
       <Element name="minor-projects" id="minor-projects" className="py-24 container mx-auto px-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -311,7 +311,7 @@ export default function Portfolio() {
       {/* EXPERIENCE */}
       <Element name="experience" id="experience" className="py-24 container mx-auto px-6">
         <div className="max-w-4xl mx-auto">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -324,7 +324,7 @@ export default function Portfolio() {
           <div className="relative space-y-8 md:space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-muted before:to-transparent">
             {experienceLoading ? (
               <div className="space-y-8">
-                 {[1, 2].map(i => <div key={i} className="h-40 bg-muted/20 animate-pulse rounded-2xl" />)}
+                {[1, 2].map(i => <div key={i} className="h-40 bg-muted/20 animate-pulse rounded-2xl" />)}
               </div>
             ) : (
               experience?.map((item, idx) => (
@@ -340,14 +340,14 @@ export default function Portfolio() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="glass-card rounded-3xl p-8 md:p-12 border-primary/20 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
-            
+
             <div className="grid md:grid-cols-2 gap-12 relative z-10">
               <div>
                 <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">Let's work <br /><span className="text-gradient">together.</span></h2>
                 <p className="text-muted-foreground mb-8 text-lg">
                   Have a project in mind or want to hire me? I'm always open to discussing new opportunities and ideas.
                 </p>
-                
+
                 <div className="space-y-6">
                   <div className="flex items-center gap-4 text-foreground/80">
                     <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center text-primary">
