@@ -39,6 +39,3 @@ This is a purely static personal portfolio website for a Full-Stack Web Develope
 4. Deploy!
 
 ## Recent Changes
-- 2026-01-01: Removed all backend/database logic. Project is now purely frontend.
-- 2026-01-01: Migrated database content to `client/src/lib/data.ts`.
-- 2026-01-01: Cleaned up project structure and dependencies.
