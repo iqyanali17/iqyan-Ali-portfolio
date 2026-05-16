@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
-import { Calendar, Briefcase, Award, FolderOpen } from "lucide-react";
-import type { Experience } from "@shared/schema";
+import { Calendar, Briefcase, Award, FolderOpen, Star } from "lucide-react";
+import type { Experience } from "@/lib/data";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface ExperienceCardProps {
   item: Experience;
@@ -26,7 +27,19 @@ export function ExperienceCard({ item, index }: ExperienceCardProps) {
       <div className="absolute left-0 top-0 bottom-0 w-px bg-border md:hidden" />
       <div className="absolute left-[-4px] top-6 w-2 h-2 rounded-full bg-primary md:hidden" />
 
-      <div className="glass-card p-6 rounded-2xl group hover:bg-white/5 transition-colors">
+      <div className={cn(
+        "glass-card p-6 rounded-2xl group transition-all duration-300 relative overflow-hidden",
+        item.highlight 
+          ? "border-primary/50 bg-primary/5 shadow-lg shadow-primary/10 ring-1 ring-primary/20" 
+          : "hover:bg-white/5"
+      )}>
+        {item.highlight && (
+          <div className="absolute top-0 right-0 p-2">
+            <div className="bg-primary/20 text-primary text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-bl-lg flex items-center gap-1">
+              <Star size={10} fill="currentColor" /> Current Role
+            </div>
+          </div>
+        )}
         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
           <div>
             <h3 className="text-lg md:text-xl font-bold font-display text-foreground group-hover:text-primary transition-colors">

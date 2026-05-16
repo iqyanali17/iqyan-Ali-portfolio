@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Element } from "react-scroll";
-import { SiReact, SiNodedotjs, SiTailwindcss, SiMongodb, SiExpress, SiJavascript, SiGit } from "react-icons/si";
-import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout } from "lucide-react";
+import { SiReact, SiNodedotjs, SiTailwindcss, SiMongodb, SiExpress, SiJavascript, SiGit, SiPython, SiFlask, SiSupabase, SiMui, SiTypescript } from "react-icons/si";
+import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -33,8 +33,13 @@ const TechIcons = [
   { icon: SiNodedotjs, name: "Node.js" },
   { icon: SiMongodb, name: "MongoDB" },
   { icon: SiTailwindcss, name: "Tailwind" },
+  { icon: SiMui, name: "Material UI" },
   { icon: SiExpress, name: "Express" },
   { icon: SiJavascript, name: "JavaScript" },
+  { icon: SiTypescript, name: "TypeScript" },
+  { icon: SiPython, name: "Python" },
+  { icon: SiFlask, name: "Flask" },
+  { icon: SiSupabase, name: "Supabase" },
   { icon: SiGit, name: "Git" },
 ];
 
@@ -97,7 +102,7 @@ export default function Portfolio() {
                 <span className="text-gradient">Iqyan Ali</span>
               </h1>
               <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 font-light leading-relaxed">
-                A <span className="text-foreground font-medium">Full-Stack Web Developer</span> crafting futuristic digital experiences with the MERN stack.
+                A <span className="text-foreground font-medium">Full-Stack Developer</span> crafting futuristic digital experiences with the MERN stack & Python.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
@@ -196,25 +201,35 @@ export default function Portfolio() {
               About Me
             </div>
             <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Passion for <span className="text-gradient">Creation</span>
+              Engineering <span className="text-gradient">Digital Excellence</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              I'm a motivated Computer Science student specializing in the MERN stack. My journey involves building scalable backend logic with Node.js and creating responsive, interactive frontends using React.
+              I am a final-year Computer Science student and a Software Developer Intern at iLoma technology Pvt. Ltd. My expertise revolves around building production-grade applications using the MERN stack, TypeScript, and Python (Flask).
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Whether it's designing REST APIs, managing MongoDB databases, or deploying full-stack apps, I love the challenge of bringing ideas to life through code.
+              I specialize in designing scalable RESTful APIs, implementing secure authentication systems (JWT/RBAC), and managing cloud databases. I'm passionate about solving complex architectural challenges and delivering high-performance user experiences.
             </p>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <Layout className="w-8 h-8 text-secondary mb-2" />
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-colors group">
+                <Layout className="w-8 h-8 text-blue-400 mb-2 group-hover:scale-110 transition-transform" />
                 <h4 className="font-bold">Frontend</h4>
-                <p className="text-sm text-muted-foreground">React, Tailwind, Motion</p>
+                <p className="text-sm text-muted-foreground">React 19, Tailwind, Material UI, Motion</p>
               </div>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/10">
-                <Database className="w-8 h-8 text-primary mb-2" />
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-purple-500/50 transition-colors group">
+                <Server className="w-8 h-8 text-purple-400 mb-2 group-hover:scale-110 transition-transform" />
                 <h4 className="font-bold">Backend</h4>
-                <p className="text-sm text-muted-foreground">Node, Express, Mongo</p>
+                <p className="text-sm text-muted-foreground">Node.js, Flask, Express, JWT/RBAC</p>
+              </div>
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/50 transition-colors group">
+                <Database className="w-8 h-8 text-emerald-400 mb-2 group-hover:scale-110 transition-transform" />
+                <h4 className="font-bold">Databases</h4>
+                <p className="text-sm text-muted-foreground">MongoDB, MySQL</p>
+              </div>
+              <div className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-amber-500/50 transition-colors group">
+                <Wrench className="w-8 h-8 text-amber-400 mb-2 group-hover:scale-110 transition-transform" />
+                <h4 className="font-bold">Tools</h4>
+                <p className="text-sm text-muted-foreground">Supabase, Git, GitHub, Postman, Swagger</p>
               </div>
             </div>
           </motion.div>

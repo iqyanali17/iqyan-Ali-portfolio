@@ -13,7 +13,7 @@ export function Footer() {
         <div className="flex items-center gap-6">
           <span className="text-sm text-muted-foreground">Connect with me:</span>
           <a
-            href="https://github.com/iqyanali17"
+            href="https://github.com/iqyan312"
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors"
@@ -21,7 +21,7 @@ export function Footer() {
             <Github size={28} />
           </a>
           <a
-            href="https://www.linkedin.com/in/khwaja-iqyan-ali-17-a-/"
+            href="https://www.linkedin.com/in/iqyan-ali-17a/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors"

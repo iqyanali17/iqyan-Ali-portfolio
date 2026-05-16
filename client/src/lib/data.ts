@@ -24,6 +24,7 @@ export interface Experience {
   website: string | null;
   certificate: string | null;
   certificates: string | null;
+  highlight?: boolean;
 }
 
 export interface MinorProject {
@@ -45,7 +46,7 @@ export const projects: Project[] = [
     technologies: JSON.stringify(["Node.js", "Express.js", "MongoDB", "React", "Tailwind CSS", "Clerk"]),
     imageUrl: "/images/OneSow-UI.png",
     projectUrl: "https://one-show.vercel.app/",
-    githubUrl: "https://github.com/iqyanali17",
+    githubUrl: "https://github.com/iqyan312",
   },
   {
     id: 2,
@@ -54,28 +55,45 @@ export const projects: Project[] = [
     technologies: JSON.stringify(["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL"]),
     imageUrl: "/images/Meditalk-UI.png",
     projectUrl: "https://meditalk-healthcare-assistant.netlify.app/",
-    githubUrl: "https://github.com/iqyanali17",
+    githubUrl: "https://github.com/iqyan312",
   },
 ];
 
 export const skills: Skill[] = [
   { id: 1, name: "JavaScript", category: "Programming", proficiency: 92 },
-  { id: 2, name: "SQL", category: "Programming", proficiency: 80 },
-  { id: 3, name: "React", category: "Frontend", proficiency: 90 },
-  { id: 4, name: "HTML/CSS", category: "Frontend", proficiency: 95 },
-  { id: 5, name: "Tailwind CSS", category: "Frontend", proficiency: 95 },
-  { id: 6, name: "Bootstrap", category: "Frontend", proficiency: 88 },
-  { id: 7, name: "Node.js", category: "Backend", proficiency: 85 },
-  { id: 8, name: "Express.js", category: "Backend", proficiency: 85 },
-  { id: 9, name: "MongoDB", category: "Databases", proficiency: 80 },
-  { id: 10, name: "MySQL", category: "Databases", proficiency: 78 },
-  { id: 11, name: "Git/GitHub", category: "Tools", proficiency: 90 },
-  { id: 12, name: "Postman", category: "Tools", proficiency: 85 },
+  { id: 18, name: "TypeScript", category: "Programming", proficiency: 88 },
+  { id: 2, name: "Python", category: "Programming", proficiency: 85 },
+  { id: 3, name: "SQL", category: "Programming", proficiency: 80 },
+  { id: 4, name: "React", category: "Frontend", proficiency: 90 },
+  { id: 5, name: "HTML/CSS", category: "Frontend", proficiency: 95 },
+  { id: 6, name: "Tailwind CSS", category: "Frontend", proficiency: 95 },
+  { id: 7, name: "Material UI", category: "Frontend", proficiency: 88 },
+  { id: 8, name: "Bootstrap", category: "Frontend", proficiency: 88 },
+  { id: 9, name: "Node.js", category: "Backend", proficiency: 85 },
+  { id: 10, name: "Express.js", category: "Backend", proficiency: 85 },
+  { id: 11, name: "Flask", category: "Backend", proficiency: 80 },
+  { id: 12, name: "MongoDB", category: "Databases", proficiency: 80 },
+  { id: 13, name: "MySQL", category: "Databases", proficiency: 78 },
+  { id: 14, name: "Supabase", category: "Databases", proficiency: 82 },
+  { id: 15, name: "Git/GitHub", category: "Tools", proficiency: 90 },
+  { id: 16, name: "Postman", category: "Tools", proficiency: 85 },
+  { id: 17, name: "Swagger API", category: "Tools", proficiency: 80 },
 ];
 
 export const experience: Experience[] = [
   {
     id: 1,
+    role: "Software Developer Intern",
+    company: "iLoma technology Pvt. Ltd.",
+    duration: "Jan 2026 - Present",
+    description: "Developing real-world applications using MERN stack and Python (Flask). Built a production-level Visitor Management System. Designed scalable RESTful APIs and implemented JWT/RBAC authentication.",
+    website: "https://www.ilomatechnology.com/",
+    certificate: null,
+    certificates: null,
+    highlight: true,
+  },
+  {
+    id: 2,
     role: "Web Developer Intern",
     company: "The Developers Arena",
     duration: "2025",
@@ -85,7 +103,7 @@ export const experience: Experience[] = [
     certificates: null,
   },
   {
-    id: 2,
+    id: 3,
     role: "B.Tech Computer Science",
     company: "GH Raisoni University Amravati",
     duration: "2022 - 2026",
@@ -95,7 +113,17 @@ export const experience: Experience[] = [
     certificates: null,
   },
   {
-    id: 3,
+    id: 4,
+    role: "Higher Secondary Education",
+    company: "Shah Babu Junior College, Patur",
+    duration: "2020 - 2022",
+    description: "Completed Higher Secondary education with a focus on Science. Percentage: 83.67%.",
+    website: null,
+    certificate: null,
+    certificates: null,
+  },
+  {
+    id: 5,
     role: "Certifications",
     company: "Multiple Providers",
     duration: "2022 - 2026",
@@ -119,7 +147,7 @@ export const minorProjects: MinorProject[] = [
     role: "Frontend logic and state handling • Component design",
     technologies: JSON.stringify(["Node.js", "Express", "MongoDB", "EJS", "Mongoose"]),
     imageUrl: "/images/PostFlow-UI.png",
-    githubUrl: "https://github.com/iqyanali17/Postflow_App.git",
+    githubUrl: "https://github.com/iqyan312/Postflow_App.git",
     liveUrl: null,
   },
   {
@@ -129,7 +157,7 @@ export const minorProjects: MinorProject[] = [
     role: "Event handling & game-logic concepts • Increasing difficulty patterns",
     technologies: JSON.stringify(["HTML", "CSS", "JavaScript"]),
     imageUrl: "/images/Simon_game.png",
-    githubUrl: "https://github.com/iqyanali17/SimonGAme.git",
+    githubUrl: "https://github.com/iqyan312/SimonGAme.git",
     liveUrl: null,
   },
   {
@@ -139,7 +167,7 @@ export const minorProjects: MinorProject[] = [
     role: "API calls & async JavaScript handling • Real-time data management",
     technologies: JSON.stringify(["React 19.1.1", "Vite 7.1.6", "Material-UI 7.3.6", "OpenWeatherMap API", "CSS3"]),
     imageUrl: "/images/weather_App.png",
-    githubUrl: "https://github.com/iqyanali17/weather_app.git",
+    githubUrl: "https://github.com/iqyan312/weather_app.git",
     liveUrl: null,
   },
   {
@@ -149,7 +177,7 @@ export const minorProjects: MinorProject[] = [
     role: "Clean UI structure & responsive layout design • Business-focused interface",
     technologies: JSON.stringify(["Next.js 16.1.0", "React 19.2.3", "Material-UI 7.3.6", "Tailwind CSS 3.4.1", "Lucide React", "PostCSS"]),
     imageUrl: "/images/Packers & Movers-UI.png",
-    githubUrl: "https://github.com/iqyanali17/MH27-Pakcers-Movers.git",
+    githubUrl: "https://github.com/iqyan312/MH27-Pakcers-Movers.git",
     liveUrl: "https://mh-27-pakcers-movers.vercel.app/",
   },
   {
@@ -159,7 +187,7 @@ export const minorProjects: MinorProject[] = [
     role: "UI design thinking & frontend structuring • Component layout design",
     technologies: JSON.stringify(["Node.js", "Express.js", "MongoDB", "Mongoose 8.20.0", "EJS 3.1.10", "Vanilla JavaScript"]),
     imageUrl: "/images/MinChat-UI.png",
-    githubUrl: "https://github.com/iqyanali17/Mini_chat-_pp.git",
+    githubUrl: "https://github.com/iqyan312/Mini_chat-_pp.git",
     liveUrl: null,
   },
 ];

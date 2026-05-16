@@ -82,7 +82,7 @@ export function Navigation() {
               </a>
             ))}
             <a
-              href="https://github.com/iqyanali17"
+              href="https://github.com/iqyan312"
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-primary hover:border-primary text-sm font-medium transition-all duration-300"
