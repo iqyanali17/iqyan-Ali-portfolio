@@ -13,7 +13,7 @@ export function Footer() {
         <div className="flex items-center gap-6">
           <span className="text-sm text-muted-foreground">Connect with me:</span>
           <a
-            href="https://github.com/iqyan312"
+            href="https://github.com/iqyanali17"
             target="_blank"
             rel="noopener noreferrer"
             className="text-muted-foreground hover:text-primary transition-colors"

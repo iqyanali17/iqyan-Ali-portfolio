@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import type { Skill } from "@shared/schema";
+import type { Skill } from "@/lib/data";
 
 interface SkillBarProps {
   skill: Skill;

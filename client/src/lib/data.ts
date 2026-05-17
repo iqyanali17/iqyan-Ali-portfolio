@@ -46,7 +46,7 @@ export const projects: Project[] = [
     technologies: JSON.stringify(["Node.js", "Express.js", "MongoDB", "React", "Tailwind CSS", "Clerk"]),
     imageUrl: "/images/OneSow-UI.png",
     projectUrl: "https://one-show.vercel.app/",
-    githubUrl: "https://github.com/iqyan312",
+    githubUrl: "https://github.com/iqyanali17",
   },
   {
     id: 2,
@@ -55,7 +55,7 @@ export const projects: Project[] = [
     technologies: JSON.stringify(["React", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL"]),
     imageUrl: "/images/Meditalk-UI.png",
     projectUrl: "https://meditalk-healthcare-assistant.netlify.app/",
-    githubUrl: "https://github.com/iqyan312",
+    githubUrl: "https://github.com/iqyanali17",
   },
 ];
 
@@ -107,7 +107,7 @@ export const experience: Experience[] = [
     role: "B.Tech Computer Science",
     company: "GH Raisoni University Amravati",
     duration: "2022 - 2026",
-    description: "Pursuing Bachelor of Technology in Computer Science. CGPA: 7.5. Specializing in MERN stack, REST APIs, and responsive UI design.",
+    description: "Pursuing Bachelor of Technology in Computer Science. CGPA: 7.7. Specializing in MERN stack, REST APIs, and responsive UI design.",
     website: "https://ghrua.edu.in/",
     certificate: null,
     certificates: null,
@@ -117,8 +117,8 @@ export const experience: Experience[] = [
     role: "Higher Secondary Education",
     company: "Shah Babu Junior College, Patur",
     duration: "2020 - 2022",
-    description: "Completed Higher Secondary education with a focus on Science. Percentage: 83.67%.",
-    website: null,
+    description: "Completed Higher Secondary education with a focus on Science. Percentage: 85.60%.",
+    website: "https://shahbabu.com/",
     certificate: null,
     certificates: null,
   },
@@ -147,7 +147,7 @@ export const minorProjects: MinorProject[] = [
     role: "Frontend logic and state handling • Component design",
     technologies: JSON.stringify(["Node.js", "Express", "MongoDB", "EJS", "Mongoose"]),
     imageUrl: "/images/PostFlow-UI.png",
-    githubUrl: "https://github.com/iqyan312/Postflow_App.git",
+    githubUrl: "https://github.com/iqyanali17/Postflow_App.git",
     liveUrl: null,
   },
   {
@@ -157,7 +157,7 @@ export const minorProjects: MinorProject[] = [
     role: "Event handling & game-logic concepts • Increasing difficulty patterns",
     technologies: JSON.stringify(["HTML", "CSS", "JavaScript"]),
     imageUrl: "/images/Simon_game.png",
-    githubUrl: "https://github.com/iqyan312/SimonGAme.git",
+    githubUrl: "https://github.com/iqyanali17/SimonGAme.git",
     liveUrl: null,
   },
   {
@@ -167,7 +167,7 @@ export const minorProjects: MinorProject[] = [
     role: "API calls & async JavaScript handling • Real-time data management",
     technologies: JSON.stringify(["React 19.1.1", "Vite 7.1.6", "Material-UI 7.3.6", "OpenWeatherMap API", "CSS3"]),
     imageUrl: "/images/weather_App.png",
-    githubUrl: "https://github.com/iqyan312/weather_app.git",
+    githubUrl: "https://github.com/iqyanali17/weather_app.git",
     liveUrl: null,
   },
   {
@@ -177,7 +177,7 @@ export const minorProjects: MinorProject[] = [
     role: "Clean UI structure & responsive layout design • Business-focused interface",
     technologies: JSON.stringify(["Next.js 16.1.0", "React 19.2.3", "Material-UI 7.3.6", "Tailwind CSS 3.4.1", "Lucide React", "PostCSS"]),
     imageUrl: "/images/Packers & Movers-UI.png",
-    githubUrl: "https://github.com/iqyan312/MH27-Pakcers-Movers.git",
+    githubUrl: "https://github.com/iqyanali17/MH27-Pakcers-Movers.git",
     liveUrl: "https://mh-27-pakcers-movers.vercel.app/",
   },
   {
@@ -187,7 +187,7 @@ export const minorProjects: MinorProject[] = [
     role: "UI design thinking & frontend structuring • Component layout design",
     technologies: JSON.stringify(["Node.js", "Express.js", "MongoDB", "Mongoose 8.20.0", "EJS 3.1.10", "Vanilla JavaScript"]),
     imageUrl: "/images/MinChat-UI.png",
-    githubUrl: "https://github.com/iqyan312/Mini_chat-_pp.git",
+    githubUrl: "https://github.com/iqyanali17/Mini_chat-_pp.git",
     liveUrl: null,
   },
 ];
