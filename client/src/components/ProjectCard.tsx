@@ -3,13 +3,29 @@ import { ExternalLink, Github } from "lucide-react";
 import type { Project } from "@/lib/data";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import ElectricBorder from "@/components/ui/ElectricBorder";
 
 interface ProjectCardProps {
   project: Project;
   index: number;
 }
 
+const getProjectColor = (id: number) => {
+  switch (id) {
+    case 1:
+      return "#9568ff"; // Electric Purple (Movie Ticket Platform)
+    case 2:
+      return "#10b981"; // Emerald Green (MediTalk AI)
+    case 3:
+      return "#0ea5e9"; // Sky Cyan (AI Assessment Creator)
+    default:
+      return "#9568ff";
+  }
+};
+
 export function ProjectCard({ project, index }: ProjectCardProps) {
+  const borderColor = getProjectColor(project.id);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -19,7 +35,14 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
       className="h-full"
     >
       <TiltCard className="group h-full" tiltMax={10}>
-        <SpotlightCard className="h-full flex flex-col bg-card/40 backdrop-blur-md shadow-2xl relative border-none">
+        <ElectricBorder
+          color={borderColor}
+          speed={1.2}
+          chaos={0.08}
+          borderRadius={24}
+          className="h-full w-full"
+        >
+          <SpotlightCard className="h-full flex flex-col bg-card/40 backdrop-blur-md shadow-2xl relative border-none">
           {/* Image Container with Overlay */}
           <div className="relative aspect-video overflow-hidden rounded-t-[1.5rem]">
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-75 z-10" />
@@ -86,6 +109,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
           </div>
         </SpotlightCard>
+        </ElectricBorder>
       </TiltCard>
     </motion.div>
   );

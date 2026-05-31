@@ -57,6 +57,15 @@ export const projects: Project[] = [
     projectUrl: "https://meditalk-healthcare-assistant.netlify.app/",
     githubUrl: "https://github.com/iqyanali17",
   },
+  {
+    id: 3,
+    title: "AI Assessment Creator",
+    description: "An AI-powered assessment creation tool for teachers. Features include question paper generation using Google Gemini, PDF export, real-time status updates via WebSocket, and a mobile-responsive UI.",
+    technologies: JSON.stringify(["Next.js", "Express.js", "MongoDB", "Redis", "BullMQ", "Socket.IO", "Google Gemini", "Tailwind CSS"]),
+    imageUrl: "/images/ai-assessment-creator.png",
+    projectUrl: "https://ai-assessment-creator-q64s.vercel.app/",
+    githubUrl: "https://github.com/iqyanali17/AI_assessment_creator",
+  },
 ];
 
 export const skills: Skill[] = [

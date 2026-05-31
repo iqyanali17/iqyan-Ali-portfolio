@@ -3,7 +3,7 @@ import EyeScrollIndicator from "@/components/ui/EyeScrollIndicator";
 import { motion } from "framer-motion";
 import { Element } from "react-scroll";
 import { SiReact, SiNodedotjs, SiTailwindcss, SiMongodb, SiExpress, SiJavascript, SiGit, SiPython, SiFlask, SiSupabase, SiMui, SiTypescript } from "react-icons/si";
-import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail } from "lucide-react";
+import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -162,7 +162,7 @@ export default function Portfolio() {
                   className="rounded-full px-8 h-14 text-base font-semibold border-white/10 bg-white/5 hover:bg-white/10 hover:text-primary hover:scale-105 transition-all duration-300 backdrop-blur-sm"
                   asChild
                 >
-                  <a href="/Khwaja_Iqyan_Ali_resume.pdf" download="Khwaja_Iqyan_Ali_Resume">
+                  <a href="/Khwaja_Iqyan_Ali_Resume.pdf" download="Khwaja_Iqyan_Ali_Resume">
                     Resume <Download className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
@@ -315,7 +315,7 @@ export default function Portfolio() {
                     {"  "}<span className="text-amber-400">"currentRole"</span>: <span className="text-emerald-400">"Software Developer Intern at iLoma"</span>,{"\n"}
                     {"  "}<span className="text-amber-400">"stackFocus"</span>: <span className="text-emerald-400">["MongoDB", "Express", "React", "Node", "Flask", "TS"]</span>,{"\n"}
                     {"  "}<span className="text-amber-400">"passions"</span>: <span className="text-emerald-400">["Scalable APIs", "Intuitive UX Design", "Clean Architecture"]</span>,{"\n"}
-                    {"  "}<span className="text-amber-400">"location"</span>: <span className="text-emerald-400">"Available for Remote & Hybrid Opportunities"</span>{"\n"}
+                    {"  "}<span className="text-amber-400">"location"</span>: <span className="text-emerald-400">"Nagpur, Pune, Hyderabad, etc. (Onsite / Hybrid)"</span>{"\n"}
                     <span className="text-purple-400">{"}"}</span>
                   </pre>
                 </div>
@@ -606,9 +606,37 @@ export default function Portfolio() {
 
               <div className="space-y-8">
                 {[
-                  { icon: Send, label: "Email", value: "khwajaiqyanali@gmail.com", href: "mailto:khwajaiqyanali@gmail.com", color: "text-primary" },
-                  { icon: ArrowRight, label: "Phone", value: "+91 93594 96162", href: "tel:+919359496162", color: "text-secondary" },
-                  { icon: Layout, label: "Location", value: "Remote & Hybrid Work", color: "text-accent" }
+                  { icon: Send, label: "Email", value: "khwajaiqyanali@gmail.com", href: "mailto:khwajaiqyanali@gmail.com", color: "text-primary", bgClass: "bg-primary/10 border-primary/20 group-hover:bg-primary/20", isNode: false },
+                  { icon: ArrowRight, label: "Phone", value: "+91 93594 96162", href: "tel:+919359496162", color: "text-secondary", bgClass: "bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20", isNode: false },
+                  { 
+                    icon: MapPin, 
+                    label: "Location", 
+                    value: (
+                      <div className="flex flex-col gap-2.5 mt-1">
+                        <div className="flex flex-wrap gap-2">
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-foreground text-sm font-semibold shadow-sm hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all cursor-default">
+                            <span className="text-base leading-none">🍊</span> Nagpur
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-foreground text-sm font-semibold shadow-sm hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all cursor-default">
+                            <span className="text-base leading-none">🏰</span> Pune
+                          </span>
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-foreground text-sm font-semibold shadow-sm hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all cursor-default">
+                            <span className="text-base leading-none">🕌</span> Hyderabad
+                          </span>
+                        </div>
+                        <div className="inline-flex items-center gap-2 text-xs text-muted-foreground font-medium bg-white/5 w-fit px-3 py-1.5 rounded-full border border-white/10 mt-1">
+                           <span className="relative flex h-1.5 w-1.5">
+                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                           </span>
+                           Onsite & Hybrid Opportunities
+                        </div>
+                      </div>
+                    ), 
+                    color: "text-emerald-400",
+                    bgClass: "bg-emerald-500/10 border-emerald-500/20 group-hover:bg-emerald-500/20",
+                    isNode: true
+                  }
                 ].map((item, idx) => (
                   <motion.div
                     key={item.label}
@@ -616,10 +644,10 @@ export default function Portfolio() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 + 0.3 }}
-                    className="group flex items-center gap-6"
+                    className={`group flex ${item.isNode ? 'items-start' : 'items-center'} gap-6`}
                   >
                     <Magnetic strength={0.3}>
-                      <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center ${item.color} group-hover:bg-white/10 transition-colors shadow-xl`}>
+                      <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center transition-colors shadow-xl shrink-0 ${item.color} ${item.bgClass || 'bg-white/5 border-white/10 group-hover:bg-white/10'}`}>
                         <item.icon size={24} />
                       </div>
                     </Magnetic>
@@ -627,6 +655,8 @@ export default function Portfolio() {
                       <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mb-1">{item.label}</p>
                       {item.href ? (
                         <a href={item.href} className="text-lg font-medium hover:text-primary transition-colors">{item.value}</a>
+                      ) : item.isNode ? (
+                        <div className="pt-1">{item.value}</div>
                       ) : (
                         <p className="text-lg font-medium">{item.value}</p>
                       )}
