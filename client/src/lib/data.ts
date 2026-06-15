@@ -66,6 +66,15 @@ export const projects: Project[] = [
     projectUrl: "https://ai-assessment-creator-q64s.vercel.app/",
     githubUrl: "https://github.com/iqyanali17/AI_assessment_creator",
   },
+  {
+    id: 4,
+    title: "AI Image Compressor",
+    description: "Full-stack AI-powered image optimization platform with drag-and-drop uploader, AI content classification using Hugging Face models, smart compression recommendations, and real-time analytics dashboard. Features format conversion (JPG/PNG/WebP), before-and-after comparison slider, anonymous JWT authentication, compression history tracking, and WCAG accessibility compliance.",
+    technologies: JSON.stringify(["React 19", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion", "React Router DOM", "Axios", "Flask", "Python", "Pillow", "Hugging Face API", "PyJWT", "MySQL", "CORS"]),
+    imageUrl: "/images/image-compressor-ui.png",
+    projectUrl: "https://image-compressor-rho-three.vercel.app/",
+    githubUrl: "https://github.com/iqyanali17/image-compressor.git",
+  },
 ];
 
 export const skills: Skill[] = [
