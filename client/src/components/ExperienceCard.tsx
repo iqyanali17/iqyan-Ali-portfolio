@@ -95,7 +95,10 @@ export function ExperienceCard({ item, index }: ExperienceCardProps) {
                 >
                   <Award size={14} className="text-primary" />
                   <span className="text-sm text-muted-foreground hover:text-foreground">
-                    {cert.split('/').pop()?.replace('.jpg', '').replace(/_/g, ' ') || `Certificate ${certIndex + 1}`}
+                    {decodeURIComponent(cert.split('/').pop() || '')
+                      .replace(/\.[^/.]+$/, '')
+                      .replace(/[-_]/g, ' ')
+                      .trim() || `Certificate ${certIndex + 1}`}
                   </span>
                 </button>
               ))}

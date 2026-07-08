@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import EyeScrollIndicator from "@/components/ui/EyeScrollIndicator";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Element } from "react-scroll";
 import { SiReact, SiNodedotjs, SiTailwindcss, SiMongodb, SiExpress, SiJavascript, SiGit, SiPython, SiFlask, SiSupabase, SiMui, SiTypescript } from "react-icons/si";
-import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin } from "lucide-react";
+import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -23,6 +22,8 @@ import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { TiltCard } from "@/components/ui/TiltCard";
 import Magnetic from "@/components/ui/Magnetic";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import RotatingBadge from "@/components/ui/RotatingBadge";
+import Preloader from "@/components/ui/Preloader";
 
 // Define schema locally for frontend-only mode
 const insertContactMessageSchema = z.object({
@@ -58,6 +59,55 @@ export default function Portfolio() {
 
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [time, setTime] = useState("");
+  const [marqueeLight, setMarqueeLight] = useState(false);
+  const [cyclingWordIdx, setCyclingWordIdx] = useState(0);
+  const cyclingWords = [
+    { from: "Prompts", to: "Clean Code" },
+    { from: "Coffee", to: "Scalable APIs" },
+    { from: "Problems", to: "Smart Solutions" },
+    { from: "Bugs", to: "Digital Reality" }
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCyclingWordIdx((prev) => (prev + 1) % cyclingWords.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Carousel Responsive Logic
+  const [visibleItems, setVisibleItems] = useState(3);
+  const [majorIndex, setMajorIndex] = useState(0);
+  const [minorIndex, setMinorIndex] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleItems(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleItems(2);
+      } else {
+        setVisibleItems(3);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const maxMajorIndex = Math.max(0, (projects?.length || 0) - visibleItems);
+  const maxMinorIndex = Math.max(0, (minorProjects?.length || 0) - visibleItems);
+
+  const nextMajor = () => setMajorIndex((p) => (p >= maxMajorIndex ? 0 : p + 1));
+  const prevMajor = () => setMajorIndex((p) => (p <= 0 ? maxMajorIndex : p - 1));
+  const nextMinor = () => setMinorIndex((p) => (p >= maxMinorIndex ? 0 : p + 1));
+  const prevMinor = () => setMinorIndex((p) => (p <= 0 ? maxMinorIndex : p - 1));
+
+  useEffect(() => {
+    setMajorIndex((p) => Math.min(p, maxMajorIndex));
+    setMinorIndex((p) => Math.min(p, maxMinorIndex));
+  }, [visibleItems, projects?.length, minorProjects?.length]);
+
 
   useEffect(() => {
     const updateTime = () => {
@@ -109,7 +159,10 @@ export default function Portfolio() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
+    <>
+      <Preloader />
+
+      <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
       <Navigation />
 
       {/* HERO SECTION */}
@@ -140,7 +193,7 @@ export default function Portfolio() {
                 Khwaja <br />
                 <span className="text-gradient">Iqyan Ali</span>
               </h1>
-              
+
               <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl mx-auto md:mx-0 font-light leading-relaxed">
                 A <span className="text-foreground font-medium">Full-Stack Developer</span> crafting futuristic digital experiences with the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-secondary font-bold tracking-tight">MERN stack</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-blue-400 font-bold tracking-tight">Python</span>.
               </p>
@@ -184,13 +237,13 @@ export default function Portfolio() {
 
                 {/* Styled Photo Frame Box */}
                 <div className="relative w-full h-full bg-black/40 backdrop-blur-xl rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl transition-all duration-700">
-                  {/* Styled Image */}
+                  {/* Primary Profile Image */}
                   <img
-                    src="/images/profile.jpg"
+                    src="/images/hello_Bluebg.png"
                     alt="Khwaja Iqyan Ali"
                     className="w-full h-full object-cover transform scale-[1.01] group-hover/hero-photo:scale-105 transition-transform duration-700"
                   />
-                  
+
                   {/* Sci-Fi Scanner Grid HUD Overlay */}
                   <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.18)_50%),linear-gradient(90deg,rgba(149,104,255,0.06),rgba(59,130,246,0.02),rgba(149,104,255,0.06))] bg-[size:100%_4px,3px_100%] opacity-40 pointer-events-none" />
 
@@ -216,12 +269,12 @@ export default function Portfolio() {
                   ⚡ Intern @ iLoma
                 </div>
 
-                {/* PARALLAX FLOATING TECH CHIP 3 (Top Right Corner) */}
+                {/* PARALLAX FLOATING ROTATING BADGE (Top Right Corner) */}
                 <div
-                  style={{ transform: "translateZ(55px)" }}
-                  className="absolute -top-4 -right-4 w-11 h-11 bg-black/70 backdrop-blur-md border border-white/10 rounded-full shadow-2xl flex items-center justify-center text-primary group-hover/hero-photo:scale-110 group-hover/hero-photo:rotate-12 transition-all duration-500"
+                  style={{ transform: "translateZ(85px)" }}
+                  className="absolute -top-16 -right-16 hidden sm:block pointer-events-none"
                 >
-                  <SiReact className="w-5.5 h-5.5 animate-spin-slow" />
+                  <RotatingBadge />
                 </div>
 
                 {/* PARALLAX FLOATING TECH CHIP 4 (Bottom Left Corner) */}
@@ -236,24 +289,170 @@ export default function Portfolio() {
           </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <EyeScrollIndicator />
       </Element>
 
-      {/* TECH STACK MARQUEE */}
-      <div className="py-12 border-y border-white/5 bg-black/20 overflow-hidden relative">
-        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10" />
 
-        <div className="flex gap-16 animate-infinite-scroll w-max hover:pause">
-          {[...TechIcons, ...TechIcons].map((tech, idx) => (
-            <div key={`${tech.name}-${idx}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors cursor-default">
-              <tech.icon className="w-8 h-8" />
-              <span className="text-xl font-display font-bold">{tech.name}</span>
-            </div>
-          ))}
+      {/* ── DUAL MARQUEE BAND ── */}
+      <div
+        onClick={() => setMarqueeLight((v) => !v)}
+        className="relative cursor-pointer overflow-hidden select-none"
+        title={marqueeLight ? "Click for dark mode" : "Click for light mode"}
+        style={{
+          background: marqueeLight
+            ? "linear-gradient(135deg, #f0f4ff 0%, #ffffff 50%, #eef2ff 100%)"
+            : "linear-gradient(135deg, #08090e 0%, #0d0f1a 50%, #0a0c14 100%)",
+          transition: "background 0.5s ease",
+        }}
+      >
+        {/* Subtle animated background orb */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: marqueeLight
+              ? "radial-gradient(ellipse 60% 80% at 50% 50%, rgba(149,104,255,0.08) 0%, transparent 70%)"
+              : "radial-gradient(ellipse 60% 80% at 50% 50%, rgba(149,104,255,0.12) 0%, transparent 70%)",
+            transition: "background 0.5s ease",
+          }}
+        />
+
+        {/* Left/Right edge fades matching the new bg */}
+        <div
+          className="absolute inset-y-0 left-0 w-20 z-20 pointer-events-none"
+          style={{
+            background: marqueeLight
+              ? "linear-gradient(to right, #f0f4ff, transparent)"
+              : "linear-gradient(to right, #08090e, transparent)",
+            transition: "background 0.5s ease",
+          }}
+        />
+        <div
+          className="absolute inset-y-0 right-0 w-20 z-20 pointer-events-none"
+          style={{
+            background: marqueeLight
+              ? "linear-gradient(to left, #f0f4ff, transparent)"
+              : "linear-gradient(to left, #08090e, transparent)",
+            transition: "background 0.5s ease",
+          }}
+        />
+
+        {/* Click hint pill */}
+        <div
+          className="absolute top-2 right-24 z-30 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-mono font-bold tracking-widest uppercase opacity-40 pointer-events-none"
+          style={{
+            border: `1px solid ${marqueeLight ? "#6366f1" : "rgba(255,255,255,0.15)"}`,
+            color: marqueeLight ? "#4f46e5" : "rgba(255,255,255,0.5)",
+          }}
+        >
+          {marqueeLight ? "🌙 Dark" : "☀️ Light"}
+        </div>
+
+        {/* ── ROW 1: Tech Stack with icons ── */}
+        <div className="py-4 overflow-hidden border-b" style={{ borderColor: marqueeLight ? "rgba(99,102,241,0.15)" : "rgba(255,255,255,0.05)", transition: "border-color 0.5s ease" }}>
+          <div className="flex gap-10 w-max animate-infinite-scroll">
+            {[...TechIcons, ...TechIcons, ...TechIcons].map((tech, idx) => (
+              <div
+                key={`r1-${tech.name}-${idx}`}
+                className="flex items-center gap-2.5 group"
+              >
+                {/* Icon bubble */}
+                <div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300"
+                  style={{
+                    background: marqueeLight
+                      ? "rgba(99,102,241,0.1)"
+                      : "rgba(149,104,255,0.12)",
+                    border: marqueeLight
+                      ? "1px solid rgba(99,102,241,0.2)"
+                      : "1px solid rgba(149,104,255,0.2)",
+                  }}
+                >
+                  <tech.icon
+                    className="w-4 h-4 transition-colors duration-300"
+                    style={{ color: marqueeLight ? "#4f46e5" : "hsl(var(--primary))" }}
+                  />
+                </div>
+                <span
+                  className="text-sm font-display font-semibold whitespace-nowrap tracking-wide transition-colors duration-300"
+                  style={{ color: marqueeLight ? "#1e1b4b" : "rgba(255,255,255,0.75)" }}
+                >
+                  {tech.name}
+                </span>
+                {/* Separator dot */}
+                <span
+                  className="ml-4 text-xs opacity-30"
+                  style={{ color: marqueeLight ? "#6366f1" : "hsl(var(--primary))" }}
+                >
+                  /
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── ROW 2: Tools & Platforms ── */}
+        <div className="py-4 overflow-hidden" style={{ transition: "border-color 0.5s ease" }}>
+          <div
+            className="flex gap-6 w-max"
+            style={{ animation: "infinite-scroll-reverse 28s linear infinite" }}
+          >
+            {[
+              { label: "Git / GitHub",    sym: "◈" },
+              { label: "Postman",         sym: "◈" },
+              { label: "Swagger API",     sym: "◈" },
+              { label: "VS Code",         sym: "◈" },
+              { label: "MongoDB Atlas",   sym: "◈" },
+              { label: "Vercel",          sym: "◈" },
+              { label: "Netlify",         sym: "◈" },
+              { label: "REST APIs",       sym: "◈" },
+              { label: "JWT Auth",        sym: "◈" },
+              { label: "RBAC",            sym: "◈" },
+              { label: "Linux CLI",       sym: "◈" },
+              { label: "Git / GitHub",    sym: "◈" },
+              { label: "Postman",         sym: "◈" },
+              { label: "Swagger API",     sym: "◈" },
+              { label: "VS Code",         sym: "◈" },
+              { label: "MongoDB Atlas",   sym: "◈" },
+              { label: "Vercel",          sym: "◈" },
+              { label: "Netlify",         sym: "◈" },
+              { label: "REST APIs",       sym: "◈" },
+              { label: "JWT Auth",        sym: "◈" },
+              { label: "RBAC",            sym: "◈" },
+              { label: "Linux CLI",       sym: "◈" },
+            ].map((item, idx) => (
+              <div key={`r2-${idx}`} className="flex items-center gap-6 shrink-0">
+                {/* Pill tag */}
+                <div
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 whitespace-nowrap"
+                  style={{
+                    background: marqueeLight
+                      ? "rgba(99,102,241,0.08)"
+                      : "rgba(255,255,255,0.04)",
+                    border: marqueeLight
+                      ? "1px solid rgba(99,102,241,0.2)"
+                      : "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <span
+                    className="text-[9px] font-mono font-black tracking-[0.15em] uppercase transition-colors duration-300"
+                    style={{ color: marqueeLight ? "#3730a3" : "rgba(255,255,255,0.55)" }}
+                  >
+                    {item.label}
+                  </span>
+                </div>
+                {/* Separator */}
+                <span
+                  className="text-xs opacity-25 transition-colors duration-300"
+                  style={{ color: marqueeLight ? "#6366f1" : "hsl(var(--secondary))" }}
+                >
+                  {item.sym}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
+
+
 
       {/* ABOUT & SKILLS - BENTO GRID LAYOUT */}
       <Element name="skills" id="skills" className="py-24 container mx-auto px-6">
@@ -264,23 +463,94 @@ export default function Portfolio() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
+          {/* Premium Animated Badge */}
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full mb-7 relative overflow-hidden"
+            style={{
+              background: "linear-gradient(135deg, rgba(149,104,255,0.12) 0%, rgba(59,130,246,0.12) 100%)",
+              border: "1px solid rgba(149,104,255,0.3)",
+              boxShadow: "0 0 20px rgba(149,104,255,0.15), inset 0 1px 0 rgba(255,255,255,0.08)",
+            }}
+          >
+            {/* Animated shimmer */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-[shimmer_2.5s_ease-in-out_infinite]" />
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary shadow-[0_0_8px_hsl(var(--primary))]"></span>
             </span>
-            Interactive Bento Workspace
+            <span className="relative text-xs font-bold tracking-[0.2em] uppercase"
+              style={{ background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+            >
+              ⚡ Interactive Skill Dashboard
+            </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">
-            Engineering <span className="text-gradient">Digital Excellence</span>
+
+          {/* Heading with Static Context and Cycling Word Pairs */}
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-tight tracking-tight flex flex-wrap items-center justify-center gap-x-2 md:gap-x-4 gap-y-2">
+            <span className="text-foreground shrink-0 select-none">I turn</span>
+            {/* Input word wrapper (Increased widths to prevent clipping) */}
+            <span className="relative inline-flex items-center justify-center w-[150px] sm:w-[210px] md:w-[270px] h-[1.25em] overflow-hidden align-middle shrink-0">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={`from-${cyclingWordIdx}`}
+                  initial={{ y: 24, opacity: 0, filter: "blur(2px)" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  exit={{ y: -24, opacity: 0, filter: "blur(2px)" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="absolute inset-0 flex items-center justify-center whitespace-nowrap"
+                  style={{
+                    background: "linear-gradient(135deg, hsl(var(--primary)) 0%, #a78bfa 60%, hsl(var(--secondary)) 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  {cyclingWords[cyclingWordIdx].from}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            <span className="text-foreground shrink-0 select-none">into</span>
+            {/* Output word wrapper (Increased widths to prevent clipping) */}
+            <span className="relative inline-flex items-center justify-center w-[230px] sm:w-[330px] md:w-[480px] h-[1.25em] overflow-hidden align-middle shrink-0">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={`to-${cyclingWordIdx}`}
+                  initial={{ y: 24, opacity: 0, filter: "blur(2px)" }}
+                  animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                  exit={{ y: -24, opacity: 0, filter: "blur(2px)" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="absolute inset-0 flex items-center justify-center whitespace-nowrap"
+                  style={{
+                    background: "linear-gradient(135deg, #a78bfa 0%, hsl(var(--secondary)) 60%, hsl(var(--primary)) 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  {cyclingWords[cyclingWordIdx].to}
+                  {/* Glowing underline on the output word */}
+                  <span
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 rounded-full pointer-events-none"
+                    style={{
+                      background: "linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))",
+                      boxShadow: "0 0 8px hsl(var(--primary))"
+                    }}
+                  />
+                </motion.span>
+              </AnimatePresence>
+            </span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Explore my core competencies, work style, achievements, and real-time availability in an interactive dashboard format.
+
+          {/* Description with highlighted keywords (Increased text size for better readability) */}
+          <p className="text-muted-foreground max-w-3xl mx-auto text-lg md:text-xl leading-relaxed">
+            A deep-dive into my{" "}
+            <span className="text-primary/95 font-semibold">core competencies</span>,{" "}
+            <span className="text-secondary/95 font-semibold">coding philosophy</span>, and{" "}
+            <span style={{ color: "rgb(196,181,253)", fontWeight: 600 }}>real-world achievements</span>{" "}
+            — presented in an interactive dashboard you can explore.
           </p>
         </motion.div>
 
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
+
           {/* CARD 1: BIO & TERMINAL CODE BOX */}
           <div className="md:col-span-2 md:row-span-2">
             <TiltCard tiltMax={4} className="h-full">
@@ -299,10 +569,10 @@ export default function Portfolio() {
                   </div>
 
                   <p className="text-muted-foreground text-base leading-relaxed mb-6">
-                    I am a final-year B.Tech Computer Science student and a Software Developer Intern at iLoma technology Pvt. Ltd. My expertise revolves around building production-grade applications using the MERN stack, TypeScript, and Python.
+                    I am a results-driven Full-Stack Developer and former Software Developer Intern with hands-on experience building and deploying 5+ real-world web applications and AI-powered solutions. Specializing in the MERN stack and Python (Flask), I engineer scalable web products from fluid frontend interfaces to secure backend APIs and databases.
                   </p>
                   <p className="text-muted-foreground text-base leading-relaxed mb-8">
-                    I specialize in designing secure authentication systems (JWT/RBAC), constructing scalable RESTful APIs, and implementing lightning-fast React interfaces.
+                    Through my internship at iLoma Technology and independent projects, I have established a strong focus on clean architecture, secure authentication systems (JWT/RBAC), and high-performance RESTful APIs. I thrive in Agile, collaborative environments, dedicating myself to code optimization and delivering reliable, production-ready software solutions.
                   </p>
                 </div>
 
@@ -325,24 +595,28 @@ export default function Portfolio() {
 
           {/* CARD 2: INTERACTIVE SKILLS GRID WITH DYNAMIC CATEGORY FILTERING */}
           <div className="md:row-span-2">
-            <TiltCard tiltMax={6} className="h-full">
+            <TiltCard tiltMax={4} className="h-full">
               <SpotlightCard className="h-full bg-card/20 backdrop-blur-xl border border-white/5 p-6 flex flex-col min-h-[480px]">
-                <h3 className="text-xl font-display font-bold mb-4 flex items-center gap-2">
-                  <Wrench className="text-secondary w-5 h-5 animate-spin-slow" />
-                  Skills Directory
-                </h3>
-                
-                {/* Category buttons */}
-                <div className="flex flex-wrap gap-1 mb-6 bg-white/5 p-1 rounded-xl border border-white/5">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-display font-bold flex items-center gap-2">
+                    <Wrench className="text-secondary w-5 h-5 animate-spin-slow" />
+                    Skills Directory
+                  </h3>
+                  <span className="text-[10px] font-mono bg-primary/10 border border-primary/20 text-primary px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">
+                    {filteredSkills?.length || 0} Skills
+                  </span>
+                </div>
+
+                {/* Category buttons (Segmented control) */}
+                <div className="flex flex-wrap gap-1 mb-6 bg-white/5 p-1 rounded-2xl border border-white/5">
                   {["All", "Programming", "Frontend", "Backend", "Databases", "Tools"].map((category) => (
                     <button
                       key={category}
                       onClick={() => setSelectedCategory(category)}
-                      className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all duration-300 ${
-                        selectedCategory === category
-                          ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                      className={`flex-1 min-w-[70px] text-center px-2 py-1.5 rounded-xl text-[10px] font-bold tracking-wide transition-all duration-300 ${selectedCategory === category
+                          ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                           : "text-muted-foreground hover:text-foreground hover:bg-white/5"
-                      }`}
+                        }`}
                     >
                       {category}
                     </button>
@@ -353,33 +627,94 @@ export default function Portfolio() {
                 {skillsLoading ? (
                   <div className="space-y-4 flex-grow">
                     {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="h-10 bg-muted/20 animate-pulse rounded-lg" />
+                      <div key={i} className="h-14 bg-muted/20 animate-pulse rounded-2xl" />
                     ))}
                   </div>
                 ) : (
-                  <div className="flex-grow overflow-y-auto max-h-[340px] pr-2 space-y-3 custom-scrollbar">
-                    <motion.div layout className="grid grid-cols-1 gap-2.5">
-                      {filteredSkills?.map((skill) => (
-                        <motion.div
-                          layout
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.3 }}
-                          key={skill.id}
-                          className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center justify-between hover:bg-white/10 hover:border-primary/30 transition-all duration-300"
-                        >
-                          <div className="flex flex-col">
-                            <span className="font-bold text-sm text-foreground">{skill.name}</span>
-                            <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">{skill.category}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs text-primary/80 font-mono font-bold">{skill.proficiency}%</span>
-                            <div className="w-12 h-1.5 bg-white/5 rounded-full overflow-hidden">
-                              <div className="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style={{ width: `${skill.proficiency}%` }} />
+                  <div className="flex-grow overflow-y-auto max-h-[360px] pr-1.5 space-y-3 custom-scrollbar">
+                    <motion.div layout className="grid grid-cols-1 gap-3">
+                      {filteredSkills?.map((skill) => {
+                        // Dynamic Tech Icon Picker
+                        const getSkillIcon = (name: string, cat: string) => {
+                          const iconMap: Record<string, any> = {
+                            "react": SiReact,
+                            "node.js": SiNodedotjs,
+                            "express.js": SiExpress,
+                            "mongodb": SiMongodb,
+                            "typescript": SiTypescript,
+                            "javascript": SiJavascript,
+                            "python": SiPython,
+                            "flask": SiFlask,
+                            "supabase": SiSupabase,
+                            "tailwind css": SiTailwindcss,
+                            "material ui": SiMui,
+                            "git/github": SiGit,
+                          };
+                          const nameLower = name.toLowerCase();
+                          if (iconMap[nameLower]) {
+                            const IconComp = iconMap[nameLower];
+                            return <IconComp className="w-5 h-5" />;
+                          }
+                          switch (cat.toLowerCase()) {
+                            case "programming":
+                              return <Code2 className="w-5 h-5 text-amber-400" />;
+                            case "frontend":
+                              return <Layout className="w-5 h-5 text-sky-400" />;
+                            case "backend":
+                              return <Server className="w-5 h-5 text-indigo-400" />;
+                            case "databases":
+                              return <Database className="w-5 h-5 text-emerald-400" />;
+                            case "tools":
+                              return <Wrench className="w-5 h-5 text-purple-400" />;
+                            default:
+                              return <Code2 className="w-5 h-5 text-primary" />;
+                          }
+                        };
+
+                        return (
+                          <motion.div
+                            layout
+                            initial={{ opacity: 0, scale: 0.96 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.25 }}
+                            key={skill.id}
+                            className="group relative p-3 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.06] hover:border-primary/20 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm"
+                          >
+                            {/* Hover background gradient glow */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+
+                            <div className="flex items-center gap-3 relative z-10">
+                              <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/5 flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:scale-105 transition-all duration-300">
+                                {getSkillIcon(skill.name, skill.category)}
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="font-bold text-sm text-foreground group-hover:text-white transition-colors">
+                                  {skill.name}
+                                </span>
+                                <span className="text-[9px] text-muted-foreground uppercase tracking-widest font-semibold">
+                                  {skill.category}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        </motion.div>
-                      ))}
+
+                            {/* Progress bar Area */}
+                            <div className="mt-3 relative z-10 flex flex-col gap-1">
+                              <div className="flex items-center justify-between text-[10px] font-semibold">
+                                <span className="text-muted-foreground font-mono">Proficiency</span>
+                                <span className="text-primary/95 group-hover:text-white transition-colors font-mono">{skill.proficiency}%</span>
+                              </div>
+                              <div className="w-full h-1.5 bg-white/[0.05] rounded-full overflow-hidden relative border border-white/[0.02]">
+                                <motion.div
+                                  initial={{ width: 0 }}
+                                  animate={{ width: `${skill.proficiency}%` }}
+                                  transition={{ duration: 0.6, ease: "easeOut" }}
+                                  className="h-full bg-gradient-to-r from-primary to-secondary rounded-full"
+                                />
+                              </div>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
                     </motion.div>
                   </div>
                 )}
@@ -454,12 +789,12 @@ export default function Portfolio() {
             <TiltCard tiltMax={8} className="h-full">
               <SpotlightCard className="h-full bg-card/20 backdrop-blur-xl border border-white/5 p-6 flex flex-col justify-between min-h-[220px] group/cert overflow-hidden relative">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 blur-[40px] rounded-full pointer-events-none group-hover/cert:bg-purple-500/20 transition-colors duration-500" />
-                
+
                 <div>
                   <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold block mb-2">Featured Credentials</span>
                   <h4 className="text-base font-display font-bold mb-1 leading-tight group-hover/cert:text-primary transition-colors duration-300">Certified SQL Developer</h4>
                   <p className="text-xs text-muted-foreground leading-relaxed mb-3">Issued by Simplilearn</p>
-                  
+
                   <div className="flex gap-2">
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-muted-foreground border border-white/10">SQL</span>
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-muted-foreground border border-white/10">AI & AICTE</span>
@@ -508,10 +843,63 @@ export default function Portfolio() {
               ))}
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {projects?.map((project, idx) => (
-                <ProjectCard key={project.id} project={project} index={idx} />
-              ))}
+            <div className="relative overflow-visible">
+              {/* Carousel controls */}
+              {projects && projects.length > visibleItems && (
+                <div className="absolute -top-20 right-4 flex items-center gap-2.5 z-20">
+                  <button
+                    onClick={prevMajor}
+                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
+                    aria-label="Previous project"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <button
+                    onClick={nextMajor}
+                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
+                    aria-label="Next project"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
+
+              {/* Slider Track Wrapper */}
+              <div className="overflow-hidden px-1 py-4">
+                <motion.div
+                  animate={{ x: `-${majorIndex * (100 / visibleItems)}%` }}
+                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
+                  className="flex gap-6 w-full"
+                >
+                  {projects?.map((project, idx) => (
+                    <div
+                      key={project.id}
+                      style={{
+                        width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
+                        flexShrink: 0
+                      }}
+                    >
+                      <ProjectCard project={project} index={idx} />
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Pagination Dots */}
+              {projects && projects.length > visibleItems && (
+                <div className="flex justify-center gap-2 mt-6">
+                  {Array.from({ length: projects.length - visibleItems + 1 }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setMajorIndex(i)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        majorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -533,15 +921,68 @@ export default function Portfolio() {
 
         {minorProjectsLoading ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3].map((i) => (
               <div key={i} className="h-96 bg-muted/20 animate-pulse rounded-2xl" />
             ))}
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {minorProjects?.map((project, idx) => (
-              <MinorProjectCard key={project.id} project={project} index={idx} />
-            ))}
+          <div className="relative overflow-visible">
+            {/* Carousel controls */}
+            {minorProjects && minorProjects.length > visibleItems && (
+              <div className="absolute -top-20 right-4 flex items-center gap-2.5 z-20">
+                <button
+                  onClick={prevMinor}
+                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
+                  aria-label="Previous project"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={nextMinor}
+                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
+                  aria-label="Next project"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* Slider Track Wrapper */}
+            <div className="overflow-hidden px-1 py-4">
+              <motion.div
+                animate={{ x: `-${minorIndex * (100 / visibleItems)}%` }}
+                transition={{ type: "spring", stiffness: 120, damping: 18 }}
+                className="flex gap-6 w-full"
+              >
+                {minorProjects?.map((project, idx) => (
+                  <div
+                    key={project.id}
+                    style={{
+                      width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
+                      flexShrink: 0
+                    }}
+                  >
+                    <MinorProjectCard project={project} index={idx} />
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* Pagination Dots */}
+            {minorProjects && minorProjects.length > visibleItems && (
+              <div className="flex justify-center gap-2 mt-6">
+                {Array.from({ length: minorProjects.length - visibleItems + 1 }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setMinorIndex(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      minorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
       </Element>
@@ -592,7 +1033,7 @@ export default function Portfolio() {
                 <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
                 Available for New Projects
               </div>
-              
+
               <Magnetic strength={0.2}>
                 <h2 className="text-5xl md:text-7xl font-display font-bold mb-8 leading-[1.1]">
                   Let's work <br />
@@ -608,9 +1049,9 @@ export default function Portfolio() {
                 {[
                   { icon: Send, label: "Email", value: "khwajaiqyanali@gmail.com", href: "mailto:khwajaiqyanali@gmail.com", color: "text-primary", bgClass: "bg-primary/10 border-primary/20 group-hover:bg-primary/20", isNode: false },
                   { icon: ArrowRight, label: "Phone", value: "+91 93594 96162", href: "tel:+919359496162", color: "text-secondary", bgClass: "bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20", isNode: false },
-                  { 
-                    icon: MapPin, 
-                    label: "Location", 
+                  {
+                    icon: MapPin,
+                    label: "Location",
                     value: (
                       <div className="flex flex-col gap-2.5 mt-1">
                         <div className="flex flex-wrap gap-2">
@@ -625,14 +1066,14 @@ export default function Portfolio() {
                           </span>
                         </div>
                         <div className="inline-flex items-center gap-2 text-xs text-muted-foreground font-medium bg-white/5 w-fit px-3 py-1.5 rounded-full border border-white/10 mt-1">
-                           <span className="relative flex h-1.5 w-1.5">
-                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                           </span>
-                           Onsite & Hybrid Opportunities
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                          </span>
+                          Onsite & Hybrid Opportunities
                         </div>
                       </div>
-                    ), 
+                    ),
                     color: "text-emerald-400",
                     bgClass: "bg-emerald-500/10 border-emerald-500/20 group-hover:bg-emerald-500/20",
                     isNode: true
@@ -688,12 +1129,16 @@ export default function Portfolio() {
                     <div className="relative">
                       <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
                       <Magnetic strength={0.4}>
-                        <div className="w-32 h-32 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-2xl relative z-10 group cursor-pointer">
-                          <Mail className="w-12 h-12 text-white group-hover:scale-110 transition-transform duration-500" />
-                          
+                        <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-2xl relative z-10 group cursor-pointer overflow-hidden border border-white/10">
+                          <img
+                            src="/images/passport_img.png"
+                            alt="Khwaja Iqyan Ali"
+                            className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                          />
+
                           {/* Orbiting Tech Rings */}
-                          <div className="absolute inset-[-20px] border border-white/5 rounded-full animate-[spin_10s_linear_infinite]" />
-                          <div className="absolute inset-[-40px] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+                          <div className="absolute inset-[-20px] border border-white/5 rounded-full animate-[spin_10s_linear_infinite] pointer-events-none" />
+                          <div className="absolute inset-[-40px] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse] pointer-events-none" />
                         </div>
                       </Magnetic>
                     </div>
@@ -711,10 +1156,12 @@ export default function Portfolio() {
                         { icon: Github, label: "GitHub", handle: "@iqyanali17", href: "https://github.com/iqyanali17", color: "hover:text-primary" },
                         { icon: Linkedin, label: "LinkedIn", handle: "Iqyan Ali", href: "https://www.linkedin.com/in/khwaja-iqyan-ali-17-a-/", color: "hover:text-blue-400" },
                         { icon: Instagram, label: "Instagram", handle: "@_iq_.y._xn_", href: "https://www.instagram.com/_iq_.y._xn_?igsh=OXJ6MHF5ZHh2cWM1", color: "hover:text-pink-500" },
-                        { icon: Mail, label: "Email", handle: "Copy Email", onClick: () => {
-                          navigator.clipboard.writeText("khwajaiqyanali@gmail.com");
-                          toast({ title: "Email copied!", description: "My email address has been copied to your clipboard." });
-                        }, color: "hover:text-emerald-400" }
+                        {
+                          icon: Mail, label: "Email", handle: "Copy Email", onClick: () => {
+                            navigator.clipboard.writeText("khwajaiqyanali@gmail.com");
+                            toast({ title: "Email copied!", description: "My email address has been copied to your clipboard." });
+                          }, color: "hover:text-emerald-400"
+                        }
                       ].map((social, idx) => (
                         <Magnetic key={social.label} strength={0.2}>
                           {social.href ? (
@@ -745,10 +1192,10 @@ export default function Portfolio() {
                 </SpotlightCard>
 
                 {/* Floating HUD Decorations */}
-                <div className="absolute -top-12 -right-12 w-48 h-48 pointer-events-none opacity-20 animate-pulse">
+                <div className="absolute -bottom-8 -left-8 w-48 h-48 pointer-events-none opacity-20 animate-pulse">
                   <div className="w-full h-full rounded-full border-[10px] border-dashed border-primary/30 animate-[spin_20s_linear_infinite]" />
                 </div>
-                <div className="absolute -bottom-8 -left-8 w-32 h-32 pointer-events-none opacity-10">
+                <div className="absolute -top-12 -right-12 w-32 h-32 pointer-events-none opacity-10">
                   <div className="w-full h-full rounded-full border-2 border-secondary/50 animate-[ping_3s_ease-in-out_infinite]" />
                 </div>
               </div>
@@ -758,6 +1205,7 @@ export default function Portfolio() {
       </Element>
 
       <Footer />
-    </div>
+      </div>
+    </>
   );
 }
