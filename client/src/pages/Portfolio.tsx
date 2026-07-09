@@ -24,114 +24,7 @@ import Magnetic from "@/components/ui/Magnetic";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import RotatingBadge from "@/components/ui/RotatingBadge";
 import Preloader from "@/components/ui/Preloader";
-import { cn } from "@/lib/utils";
-
-// --- Radar Components ---
-
-function Circle({ className, children, idx, ...rest }: any) {
-  return (
-    <motion.div
-      {...rest}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: idx * 0.1, duration: 0.2 }}
-      className={cn(
-        "absolute inset-0 left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 transform rounded-full border border-neutral-200",
-        className
-      )}
-    />
-  );
-}
-
-function Radar({ className }: { className?: string }) {
-  const circles = new Array(8).fill(1);
-  return (
-    <div
-      className={cn(
-        "relative flex h-20 w-20 items-center justify-center rounded-full pointer-events-none",
-        className
-      )}
-    >
-      <style>{`
-        @keyframes radar-spin {
-          from { transform: rotate(20deg); }
-          to   { transform: rotate(380deg); }
-        }
-        .animate-radar-spin {
-          animation: radar-spin 10s linear infinite;
-        }
-      `}</style>
-      {/* Rotating sweep line */}
-      <div
-        style={{ transformOrigin: "right center" }}
-        className="animate-radar-spin absolute right-1/2 top-1/2 z-10 flex h-[5px] w-[320px] md:w-[400px] items-end justify-center overflow-hidden bg-transparent"
-      >
-        <div className="relative z-10 h-[1px] w-full bg-gradient-to-r from-transparent via-primary to-transparent" />
-      </div>
-      {/* Concentric circles */}
-      {circles.map((_, idx) => (
-        <Circle
-          style={{
-            height: `${(idx + 1) * 3.5}rem`,
-            width: `${(idx + 1) * 3.5}rem`,
-            border: `1px solid rgba(147, 51, 234, ${0.15 - (idx + 1) * 0.015})`,
-          }}
-          key={`circle-${idx}`}
-          idx={idx}
-        />
-      ))}
-    </div>
-  );
-}
-
-interface IconContainerProps {
-  icon?: React.ReactNode;
-  text?: string;
-  delay?: number;
-  href?: string;
-  onClick?: () => void;
-  className?: string;
-}
-
-function IconContainer({
-  icon,
-  text,
-  delay,
-  href,
-  onClick,
-  className
-}: IconContainerProps) {
-  const content = (
-    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-black/60 text-slate-300 hover:text-primary hover:border-primary/50 transition-all duration-300 shadow-xl backdrop-blur-md">
-      {icon}
-    </div>
-  );
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3, delay: delay ?? 0 }}
-      className={cn("absolute z-30 flex flex-col items-center justify-center space-y-2 cursor-pointer", className)}
-    >
-      {href ? (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {content}
-        </a>
-      ) : (
-        <button onClick={onClick} className="focus:outline-none">
-          {content}
-        </button>
-      )}
-      <div className="rounded-md px-2 py-0.5 bg-black/70 backdrop-blur-sm border border-white/5 shadow-md">
-        <div className="text-center text-[10px] font-bold text-slate-400">
-          {text}
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
+import RadarScanWidget from "@/components/ui/RadarScanWidget";
 
 // Define schema locally for frontend-only mode
 const insertContactMessageSchema = z.object({
@@ -975,6 +868,42 @@ export default function Portfolio() {
             </TiltCard>
           </div>
 
+          {/* CARD 6: FUTURISTIC RADAR SCAN WIDGET */}
+          <div className="md:col-span-3">
+            <TiltCard tiltMax={1} className="h-full">
+              <SpotlightCard className="h-full bg-card/10 backdrop-blur-xl border border-white/5 p-6 md:p-8 flex flex-col items-center justify-center min-h-[580px] overflow-hidden relative text-center">
+                
+                {/* Visual Background Details */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none animate-pulse" />
+                
+                <div className="space-y-4 mb-6 z-10">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-widest">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+                    </span>
+                    System Integration Sweep
+                  </div>
+                  
+                  <h4 className="text-2xl md:text-4xl font-display font-bold">Automation & Workflow Architect</h4>
+                  
+                  <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+                    {["n8n Automation", "CRM Sync", "AI Agents", "Headless E-Com", "Custom REST APIs"].map((tech) => (
+                      <span key={tech} className="text-[9px] px-2.5 py-1 rounded-full bg-white/5 text-muted-foreground border border-white/10 font-bold font-mono tracking-wide">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Radar Visual Widget (Centered & Large Size) */}
+                <div className="w-full flex items-center justify-center z-10">
+                  <RadarScanWidget />
+                </div>
+              </SpotlightCard>
+            </TiltCard>
+          </div>
+
         </div>
       </Element>
 
@@ -1284,64 +1213,77 @@ export default function Portfolio() {
 
               {/* Central Hub */}
               <div className="relative z-10 w-full max-w-md">
-                <SpotlightCard className="p-12 md:p-16 bg-card/10 backdrop-blur-3xl border-white/5 shadow-2xl overflow-visible flex items-center justify-center min-h-[420px] md:min-h-[480px]">
-                  <div className="relative flex items-center justify-center w-48 h-48">
-                    {/* Radar Sweep behind profile pic */}
-                    <Radar className="absolute z-10 scale-[0.6] md:scale-100" />
-                    
-                    {/* Rotating Badge on top-right of the profile picture */}
-                    <div className="absolute -top-16 -right-24 z-30 pointer-events-none scale-75 md:scale-100 origin-center">
-                      <RotatingBadge />
-                    </div>
+                <SpotlightCard className="p-12 bg-card/10 backdrop-blur-3xl border-white/5 shadow-2xl overflow-visible">
+                  <div className="flex flex-col items-center text-center space-y-12">
+                    {/* Pulsing Core */}
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
+                      
+                      {/* Rotating Badge on top-right of the profile picture */}
+                      <div className="absolute -top-14 -right-20 md:-top-20 md:-right-28 z-20 pointer-events-none scale-75 md:scale-100 origin-center">
+                        <RotatingBadge />
+                      </div>
 
-                    {/* Profile Pic at the center */}
-                    <div className="relative z-20">
                       <Magnetic strength={0.4}>
-                        <div className="w-28 h-28 md:w-36 md:h-36 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-2xl relative group cursor-pointer overflow-hidden border border-white/10">
+                        <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-2xl relative z-10 group cursor-pointer overflow-hidden border border-white/10">
                           <img
                             src="/images/passport_img.png"
                             alt="Khwaja Iqyan Ali"
                             className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
                           />
+
                           {/* Orbiting Tech Rings */}
-                          <div className="absolute inset-[-10px] border border-white/5 rounded-full animate-[spin_10s_linear_infinite] pointer-events-none" />
-                          <div className="absolute inset-[-20px] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse] pointer-events-none" />
+                          <div className="absolute inset-[-20px] border border-white/5 rounded-full animate-[spin_10s_linear_infinite] pointer-events-none" />
+                          <div className="absolute inset-[-40px] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse] pointer-events-none" />
                         </div>
                       </Magnetic>
                     </div>
 
-                    {/* Floating social connection points */}
-                    <IconContainer
-                      icon={<Github size={20} />}
-                      text="GitHub"
-                      href="https://github.com/iqyanali17"
-                      delay={0.1}
-                      className="-top-12 -left-16 md:-top-20 md:-left-28"
-                    />
-                    <IconContainer
-                      icon={<Linkedin size={20} />}
-                      text="LinkedIn"
-                      href="https://www.linkedin.com/in/khwaja-iqyan-ali-17-a-/"
-                      delay={0.2}
-                      className="-top-12 -right-16 md:-top-20 md:-right-28"
-                    />
-                    <IconContainer
-                      icon={<Instagram size={20} />}
-                      text="Instagram"
-                      href="https://www.instagram.com/_iq_.y._xn_?igsh=OXJ6MHF5ZHh2cWM1"
-                      delay={0.3}
-                      className="-bottom-12 -left-16 md:-bottom-20 md:-left-28"
-                    />
-                    <IconContainer
-                      icon={<Mail size={20} />}
-                      text="Email"
-                      onClick={() => {
-                        navigator.clipboard.writeText("khwajaiqyanali@gmail.com");
-                        toast({ title: "Email copied!", description: "My email address has been copied to your clipboard." });
-                      }}
-                      delay={0.4}
-                      className="-bottom-12 -right-16 md:-bottom-20 md:-right-28"
-                    />
+                    <div className="space-y-4">
+                      <h3 className="text-3xl font-display font-bold">Connect with me</h3>
+                      <p className="text-muted-foreground">
+                        Ready to start something amazing? Choose your preferred platform to reach out.
+                      </p>
+                    </div>
+
+                    {/* Social Orbit Grid */}
+                    <div className="grid grid-cols-2 gap-4 w-full">
+                      {[
+                        { icon: Github, label: "GitHub", handle: "@iqyanali17", href: "https://github.com/iqyanali17", color: "hover:text-primary" },
+                        { icon: Linkedin, label: "LinkedIn", handle: "Iqyan Ali", href: "https://www.linkedin.com/in/khwaja-iqyan-ali-17-a-/", color: "hover:text-blue-400" },
+                        { icon: Instagram, label: "Instagram", handle: "@_iq_.y._xn_", href: "https://www.instagram.com/_iq_.y._xn_?igsh=OXJ6MHF5ZHh2cWM1", color: "hover:text-pink-500" },
+                        {
+                          icon: Mail, label: "Email", handle: "Copy Email", onClick: () => {
+                            navigator.clipboard.writeText("khwajaiqyanali@gmail.com");
+                            toast({ title: "Email copied!", description: "My email address has been copied to your clipboard." });
+                          }, color: "hover:text-emerald-400"
+                        }
+                      ].map((social, idx) => (
+                        <Magnetic key={social.label} strength={0.2}>
+                          {social.href ? (
+                            <a
+                              href={social.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={`flex flex-col items-center p-4 rounded-2xl bg-white/5 border border-white/10 ${social.color} transition-all duration-300 hover:bg-white/10 group`}
+                            >
+                              <social.icon size={24} className="mb-2 group-hover:scale-110 transition-transform" />
+                              <span className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">{social.label}</span>
+                              <span className="text-[10px] opacity-50 font-mono truncate max-w-full">{social.handle}</span>
+                            </a>
+                          ) : (
+                            <button
+                              onClick={social.onClick}
+                              className={`flex flex-col items-center w-full p-4 rounded-2xl bg-white/5 border border-white/10 ${social.color} transition-all duration-300 hover:bg-white/10 group`}
+                            >
+                              <social.icon size={24} className="mb-2 group-hover:scale-110 transition-transform" />
+                              <span className="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">{social.label}</span>
+                              <span className="text-[10px] opacity-50 font-mono">{social.handle}</span>
+                            </button>
+                          )}
+                        </Magnetic>
+                      ))}
+                    </div>
                   </div>
                 </SpotlightCard>
 
