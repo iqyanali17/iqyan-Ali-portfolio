@@ -60,8 +60,8 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
               </div>
             )}
             
-            {/* Floating Action Buttons */}
-            <div className="absolute top-4 right-4 flex gap-2.5 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
+            {/* Floating Action Buttons (Always visible on mobile, hover slide-in on desktop) */}
+            <div className="absolute top-4 right-4 flex gap-2.5 z-20 md:opacity-0 md:group-hover:opacity-100 md:translate-y-2 md:group-hover:translate-y-0 opacity-100 translate-y-0 transition-all duration-300">
               {project.githubUrl && (
                 <a
                   href={project.githubUrl}

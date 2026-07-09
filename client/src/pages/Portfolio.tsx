@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Element } from "react-scroll";
 import { SiReact, SiNodedotjs, SiTailwindcss, SiMongodb, SiExpress, SiJavascript, SiGit, SiPython, SiFlask, SiSupabase, SiMui, SiTypescript } from "react-icons/si";
-import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin, ChevronLeft, ChevronRight, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -79,6 +79,8 @@ export default function Portfolio() {
   const [visibleItems, setVisibleItems] = useState(3);
   const [majorIndex, setMajorIndex] = useState(0);
   const [minorIndex, setMinorIndex] = useState(0);
+  const majorCarouselRef = useRef<HTMLDivElement>(null);
+  const minorCarouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,14 +100,68 @@ export default function Portfolio() {
   const maxMajorIndex = Math.max(0, (projects?.length || 0) - visibleItems);
   const maxMinorIndex = Math.max(0, (minorProjects?.length || 0) - visibleItems);
 
-  const nextMajor = () => setMajorIndex((p) => (p >= maxMajorIndex ? 0 : p + 1));
-  const prevMajor = () => setMajorIndex((p) => (p <= 0 ? maxMajorIndex : p - 1));
-  const nextMinor = () => setMinorIndex((p) => (p >= maxMinorIndex ? 0 : p + 1));
-  const prevMinor = () => setMinorIndex((p) => (p <= 0 ? maxMinorIndex : p - 1));
+  const scrollCarouselTo = (container: HTMLDivElement | null, index: number) => {
+    if (!container) return;
+    const firstChild = container.firstElementChild as HTMLElement;
+    if (!firstChild) return;
+    const cardWidth = firstChild.clientWidth;
+    const gap = 24; // gap-6 is 24px
+    container.scrollTo({
+      left: index * (cardWidth + gap),
+      behavior: "smooth"
+    });
+  };
+
+  const nextMajor = () => {
+    const nextIdx = majorIndex >= maxMajorIndex ? 0 : majorIndex + 1;
+    setMajorIndex(nextIdx);
+    scrollCarouselTo(majorCarouselRef.current, nextIdx);
+  };
+  const prevMajor = () => {
+    const prevIdx = majorIndex <= 0 ? maxMajorIndex : majorIndex - 1;
+    setMajorIndex(prevIdx);
+    scrollCarouselTo(majorCarouselRef.current, prevIdx);
+  };
+  const nextMinor = () => {
+    const nextIdx = minorIndex >= maxMinorIndex ? 0 : minorIndex + 1;
+    setMinorIndex(nextIdx);
+    scrollCarouselTo(minorCarouselRef.current, nextIdx);
+  };
+  const prevMinor = () => {
+    const prevIdx = minorIndex <= 0 ? maxMinorIndex : minorIndex - 1;
+    setMinorIndex(prevIdx);
+    scrollCarouselTo(minorCarouselRef.current, prevIdx);
+  };
+
+  const handleMajorScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const firstChild = container.firstElementChild as HTMLElement;
+    if (!firstChild) return;
+    const cardWidth = firstChild.clientWidth;
+    const gap = 24;
+    const newIndex = Math.round(container.scrollLeft / (cardWidth + gap));
+    if (newIndex !== majorIndex && newIndex >= 0 && newIndex <= maxMajorIndex) {
+      setMajorIndex(newIndex);
+    }
+  };
+
+  const handleMinorScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget;
+    const firstChild = container.firstElementChild as HTMLElement;
+    if (!firstChild) return;
+    const cardWidth = firstChild.clientWidth;
+    const gap = 24;
+    const newIndex = Math.round(container.scrollLeft / (cardWidth + gap));
+    if (newIndex !== minorIndex && newIndex >= 0 && newIndex <= maxMinorIndex) {
+      setMinorIndex(newIndex);
+    }
+  };
 
   useEffect(() => {
     setMajorIndex((p) => Math.min(p, maxMajorIndex));
     setMinorIndex((p) => Math.min(p, maxMinorIndex));
+    scrollCarouselTo(majorCarouselRef.current, majorIndex);
+    scrollCarouselTo(minorCarouselRef.current, minorIndex);
   }, [visibleItems, projects?.length, minorProjects?.length]);
 
 
@@ -487,8 +543,8 @@ export default function Portfolio() {
           {/* Heading with Static Context and Cycling Word Pairs */}
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold mb-8 leading-tight tracking-tight flex flex-wrap items-center justify-center gap-x-2 md:gap-x-4 gap-y-2">
             <span className="text-foreground shrink-0 select-none">I turn</span>
-            {/* Input word wrapper (Increased widths to prevent clipping) */}
-            <span className="relative inline-flex items-center justify-center w-[150px] sm:w-[210px] md:w-[270px] h-[1.25em] overflow-hidden align-middle shrink-0">
+            {/* Input word wrapper (Responsive em width to prevent clipping) */}
+            <span className="relative inline-flex items-center justify-center w-[5.5em] h-[1.25em] overflow-hidden align-middle shrink-0">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`from-${cyclingWordIdx}`}
@@ -508,8 +564,8 @@ export default function Portfolio() {
               </AnimatePresence>
             </span>
             <span className="text-foreground shrink-0 select-none">into</span>
-            {/* Output word wrapper (Increased widths to prevent clipping) */}
-            <span className="relative inline-flex items-center justify-center w-[230px] sm:w-[330px] md:w-[480px] h-[1.25em] overflow-hidden align-middle shrink-0">
+            {/* Output word wrapper (Responsive em width to prevent clipping) */}
+            <span className="relative inline-flex items-center justify-center w-[9.5em] h-[1.25em] overflow-hidden align-middle shrink-0">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`to-${cyclingWordIdx}`}
@@ -844,9 +900,9 @@ export default function Portfolio() {
             </div>
           ) : (
             <div className="relative overflow-visible">
-              {/* Carousel controls */}
+              {/* Carousel controls (Desktop only) */}
               {projects && projects.length > visibleItems && (
-                <div className="absolute -top-20 right-4 flex items-center gap-2.5 z-20">
+                <div className="hidden md:flex absolute -top-20 right-4 items-center gap-2.5 z-20">
                   <button
                     onClick={prevMajor}
                     className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
@@ -865,39 +921,61 @@ export default function Portfolio() {
               )}
 
               {/* Slider Track Wrapper */}
-              <div className="overflow-hidden px-1 py-4">
-                <motion.div
-                  animate={{ x: `-${majorIndex * (100 / visibleItems)}%` }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                  className="flex gap-6 w-full"
-                >
-                  {projects?.map((project, idx) => (
-                    <div
-                      key={project.id}
-                      style={{
-                        width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
-                        flexShrink: 0
-                      }}
-                    >
-                      <ProjectCard project={project} index={idx} />
-                    </div>
-                  ))}
-                </motion.div>
+              <div
+                ref={majorCarouselRef}
+                onScroll={handleMajorScroll}
+                className="overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-6 w-full no-scrollbar px-1 py-4"
+              >
+                {projects?.map((project, idx) => (
+                  <div
+                    key={project.id}
+                    className="snap-start"
+                    style={{
+                      width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
+                      flexShrink: 0
+                    }}
+                  >
+                    <ProjectCard project={project} index={idx} />
+                  </div>
+                ))}
               </div>
 
-              {/* Pagination Dots */}
+              {/* Pagination Dots & Mobile Controls */}
               {projects && projects.length > visibleItems && (
-                <div className="flex justify-center gap-2 mt-6">
-                  {Array.from({ length: projects.length - visibleItems + 1 }).map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setMajorIndex(i)}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        majorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
-                      }`}
-                      aria-label={`Go to slide ${i + 1}`}
-                    />
-                  ))}
+                <div className="flex items-center justify-center gap-6 mt-6">
+                  {/* Mobile Prev Button */}
+                  <button
+                    onClick={prevMajor}
+                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
+                    aria-label="Previous project"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+
+                  <div className="flex justify-center gap-2">
+                    {Array.from({ length: projects.length - visibleItems + 1 }).map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          setMajorIndex(i);
+                          scrollCarouselTo(majorCarouselRef.current, i);
+                        }}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          majorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
+                        }`}
+                        aria-label={`Go to slide ${i + 1}`}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Mobile Next Button */}
+                  <button
+                    onClick={nextMajor}
+                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
+                    aria-label="Next project"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
                 </div>
               )}
             </div>
@@ -927,9 +1005,9 @@ export default function Portfolio() {
           </div>
         ) : (
           <div className="relative overflow-visible">
-            {/* Carousel controls */}
+            {/* Carousel controls (Desktop only) */}
             {minorProjects && minorProjects.length > visibleItems && (
-              <div className="absolute -top-20 right-4 flex items-center gap-2.5 z-20">
+              <div className="hidden md:flex absolute -top-20 right-4 items-center gap-2.5 z-20">
                 <button
                   onClick={prevMinor}
                   className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
@@ -948,39 +1026,61 @@ export default function Portfolio() {
             )}
 
             {/* Slider Track Wrapper */}
-            <div className="overflow-hidden px-1 py-4">
-              <motion.div
-                animate={{ x: `-${minorIndex * (100 / visibleItems)}%` }}
-                transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                className="flex gap-6 w-full"
-              >
-                {minorProjects?.map((project, idx) => (
-                  <div
-                    key={project.id}
-                    style={{
-                      width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
-                      flexShrink: 0
-                    }}
-                  >
-                    <MinorProjectCard project={project} index={idx} />
-                  </div>
-                ))}
-              </motion.div>
+            <div
+              ref={minorCarouselRef}
+              onScroll={handleMinorScroll}
+              className="overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-6 w-full no-scrollbar px-1 py-4"
+            >
+              {minorProjects?.map((project, idx) => (
+                <div
+                  key={project.id}
+                  className="snap-start"
+                  style={{
+                    width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
+                    flexShrink: 0
+                  }}
+                >
+                  <MinorProjectCard project={project} index={idx} />
+                </div>
+              ))}
             </div>
 
-            {/* Pagination Dots */}
+            {/* Pagination Dots & Mobile Controls */}
             {minorProjects && minorProjects.length > visibleItems && (
-              <div className="flex justify-center gap-2 mt-6">
-                {Array.from({ length: minorProjects.length - visibleItems + 1 }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setMinorIndex(i)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      minorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
-                    }`}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
+              <div className="flex items-center justify-center gap-6 mt-6">
+                {/* Mobile Prev Button */}
+                <button
+                  onClick={prevMinor}
+                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
+                  aria-label="Previous project"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                <div className="flex justify-center gap-2">
+                  {Array.from({ length: minorProjects.length - visibleItems + 1 }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setMinorIndex(i);
+                        scrollCarouselTo(minorCarouselRef.current, i);
+                      }}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        minorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+
+                {/* Mobile Next Button */}
+                <button
+                  onClick={nextMinor}
+                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
+                  aria-label="Next project"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
               </div>
             )}
           </div>
@@ -1000,7 +1100,7 @@ export default function Portfolio() {
             <p className="text-muted-foreground">My professional journey and certifications.</p>
           </motion.div>
 
-          <div className="relative space-y-8 md:space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-muted before:to-transparent">
+          <div className="relative space-y-8 md:space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-muted before:to-transparent">
             {experienceLoading ? (
               <div className="space-y-8">
                 {[1, 2].map(i => <div key={i} className="h-40 bg-muted/20 animate-pulse rounded-2xl" />)}
@@ -1048,7 +1148,7 @@ export default function Portfolio() {
               <div className="space-y-8">
                 {[
                   { icon: Send, label: "Email", value: "khwajaiqyanali@gmail.com", href: "mailto:khwajaiqyanali@gmail.com", color: "text-primary", bgClass: "bg-primary/10 border-primary/20 group-hover:bg-primary/20", isNode: false },
-                  { icon: ArrowRight, label: "Phone", value: "+91 93594 96162", href: "tel:+919359496162", color: "text-secondary", bgClass: "bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20", isNode: false },
+                  { icon: Phone, label: "Phone", value: "+91 93594 96162", href: "tel:+919359496162", color: "text-secondary", bgClass: "bg-secondary/10 border-secondary/20 group-hover:bg-secondary/20", isNode: false },
                   {
                     icon: MapPin,
                     label: "Location",

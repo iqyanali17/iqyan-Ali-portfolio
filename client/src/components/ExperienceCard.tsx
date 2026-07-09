@@ -21,11 +21,10 @@ export function ExperienceCard({ item, index }: ExperienceCardProps) {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="relative pl-8 md:pl-0"
+      className="relative pl-8 md:pl-12"
     >
-      {/* Timeline connector for mobile */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-border md:hidden" />
-      <div className="absolute left-[-4px] top-6 w-2 h-2 rounded-full bg-primary md:hidden" />
+      {/* Centered Timeline dot visible on all screens */}
+      <div className="absolute left-[16px] top-6 w-2 h-2 rounded-full bg-primary" />
 
       <div className={cn(
         "glass-card p-6 rounded-2xl group transition-all duration-300 relative overflow-hidden",

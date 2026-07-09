@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, Share2, Wind, Circle, Palette, Settings, X, Check, EyeOff } from "lucide-react";
+import { Sparkles, Share2, Wind, Circle, Palette, Settings, X, Check, EyeOff, Download } from "lucide-react";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 // Types for the canvas physics particles
 interface Particle {
@@ -155,6 +156,17 @@ const getThemeColor = (varName: string): string => {
 };
 
 export function CustomCursor() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // --- UI Settings State ---
   const [trailStyle, setTrailStyle] = useState<"constellation" | "ribbon" | "comet" | "bubbles" | "hidden">(
     () => (localStorage.getItem("cursor-trail-style") as any) || "comet"
@@ -171,6 +183,31 @@ export function CustomCursor() {
   });
 
   const [showSettings, setShowSettings] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
+
+  // Close settings panel when clicking/tapping outside of its container
+  useEffect(() => {
+    if (!showSettings) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (settingsRef.current && !settingsRef.current.contains(event.target as Node)) {
+        setShowSettings(false);
+      }
+    };
+
+    const handleTouchOutside = (event: TouchEvent) => {
+      if (settingsRef.current && !settingsRef.current.contains(event.target as Node)) {
+        setShowSettings(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleTouchOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleTouchOutside);
+    };
+  }, [showSettings]);
 
   // Save settings in localStorage
   useEffect(() => {
@@ -353,7 +390,7 @@ export function CustomCursor() {
 
   // Mouse coordinate tracker & particle generator
   useEffect(() => {
-    if (reducedMotionRef.current || trailStyle === "hidden") return;
+    if (isMobile || reducedMotionRef.current || trailStyle === "hidden") return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -435,7 +472,7 @@ export function CustomCursor() {
 
   // Main Canvas Animation Render Cycle
   useEffect(() => {
-    if (trailStyle === "hidden") return;
+    if (isMobile || trailStyle === "hidden") return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -855,7 +892,7 @@ export function CustomCursor() {
   return (
     <>
       {/* 1. Canvas Layer & Custom Cursor elements (completely pointer-events-none) */}
-      {trailStyle !== "hidden" && (
+      {trailStyle !== "hidden" && !isMobile && (
         <div
           ref={containerRef}
           className="fixed inset-0 pointer-events-none z-[99999] overflow-hidden"
@@ -866,8 +903,37 @@ export function CustomCursor() {
       )}
 
       {/* 2. Floating interactive settings widget (pointer-events-auto to enable clicks) */}
-      <div className="fixed bottom-6 right-6 z-[999999] pointer-events-auto">
-        <div className="relative">
+      <div className="fixed bottom-6 right-6 z-[999999] pointer-events-auto flex flex-col gap-3 items-end">
+        {/* Floating Resume Download Button */}
+        {!isMobile ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <motion.a
+                href="/Khwaja_Iqyan_Ali_Resume.pdf"
+                download="Khwaja_Iqyan_Ali_Resume"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-12 h-12 rounded-full glass flex items-center justify-center cursor-pointer border border-white/10 hover:border-primary/50 text-muted-foreground hover:text-primary transition-all duration-500 shadow-xl hover:shadow-primary/25 z-40"
+              >
+                <Download className="w-5 h-5" />
+              </motion.a>
+            </TooltipTrigger>
+            <TooltipContent side="left" className="mr-2 font-sans font-medium text-xs">
+              Download Resume
+            </TooltipContent>
+          </Tooltip>
+        ) : (
+          <motion.a
+            href="/Khwaja_Iqyan_Ali_Resume.pdf"
+            download="Khwaja_Iqyan_Ali_Resume"
+            whileTap={{ scale: 0.95 }}
+            className="w-12 h-12 rounded-full glass flex items-center justify-center cursor-pointer border border-white/10 text-muted-foreground transition-all duration-500 shadow-xl z-40"
+          >
+            <Download className="w-5 h-5" />
+          </motion.a>
+        )}
+
+        <div ref={settingsRef} className="relative hidden md:block">
           <AnimatePresence>
             {showSettings && (
               <motion.div
@@ -875,7 +941,7 @@ export function CustomCursor() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 15, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute bottom-16 right-0 w-80 rounded-2xl glass p-5 shadow-2xl border border-white/10 text-foreground font-sans z-50 backdrop-blur-2xl"
+                className="absolute bottom-32 right-0 w-80 rounded-2xl glass p-5 shadow-2xl border border-white/10 text-foreground font-sans z-50 backdrop-blur-2xl"
               >
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
                   <h4 className="font-display font-bold text-base text-gradient flex items-center gap-2">

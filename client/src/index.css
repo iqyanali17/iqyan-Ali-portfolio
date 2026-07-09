@@ -91,6 +91,15 @@
   .text-gradient-subtle {
     @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-white/80 to-white/50;
   }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* Custom Scrollbar */
