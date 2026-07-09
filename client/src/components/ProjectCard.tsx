@@ -26,6 +26,26 @@ const getProjectColor = (id: number) => {
 export function ProjectCard({ project, index }: ProjectCardProps) {
   const borderColor = getProjectColor(project.id);
 
+  const handleMouseEnter = () => {
+    if (project.projectUrl) {
+      const event = new CustomEvent("set-cursor-text", { detail: "Visit Live Site 🚀" });
+      window.dispatchEvent(event);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (project.projectUrl) {
+      const event = new CustomEvent("set-cursor-text", { detail: null });
+      window.dispatchEvent(event);
+    }
+  };
+
+  const handleCardClick = () => {
+    if (project.projectUrl) {
+      window.open(project.projectUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -42,7 +62,12 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           borderRadius={24}
           className="h-full w-full"
         >
-          <SpotlightCard className="h-full flex flex-col bg-card/40 backdrop-blur-md shadow-2xl relative border-none">
+          <SpotlightCard
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleCardClick}
+            className={`h-full flex flex-col bg-card/40 backdrop-blur-md shadow-2xl relative border-none ${project.projectUrl ? "cursor-pointer" : ""}`}
+          >
           {/* Image Container with Overlay */}
           <div className="relative aspect-video overflow-hidden rounded-t-[1.5rem]">
             <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-75 z-10" />
@@ -67,6 +92,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
                   className="p-2.5 rounded-full bg-background/90 backdrop-blur text-foreground hover:text-primary hover:scale-110 transition-all shadow-lg"
                   title="View Code"
                 >
@@ -78,6 +104,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
                   href={project.projectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
                   className="p-2.5 rounded-full bg-background/90 backdrop-blur text-foreground hover:text-primary hover:scale-110 transition-all shadow-lg"
                   title="Live Demo"
                 >

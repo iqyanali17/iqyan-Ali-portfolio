@@ -7,6 +7,26 @@ import { TiltCard } from "@/components/ui/TiltCard";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 export function MinorProjectCard({ project, index }: { project: MinorProject; index: number }) {
+  const handleMouseEnter = () => {
+    if (project.liveUrl) {
+      const event = new CustomEvent("set-cursor-text", { detail: "Visit Live Site 🚀" });
+      window.dispatchEvent(event);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (project.liveUrl) {
+      const event = new CustomEvent("set-cursor-text", { detail: null });
+      window.dispatchEvent(event);
+    }
+  };
+
+  const handleCardClick = () => {
+    if (project.liveUrl) {
+      window.open(project.liveUrl, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -16,7 +36,12 @@ export function MinorProjectCard({ project, index }: { project: MinorProject; in
       className="h-full"
     >
       <TiltCard className="group h-full" tiltMax={8}>
-        <SpotlightCard className="h-full bg-card/40 backdrop-blur-xl rounded-3xl p-6 border-none shadow-xl transition-all duration-500 flex flex-col justify-between">
+        <SpotlightCard
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleCardClick}
+          className={`h-full bg-card/40 backdrop-blur-xl rounded-3xl p-6 border-none shadow-xl transition-all duration-500 flex flex-col justify-between ${project.liveUrl ? "cursor-pointer" : ""}`}
+        >
           <div className="relative z-10 w-full">
             {/* Project Image */}
             {project.imageUrl && (
@@ -66,6 +91,7 @@ export function MinorProjectCard({ project, index }: { project: MinorProject; in
               size="sm"
               className="flex-1 gap-2 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25"
               asChild
+              onClick={(e) => e.stopPropagation()}
               data-testid={`button-github-${project.title}`}
             >
               <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -80,6 +106,7 @@ export function MinorProjectCard({ project, index }: { project: MinorProject; in
                 size="sm"
                 className="flex-1 gap-2 rounded-xl border-white/20 hover:bg-white/10"
                 asChild
+                onClick={(e) => e.stopPropagation()}
                 data-testid={`button-live-${project.title}`}
               >
                 <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">

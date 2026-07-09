@@ -185,6 +185,27 @@ export function CustomCursor() {
   const [showSettings, setShowSettings] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
 
+  const [cursorText, setCursorText] = useState<string | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleSetText = (e: Event) => {
+      const customEvent = e as CustomEvent<string | null>;
+      setCursorText(customEvent.detail);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener("set-cursor-text", handleSetText);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("set-cursor-text", handleSetText);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
   // Close settings panel when clicking/tapping outside of its container
   useEffect(() => {
     if (!showSettings) return;
@@ -901,6 +922,25 @@ export function CustomCursor() {
           <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none w-full h-full" />
         </div>
       )}
+
+      {/* Floating Cursor Text overlay (only on desktop/mouse displays) */}
+      <AnimatePresence>
+        {cursorText && !isMobile && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="fixed pointer-events-none z-[100000] px-3 py-1.5 rounded-xl bg-black/75 backdrop-blur-md border border-primary/45 text-white font-sans text-[10px] font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(149,104,255,0.4)] whitespace-nowrap flex items-center gap-1.5"
+            style={{
+              left: mousePos.x + 20,
+              top: mousePos.y + 20,
+            }}
+          >
+            <span>{cursorText}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 2. Floating interactive settings widget (pointer-events-auto to enable clicks) */}
       <div className="fixed bottom-8 right-6 md:bottom-8 md:right-8 z-[999999] pointer-events-auto flex flex-col gap-3 items-end">
