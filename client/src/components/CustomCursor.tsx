@@ -903,7 +903,7 @@ export function CustomCursor() {
       )}
 
       {/* 2. Floating interactive settings widget (pointer-events-auto to enable clicks) */}
-      <div className="fixed bottom-6 right-6 z-[999999] pointer-events-auto flex flex-col gap-3 items-end">
+      <div className="fixed bottom-8 right-6 md:bottom-8 md:right-8 z-[999999] pointer-events-auto flex flex-col gap-3 items-end">
         {/* Floating Resume Download Button */}
         {!isMobile ? (
           <Tooltip>
@@ -913,7 +913,7 @@ export function CustomCursor() {
                 download="Khwaja_Iqyan_Ali_Resume"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 rounded-full glass flex items-center justify-center cursor-pointer border border-white/10 hover:border-primary/50 text-muted-foreground hover:text-primary transition-all duration-500 shadow-xl hover:shadow-primary/25 z-40"
+                className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer border border-primary/30 hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 z-40"
               >
                 <Download className="w-5 h-5" />
               </motion.a>
@@ -927,7 +927,7 @@ export function CustomCursor() {
             href="/Khwaja_Iqyan_Ali_Resume.pdf"
             download="Khwaja_Iqyan_Ali_Resume"
             whileTap={{ scale: 0.95 }}
-            className="w-12 h-12 rounded-full glass flex items-center justify-center cursor-pointer border border-white/10 text-muted-foreground transition-all duration-500 shadow-xl z-40"
+            className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer border border-primary/30 transition-all duration-300 shadow-lg shadow-primary/25 z-40"
           >
             <Download className="w-5 h-5" />
           </motion.a>

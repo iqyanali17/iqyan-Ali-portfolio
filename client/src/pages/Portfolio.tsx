@@ -900,9 +900,9 @@ export default function Portfolio() {
             </div>
           ) : (
             <div className="relative overflow-visible">
-              {/* Carousel controls (Desktop only) */}
+              {/* Carousel controls */}
               {projects && projects.length > visibleItems && (
-                <div className="hidden md:flex absolute -top-20 right-4 items-center gap-2.5 z-20">
+                <div className="absolute -top-16 right-4 md:-top-20 md:right-4 flex items-center gap-2.5 z-20">
                   <button
                     onClick={prevMajor}
                     className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
@@ -940,42 +940,22 @@ export default function Portfolio() {
                 ))}
               </div>
 
-              {/* Pagination Dots & Mobile Controls */}
+              {/* Pagination Dots */}
               {projects && projects.length > visibleItems && (
-                <div className="flex items-center justify-center gap-6 mt-6">
-                  {/* Mobile Prev Button */}
-                  <button
-                    onClick={prevMajor}
-                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
-                    aria-label="Previous project"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-
-                  <div className="flex justify-center gap-2">
-                    {Array.from({ length: projects.length - visibleItems + 1 }).map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => {
-                          setMajorIndex(i);
-                          scrollCarouselTo(majorCarouselRef.current, i);
-                        }}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                          majorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
-                        }`}
-                        aria-label={`Go to slide ${i + 1}`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Mobile Next Button */}
-                  <button
-                    onClick={nextMajor}
-                    className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
-                    aria-label="Next project"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
+                <div className="flex justify-center gap-2 mt-6">
+                  {Array.from({ length: projects.length - visibleItems + 1 }).map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setMajorIndex(i);
+                        scrollCarouselTo(majorCarouselRef.current, i);
+                      }}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        majorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
+                      }`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
                 </div>
               )}
             </div>
@@ -1005,9 +985,9 @@ export default function Portfolio() {
           </div>
         ) : (
           <div className="relative overflow-visible">
-            {/* Carousel controls (Desktop only) */}
+            {/* Carousel controls */}
             {minorProjects && minorProjects.length > visibleItems && (
-              <div className="hidden md:flex absolute -top-20 right-4 items-center gap-2.5 z-20">
+              <div className="absolute -top-16 right-4 md:-top-20 md:right-4 flex items-center gap-2.5 z-20">
                 <button
                   onClick={prevMinor}
                   className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
@@ -1045,42 +1025,22 @@ export default function Portfolio() {
               ))}
             </div>
 
-            {/* Pagination Dots & Mobile Controls */}
+            {/* Pagination Dots */}
             {minorProjects && minorProjects.length > visibleItems && (
-              <div className="flex items-center justify-center gap-6 mt-6">
-                {/* Mobile Prev Button */}
-                <button
-                  onClick={prevMinor}
-                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
-                  aria-label="Previous project"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-
-                <div className="flex justify-center gap-2">
-                  {Array.from({ length: minorProjects.length - visibleItems + 1 }).map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setMinorIndex(i);
-                        scrollCarouselTo(minorCarouselRef.current, i);
-                      }}
-                      className={`h-2 rounded-full transition-all duration-300 ${
-                        minorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
-                      }`}
-                      aria-label={`Go to slide ${i + 1}`}
-                    />
-                  ))}
-                </div>
-
-                {/* Mobile Next Button */}
-                <button
-                  onClick={nextMinor}
-                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90 md:hidden"
-                  aria-label="Next project"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
+              <div className="flex justify-center gap-2 mt-6">
+                {Array.from({ length: minorProjects.length - visibleItems + 1 }).map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setMinorIndex(i);
+                      scrollCarouselTo(minorCarouselRef.current, i);
+                    }}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      minorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
+                    }`}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
               </div>
             )}
           </div>
