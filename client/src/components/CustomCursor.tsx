@@ -927,17 +927,26 @@ export function CustomCursor() {
       <AnimatePresence>
         {cursorText && !isMobile && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="fixed pointer-events-none z-[100000] px-3 py-1.5 rounded-xl bg-black/75 backdrop-blur-md border border-primary/45 text-white font-sans text-[10px] font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(149,104,255,0.4)] whitespace-nowrap flex items-center gap-1.5"
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 10 }}
+            transition={{ type: "spring", stiffness: 380, damping: 24 }}
+            className="fixed pointer-events-none z-[100000] px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#0d0f17]/95 via-[#131130]/95 to-[#1a113d]/95 backdrop-blur-md border border-primary/50 text-white font-sans text-[10px] font-bold tracking-widest uppercase shadow-[0_0_25px_rgba(149,104,255,0.45),inset_0_1px_0_rgba(255,255,255,0.1)] whitespace-nowrap flex items-center gap-2"
             style={{
               left: mousePos.x + 20,
               top: mousePos.y + 20,
             }}
           >
-            <span>{cursorText}</span>
+            {/* Blinking active beacon dot */}
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-80"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary shadow-[0_0_6px_hsl(var(--primary))]"></span>
+            </span>
+
+            {/* Glowing text */}
+            <span className="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.65)] font-display tracking-[0.15em]">
+              {cursorText}
+            </span>
           </motion.div>
         )}
       </AnimatePresence>
