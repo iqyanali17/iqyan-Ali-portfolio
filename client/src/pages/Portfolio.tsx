@@ -325,13 +325,6 @@ export default function Portfolio() {
                   ⚡ Intern @ iLoma
                 </div>
 
-                {/* PARALLAX FLOATING ROTATING BADGE (Top Right Corner) */}
-                <div
-                  style={{ transform: "translateZ(85px)" }}
-                  className="absolute -top-16 -right-16 hidden sm:block pointer-events-none"
-                >
-                  <RotatingBadge />
-                </div>
 
                 {/* PARALLAX FLOATING TECH CHIP 4 (Bottom Left Corner) */}
                 <div
@@ -1188,6 +1181,12 @@ export default function Portfolio() {
                     {/* Pulsing Core */}
                     <div className="relative">
                       <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
+                      
+                      {/* Rotating Badge on top-right of the profile picture */}
+                      <div className="absolute -top-10 -right-10 z-20 pointer-events-none scale-75 md:scale-100 origin-center">
+                        <RotatingBadge />
+                      </div>
+
                       <Magnetic strength={0.4}>
                         <div className="w-48 h-48 rounded-full bg-gradient-to-tr from-primary to-secondary flex items-center justify-center shadow-2xl relative z-10 group cursor-pointer overflow-hidden border border-white/10">
                           <img
