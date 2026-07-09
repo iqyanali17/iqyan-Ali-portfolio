@@ -1183,7 +1183,7 @@ export default function Portfolio() {
                       <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
                       
                       {/* Rotating Badge on top-right of the profile picture */}
-                      <div className="absolute -top-10 -right-10 z-20 pointer-events-none scale-75 md:scale-100 origin-center">
+                      <div className="absolute -top-14 -right-14 md:-top-20 md:-right-20 z-20 pointer-events-none scale-75 md:scale-100 origin-center">
                         <RotatingBadge />
                       </div>
 
