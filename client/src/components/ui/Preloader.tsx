@@ -174,7 +174,7 @@ export default function Preloader() {
         transition={{ duration: 0.5, delay: 0.4 }}
         className="font-mono text-[9px] tracking-[0.3em] text-white/20 uppercase mt-2 absolute bottom-8"
       >
-        Iqyan Ali · Portfolio Init
+        Khwaja Iqyan Ali · Portfolio Init
       </motion.p>
     </motion.div>
   );

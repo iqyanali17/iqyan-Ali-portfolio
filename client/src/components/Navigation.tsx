@@ -57,7 +57,7 @@ export function Navigation() {
             onClick={() => handleNavClick("")}
             className="font-display text-2xl font-bold tracking-tighter hover:text-primary transition-colors"
           >
-            Iqyan<span className="text-primary">.dev</span>
+            Iqyanali<span className="text-primary">.dev</span>
           </a>
 
           {/* Desktop Nav */}
