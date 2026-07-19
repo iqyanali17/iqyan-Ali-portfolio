@@ -2,18 +2,19 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Element } from "react-scroll";
 import { SiReact, SiNodedotjs, SiTailwindcss, SiMongodb, SiExpress, SiJavascript, SiGit, SiPython, SiFlask, SiSupabase, SiMui, SiTypescript } from "react-icons/si";
-import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin, ChevronLeft, ChevronRight, Phone } from "lucide-react";
+import { ArrowRight, Download, Send, Loader2, Code2, Database, Layout, Server, Wrench, Github, Linkedin, Instagram, Mail, MapPin, ChevronLeft, ChevronRight, Phone, Layers, UserCheck } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { Navigation } from "@/components/Navigation";
 import { ProjectCard } from "@/components/ProjectCard";
-import { MinorProjectCard } from "@/components/MinorProjectCard";
+import { ProjectDetailModal } from "@/components/ProjectDetailModal";
+import type { Project } from "@/lib/data";
 import { SkillBar } from "@/components/SkillBar";
 import { ExperienceCard } from "@/components/ExperienceCard";
 import { Footer } from "@/components/Footer";
-import { useProjects, useSkills, useExperience, useContact, useMinorProjects } from "@/hooks/use-portfolio";
+import { useProjects, useSkills, useExperience, useContact } from "@/hooks/use-portfolio";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -54,11 +55,11 @@ export default function Portfolio() {
   const { data: projects, isLoading: projectsLoading } = useProjects();
   const { data: skills, isLoading: skillsLoading } = useSkills();
   const { data: experience, isLoading: experienceLoading } = useExperience();
-  const { data: minorProjects, isLoading: minorProjectsLoading } = useMinorProjects();
   const contactMutation = useContact();
   const { toast } = useToast();
 
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [time, setTime] = useState("");
   const [marqueeLight, setMarqueeLight] = useState(false);
   const [cyclingWordIdx, setCyclingWordIdx] = useState(0);
@@ -79,9 +80,21 @@ export default function Portfolio() {
   // Carousel Responsive Logic
   const [visibleItems, setVisibleItems] = useState(3);
   const [majorIndex, setMajorIndex] = useState(0);
-  const [minorIndex, setMinorIndex] = useState(0);
   const majorCarouselRef = useRef<HTMLDivElement>(null);
-  const minorCarouselRef = useRef<HTMLDivElement>(null);
+
+  // Mouse position state for parallax effect on hero visual
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+    const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+    setMousePos({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePos({ x: 0, y: 0 });
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,8 +111,23 @@ export default function Portfolio() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    const container = majorCarouselRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY !== 0) {
+        container.scrollLeft += e.deltaY;
+      }
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: true });
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   const maxMajorIndex = Math.max(0, (projects?.length || 0) - visibleItems);
-  const maxMinorIndex = Math.max(0, (minorProjects?.length || 0) - visibleItems);
 
   const scrollCarouselTo = (container: HTMLDivElement | null, index: number) => {
     if (!container) return;
@@ -123,16 +151,6 @@ export default function Portfolio() {
     setMajorIndex(prevIdx);
     scrollCarouselTo(majorCarouselRef.current, prevIdx);
   };
-  const nextMinor = () => {
-    const nextIdx = minorIndex >= maxMinorIndex ? 0 : minorIndex + 1;
-    setMinorIndex(nextIdx);
-    scrollCarouselTo(minorCarouselRef.current, nextIdx);
-  };
-  const prevMinor = () => {
-    const prevIdx = minorIndex <= 0 ? maxMinorIndex : minorIndex - 1;
-    setMinorIndex(prevIdx);
-    scrollCarouselTo(minorCarouselRef.current, prevIdx);
-  };
 
   const handleMajorScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const container = e.currentTarget;
@@ -146,24 +164,10 @@ export default function Portfolio() {
     }
   };
 
-  const handleMinorScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const container = e.currentTarget;
-    const firstChild = container.firstElementChild as HTMLElement;
-    if (!firstChild) return;
-    const cardWidth = firstChild.clientWidth;
-    const gap = 24;
-    const newIndex = Math.round(container.scrollLeft / (cardWidth + gap));
-    if (newIndex !== minorIndex && newIndex >= 0 && newIndex <= maxMinorIndex) {
-      setMinorIndex(newIndex);
-    }
-  };
-
   useEffect(() => {
     setMajorIndex((p) => Math.min(p, maxMajorIndex));
-    setMinorIndex((p) => Math.min(p, maxMinorIndex));
     scrollCarouselTo(majorCarouselRef.current, majorIndex);
-    scrollCarouselTo(minorCarouselRef.current, minorIndex);
-  }, [visibleItems, projects?.length, minorProjects?.length]);
+  }, [visibleItems, projects?.length]);
 
 
   useEffect(() => {
@@ -230,7 +234,7 @@ export default function Portfolio() {
 
         <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-8 md:gap-12">
           {/* Left Column - Hero Copy */}
-          <div className="text-center md:text-left md:flex-1 w-full">
+          <div className="text-center md:text-left md:flex-1 w-full" style={{ transform: "translateY(-60px)" }}>
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -272,7 +276,12 @@ export default function Portfolio() {
                   className="rounded-full px-8 h-14 text-base font-semibold border-white/10 bg-white/5 hover:bg-white/10 hover:text-primary hover:scale-105 transition-all duration-300 backdrop-blur-sm"
                   asChild
                 >
-                  <a href="/Khwaja_Iqyan_Ali_Resume.pdf" download="Khwaja_Iqyan_Ali_Resume">
+                  <a
+                    href="/Khwaja_Iqyan_Ali_Resume.pdf?v=2"
+                    download="Khwaja_Iqyan_Ali_Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Resume <Download className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
@@ -280,61 +289,154 @@ export default function Portfolio() {
             </motion.div>
           </div>
 
-          {/* Right Column - Holographic Parallax 3D Portrait */}
-          <div className="md:flex-1 relative flex items-center justify-center md:mt-0 mt-8 group/hero-photo">
+          {/* Right Column - Hero Scene */}
+          <div
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="md:flex-1 flex flex-col items-center justify-center md:mt-0 mt-12 select-none"
+          >
+            {/* ── SCENE: fixed-size container, everything centered inside ── */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative w-[280px] h-[350px] sm:w-[320px] sm:h-[400px] md:w-[380px] md:h-[500px]"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-[360px] h-[500px] sm:w-[420px] sm:h-[560px] md:w-[480px] md:h-[620px] flex-shrink-0"
             >
-              <TiltCard tiltMax={14} className="w-full h-full">
-                {/* Dynamic Multi-Color Backdrop Glow */}
-                <div className="absolute -inset-4 bg-gradient-to-br from-primary/50 via-secondary/30 to-accent/50 rounded-[3rem] blur-3xl opacity-75 group-hover/hero-photo:opacity-100 transition-opacity duration-700 pointer-events-none" />
+              {/* ── GLOWING ORB — shifted up to stay behind photo ── */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[5]" style={{ paddingBottom: "120px" }}>
+                <div className="w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] md:w-[340px] md:h-[340px] rounded-full bg-gradient-to-tr from-blue-700 via-purple-600 to-indigo-600 blur-[3px] shadow-[0_0_130px_65px_rgba(109,40,217,0.6)] opacity-95 animate-pulse" />
+              </div>
 
-                {/* Styled Photo Frame Box */}
-                <div className="relative w-full h-full bg-black/40 backdrop-blur-xl rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl transition-all duration-700">
-                  {/* Primary Profile Image */}
-                  <img
-                    src="/images/hello_Bluebg.png"
-                    alt="Khwaja Iqyan Ali"
-                    className="w-full h-full object-cover transform scale-[1.01] group-hover/hero-photo:scale-105 transition-transform duration-700"
-                  />
-
-                  {/* Sci-Fi Scanner Grid HUD Overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.18)_50%),linear-gradient(90deg,rgba(149,104,255,0.06),rgba(59,130,246,0.02),rgba(149,104,255,0.06))] bg-[size:100%_4px,3px_100%] opacity-40 pointer-events-none" />
-
-                  {/* High Contrast Gradient Vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent opacity-80" />
-                </div>
-
-                {/* PARALLAX FLOATING HUD CHIP 1 (Pops out in Z-space!) */}
-                <div
-                  style={{ transform: "translateZ(70px)" }}
-                  className="absolute -top-3 -left-4 bg-black/70 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2 text-xs font-semibold font-display shadow-2xl flex items-center gap-2 select-none"
+              {/* ── ORBIT RING — shifted up to stay behind photo ── */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[6]" style={{ perspective: "900px", paddingBottom: "120px" }}>
+                <motion.div
+                  style={{ transformStyle: "preserve-3d", rotateX: 72, rotateY: -12, width: 460, height: 460 }}
+                  animate={{ rotateZ: [0, 360] }}
+                  transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
                 >
-                  <span className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
-                  🚀 Full-Stack Developer
-                </div>
+                  <svg width="460" height="460" viewBox="0 0 460 460" fill="none" className="opacity-75">
+                    <defs>
+                      <linearGradient id="orbitGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#a855f7" stopOpacity="0.9" />
+                        <stop offset="40%" stopColor="#6366f1" stopOpacity="0.7" />
+                        <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.5" />
+                      </linearGradient>
+                      <style>{`@keyframes dash-orbit{0%{stroke-dashoffset:0}100%{stroke-dashoffset:-1448}}`}</style>
+                    </defs>
+                    <ellipse cx="230" cy="230" rx="215" ry="215" stroke="rgba(168,85,247,0.2)" strokeWidth="1.5" />
+                    <ellipse cx="230" cy="230" rx="215" ry="215" stroke="url(#orbitGrad)" strokeWidth="2.5" strokeDasharray="80 40" style={{ animation: "dash-orbit 6s linear infinite" }} />
+                    <circle cx="230" cy="15" r="6" fill="#a78bfa" style={{ filter: "drop-shadow(0 0 8px #a78bfa)" }} />
+                  </svg>
+                </motion.div>
 
-                {/* PARALLAX FLOATING HUD CHIP 2 */}
-                <div
-                  style={{ transform: "translateZ(80px)" }}
-                  className="absolute -bottom-3 -right-4 bg-black/70 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2 text-xs font-semibold font-display shadow-2xl flex items-center gap-2 select-none"
-                >
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                  ⚡ Intern @ iLoma
+                {/* Secondary static ring */}
+                <div className="absolute inset-0 flex items-center justify-center" style={{ paddingBottom: "120px" }}>
+                  <svg width="530" height="530" viewBox="0 0 530 530" fill="none" className="opacity-15">
+                    <ellipse cx="265" cy="265" rx="250" ry="250" stroke="rgba(99,102,241,0.7)" strokeWidth="1" strokeDasharray="6 14" />
+                  </svg>
                 </div>
+              </div>
 
-
-                {/* PARALLAX FLOATING TECH CHIP 4 (Bottom Left Corner) */}
-                <div
-                  style={{ transform: "translateZ(50px)" }}
-                  className="absolute -bottom-4 -left-3 w-10 h-10 bg-black/70 backdrop-blur-md border border-white/10 rounded-full shadow-2xl flex items-center justify-center text-secondary group-hover/hero-photo:scale-110 group-hover/hero-photo:-rotate-12 transition-all duration-500"
-                >
-                  <SiTypescript className="w-5 h-5" />
+              {/* ── PORTRAIT — absolutely centered in scene ── */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto"
+                animate={{ x: mousePos.x * 5, y: mousePos.y * 5 }}
+                transition={{ type: "spring", stiffness: 100, damping: 18 }}
+              >
+                <div style={{ transform: "translateY(-60px)" }}>
+                  <TiltCard tiltMax={6} className="w-[266px] h-[363px] sm:w-[314px] sm:h-[424px] md:w-[363px] md:h-[484px]" contentClassName="flex items-center justify-center">
+                    <img
+                      src="/images/hello_Bluebg.png"
+                      alt="Khwaja Iqyan Ali"
+                      className="h-full w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.7)] pointer-events-none"
+                    />
+                  </TiltCard>
                 </div>
-              </TiltCard>
+              </motion.div>
+
+              {/* React — top-left, close to portrait */}
+              <motion.div
+                className="absolute z-30 top-[8%] left-[4%]"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1, x: mousePos.x * 10, y: mousePos.y * 10 }}
+                transition={{ opacity: { duration: 0.5, delay: 0.3 }, scale: { duration: 0.5, delay: 0.3 }, x: { type: "spring", stiffness: 80, damping: 18 }, y: { type: "spring", stiffness: 80, damping: 18 } }}
+              >
+                <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}>
+                  <div className="w-[60px] h-[60px] bg-[#0d1327]/90 border border-purple-500/35 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-[0_6px_24px_rgba(139,92,246,0.3)] backdrop-blur-xl hover:scale-110 transition-all duration-300 cursor-default">
+                    <SiReact className="w-5 h-5 text-sky-400 animate-[spin_12s_linear_infinite]" />
+                    <span className="text-[8px] font-bold text-zinc-200 font-mono">React</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* TypeScript — top-right, close to portrait */}
+              <motion.div
+                className="absolute z-30 top-[6%] right-[4%]"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1, x: mousePos.x * 10, y: mousePos.y * 10 }}
+                transition={{ opacity: { duration: 0.5, delay: 0.45 }, scale: { duration: 0.5, delay: 0.45 }, x: { type: "spring", stiffness: 80, damping: 18 }, y: { type: "spring", stiffness: 80, damping: 18 } }}
+              >
+                <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}>
+                  <div className="w-[60px] h-[60px] bg-[#0d1327]/90 border border-blue-500/35 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-[0_6px_24px_rgba(59,130,246,0.3)] backdrop-blur-xl hover:scale-110 transition-all duration-300 cursor-default">
+                    <SiTypescript className="w-5 h-5 text-blue-400" />
+                    <span className="text-[8px] font-bold text-zinc-200 font-mono">TypeScript</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Node.js — mid-left, touching portrait edge */}
+              <motion.div
+                className="absolute z-30 top-[38%] left-[2%]"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1, x: mousePos.x * 10, y: mousePos.y * 10 }}
+                transition={{ opacity: { duration: 0.5, delay: 0.6 }, scale: { duration: 0.5, delay: 0.6 }, x: { type: "spring", stiffness: 80, damping: 18 }, y: { type: "spring", stiffness: 80, damping: 18 } }}
+              >
+                <motion.div animate={{ y: [0, -7, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}>
+                  <div className="w-[60px] h-[60px] bg-[#0d1327]/90 border border-emerald-500/35 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-[0_6px_24px_rgba(16,185,129,0.3)] backdrop-blur-xl hover:scale-110 transition-all duration-300 cursor-default">
+                    <SiNodedotjs className="w-5 h-5 text-emerald-400" />
+                    <span className="text-[8px] font-bold text-zinc-200 font-mono">Node.js</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* Python — mid-right, touching portrait edge */}
+              <motion.div
+                className="absolute z-30 top-[50%] right-[2%]"
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1, x: mousePos.x * 10, y: mousePos.y * 10 }}
+                transition={{ opacity: { duration: 0.5, delay: 0.75 }, scale: { duration: 0.5, delay: 0.75 }, x: { type: "spring", stiffness: 80, damping: 18 }, y: { type: "spring", stiffness: 80, damping: 18 } }}
+              >
+                <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.8 }}>
+                  <div className="w-[60px] h-[60px] bg-[#0d1327]/90 border border-yellow-500/35 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-[0_6px_24px_rgba(234,179,8,0.3)] backdrop-blur-xl hover:scale-110 transition-all duration-300 cursor-default">
+                    <SiPython className="w-5 h-5 text-yellow-400" />
+                    <span className="text-[8px] font-bold text-zinc-200 font-mono">Python</span>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+              {/* ── STATS BAR — overlays the waist/leg area of the portrait ── */}
+              <div className="absolute top-[65%] left-1/2 -translate-x-1/2 w-[95%] grid grid-cols-4 divide-x divide-white/10 bg-[#0c1223]/88 border border-purple-500/30 rounded-[18px] py-3 px-1 backdrop-blur-xl shadow-2xl z-40 transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] select-none">
+                <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-purple-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">2+</span>
+                  <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Projects<br />Done</span>
+                </div>
+                <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-sky-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">1+</span>
+                  <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Internship<br />Exp.</span>
+                </div>
+                <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-purple-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">MERN</span>
+                  <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Stack</span>
+                </div>
+                <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-purple-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">Passion</span>
+                  <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Problem<br />Solving</span>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -954,7 +1056,7 @@ export default function Portfolio() {
               <div
                 ref={majorCarouselRef}
                 onScroll={handleMajorScroll}
-                className="overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-6 w-full no-scrollbar px-1 py-4"
+                className="overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-6 w-full no-scrollbar px-2 py-12 -my-12"
               >
                 {projects?.map((project, idx) => (
                   <div
@@ -965,7 +1067,11 @@ export default function Portfolio() {
                       flexShrink: 0
                     }}
                   >
-                    <ProjectCard project={project} index={idx} />
+                    <ProjectCard
+                      project={project}
+                      index={idx}
+                      onOpenDetails={setSelectedProject}
+                    />
                   </div>
                 ))}
               </div>
@@ -993,89 +1099,7 @@ export default function Portfolio() {
         </div>
       </Element>
 
-      {/* MINOR PROJECTS */}
-      <Element name="minor-projects" id="minor-projects" className="py-24 container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Minor <span className="text-gradient">Projects</span></h2>
-          <p className="text-muted-foreground max-w-3xl mx-auto">
-            A collection of my lightweight practice and concept projects that helped me strengthen fundamentals, improve UI thinking, and build hands-on problem-solving experience.
-          </p>
-        </motion.div>
 
-        {minorProjectsLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-96 bg-muted/20 animate-pulse rounded-2xl" />
-            ))}
-          </div>
-        ) : (
-          <div className="relative overflow-visible">
-            {/* Carousel controls */}
-            {minorProjects && minorProjects.length > visibleItems && (
-              <div className="absolute -top-16 right-4 md:-top-20 md:right-4 flex items-center gap-2.5 z-20">
-                <button
-                  onClick={prevMinor}
-                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
-                  aria-label="Previous project"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={nextMinor}
-                  className="w-10 h-10 rounded-full border border-white/10 bg-white/5 hover:bg-primary/20 hover:border-primary/50 text-foreground transition-all duration-300 flex items-center justify-center shadow-lg active:scale-90"
-                  aria-label="Next project"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-            )}
-
-            {/* Slider Track Wrapper */}
-            <div
-              ref={minorCarouselRef}
-              onScroll={handleMinorScroll}
-              className="overflow-x-auto scroll-smooth snap-x snap-mandatory flex gap-6 w-full no-scrollbar px-1 py-4"
-            >
-              {minorProjects?.map((project, idx) => (
-                <div
-                  key={project.id}
-                  className="snap-start"
-                  style={{
-                    width: `calc(${100 / visibleItems}% - ${(visibleItems - 1) * 24 / visibleItems}px)`,
-                    flexShrink: 0
-                  }}
-                >
-                  <MinorProjectCard project={project} index={idx} />
-                </div>
-              ))}
-            </div>
-
-            {/* Pagination Dots */}
-            {minorProjects && minorProjects.length > visibleItems && (
-              <div className="flex justify-center gap-2 mt-6">
-                {Array.from({ length: minorProjects.length - visibleItems + 1 }).map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setMinorIndex(i);
-                      scrollCarouselTo(minorCarouselRef.current, i);
-                    }}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      minorIndex === i ? "w-6 bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "w-2 bg-white/20 hover:bg-white/40"
-                    }`}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </Element>
 
       {/* EXPERIENCE */}
       <Element name="experience" id="experience" className="py-24 container mx-auto px-6">
@@ -1300,6 +1324,13 @@ export default function Portfolio() {
         </div>
       </Element>
 
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={selectedProject !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedProject(null);
+        }}
+      />
       <Footer />
       </div>
     </>

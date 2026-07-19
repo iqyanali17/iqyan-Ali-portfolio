@@ -4,12 +4,14 @@ import { motion, useMotionValue, useSpring, useTransform, HTMLMotionProps } from
 interface TiltCardProps extends HTMLMotionProps<"div"> {
   children: React.ReactNode;
   tiltMax?: number; // Maximum rotation in degrees
+  contentClassName?: string;
 }
 
 export function TiltCard({
   children,
   className = "",
   tiltMax = 12,
+  contentClassName = "",
   ...props
 }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -84,7 +86,7 @@ export function TiltCard({
           transform: "translateZ(30px)",
           transformStyle: "preserve-3d",
         }}
-        className="h-full w-full"
+        className={`h-full w-full ${contentClassName}`}
       >
         {children}
       </div>

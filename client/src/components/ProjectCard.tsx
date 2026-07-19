@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ChevronRight } from "lucide-react";
 import type { Project } from "@/lib/data";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
@@ -8,6 +8,7 @@ import ElectricBorder from "@/components/ui/ElectricBorder";
 interface ProjectCardProps {
   project: Project;
   index: number;
+  onOpenDetails: (project: Project) => void;
 }
 
 const getProjectColor = (id: number) => {
@@ -23,27 +24,22 @@ const getProjectColor = (id: number) => {
   }
 };
 
-export function ProjectCard({ project, index }: ProjectCardProps) {
+export function ProjectCard({ project, index, onOpenDetails }: ProjectCardProps) {
   const borderColor = getProjectColor(project.id);
 
   const handleMouseEnter = () => {
-    if (project.projectUrl) {
-      const event = new CustomEvent("set-cursor-text", { detail: "Visit Live Site 🚀" });
-      window.dispatchEvent(event);
-    }
+    const event = new CustomEvent("set-cursor-text", { detail: "Click for Details 🔍" });
+    window.dispatchEvent(event);
   };
 
   const handleMouseLeave = () => {
-    if (project.projectUrl) {
-      const event = new CustomEvent("set-cursor-text", { detail: null });
-      window.dispatchEvent(event);
-    }
+    const event = new CustomEvent("set-cursor-text", { detail: null });
+    window.dispatchEvent(event);
   };
 
   const handleCardClick = () => {
-    if (project.projectUrl) {
-      window.open(project.projectUrl, "_blank", "noopener,noreferrer");
-    }
+    console.log("Card clicked for project:", project.title);
+    onOpenDetails(project);
   };
 
   return (
@@ -116,24 +112,27 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Content */}
           <div className="p-6 flex flex-col flex-grow relative z-20">
-            <h3 className="text-xl font-bold font-display mb-2 group-hover:text-primary transition-colors duration-300">
+            <h3 
+              className="text-lg font-bold font-display mb-2 transition-colors duration-300 group-hover:text-[var(--hover-color)]"
+              style={{ "--hover-color": borderColor } as React.CSSProperties}
+            >
               {project.title}
             </h3>
-            <p className="text-muted-foreground text-sm mb-6 flex-grow leading-relaxed">
+            <p className="text-zinc-400 text-xs sm:text-sm line-clamp-3 leading-relaxed flex-grow">
               {project.description}
             </p>
             
-            {/* Tech Tags */}
-            <div className="flex flex-wrap gap-2 mt-auto">
-              {JSON.parse(project.technologies).map((tech: string) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1 text-xs font-semibold rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 hover:border-primary/40 transition-colors"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log("Read More clicked for project:", project.title);
+                onOpenDetails(project);
+              }}
+              className="mt-4 inline-flex items-center gap-1 text-xs font-bold tracking-wider uppercase transition-all duration-300 group/btn cursor-pointer self-start hover:opacity-85 active:scale-95 mt-auto"
+              style={{ color: borderColor }}
+            >
+              Read More <ChevronRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform" />
+            </button>
           </div>
         </SpotlightCard>
         </ElectricBorder>

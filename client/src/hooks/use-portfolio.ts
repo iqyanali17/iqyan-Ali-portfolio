@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { projects, skills, experience, minorProjects } from "@/lib/data";
+import { projects, skills, experience } from "@/lib/data";
 
 export interface InsertContactMessage {
   name: string;
@@ -34,16 +34,6 @@ export function useExperience() {
   return useQuery({
     queryKey: ["/api/experience"],
     queryFn: async () => experience,
-  });
-}
-
-// ============================================
-// MINOR PROJECTS HOOKS
-// ============================================
-export function useMinorProjects() {
-  return useQuery({
-    queryKey: ["/api/minor-projects"],
-    queryFn: async () => minorProjects,
   });
 }
 

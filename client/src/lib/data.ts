@@ -27,16 +27,6 @@ export interface Experience {
   highlight?: boolean;
 }
 
-export interface MinorProject {
-  id: number;
-  title: string;
-  description: string;
-  role: string;
-  technologies: string;
-  imageUrl: string | null;
-  githubUrl: string;
-  liveUrl: string | null;
-}
 
 export const projects: Project[] = [
   {
@@ -207,55 +197,4 @@ export const experience: Experience[] = [
   },
 ];
 
-export const minorProjects: MinorProject[] = [
-  {
-    id: 1,
-    title: "PostFlow",
-    description: "A simple social platform where users can create and share posts with a clean UI. Focused on CRUD operations and modular component design.",
-    role: "Frontend logic and state handling • Component design",
-    technologies: JSON.stringify(["Node.js", "Express", "MongoDB", "EJS", "Mongoose"]),
-    imageUrl: "/images/PostFlow-UI.png",
-    githubUrl: "https://github.com/iqyanali17/Postflow_App.git",
-    liveUrl: null,
-  },
-  {
-    id: 2,
-    title: "Simon Game",
-    description: "Interactive brain-training game based on sequence repetition logic with sound feedback and click animations.",
-    role: "Event handling & game-logic concepts • Increasing difficulty patterns",
-    technologies: JSON.stringify(["HTML", "CSS", "JavaScript"]),
-    imageUrl: "/images/Simon_game.png",
-    githubUrl: "https://github.com/iqyanali17/SimonGAme.git",
-    liveUrl: null,
-  },
-  {
-    id: 3,
-    title: "Weather App",
-    description: "Real-time weather dashboard that fetches weather data with city search functionality. Displays temperature, humidity, and conditions.",
-    role: "API calls & async JavaScript handling • Real-time data management",
-    technologies: JSON.stringify(["React 19.1.1", "Vite 7.1.6", "Material-UI 7.3.6", "OpenWeatherMap API", "CSS3"]),
-    imageUrl: "/images/weather_App.png",
-    githubUrl: "https://github.com/iqyanali17/weather_app.git",
-    liveUrl: null,
-  },
-  {
-    id: 4,
-    title: "Packers & Movers Service Website",
-    description: "Professional website layout for service-based business with sections for services, contact, about, and inquiry CTA.",
-    role: "Clean UI structure & responsive layout design • Business-focused interface",
-    technologies: JSON.stringify(["Next.js 16.1.0", "React 19.2.3", "Material-UI 7.3.6", "Tailwind CSS 3.4.1", "Lucide React", "PostCSS"]),
-    imageUrl: "/images/Packers & Movers-UI.png",
-    githubUrl: "https://github.com/iqyanali17/MH27-Pakcers-Movers.git",
-    liveUrl: "https://mh-27-pakcers-movers.vercel.app/",
-  },
-  {
-    id: 5,
-    title: "Mini Chat App",
-    description: "Simple chat interface with message layout and interactive components. Focused on conversation styling and UI structuring.",
-    role: "UI design thinking & frontend structuring • Component layout design",
-    technologies: JSON.stringify(["Node.js", "Express.js", "MongoDB", "Mongoose 8.20.0", "EJS 3.1.10", "Vanilla JavaScript"]),
-    imageUrl: "/images/MinChat-UI.png",
-    githubUrl: "https://github.com/iqyanali17/Mini_chat-_pp.git",
-    liveUrl: null,
-  },
-];
+

@@ -952,35 +952,46 @@ export function CustomCursor() {
       </AnimatePresence>
 
       {/* 2. Floating interactive settings widget (pointer-events-auto to enable clicks) */}
-      <div className="fixed bottom-8 right-6 md:bottom-8 md:right-8 z-[999999] pointer-events-auto flex flex-col gap-3 items-end">
-        {/* Floating Resume Download Button */}
-        {!isMobile ? (
+      <div className="fixed bottom-20 right-6 md:bottom-8 md:right-8 z-[999999] pointer-events-auto flex flex-col gap-3 items-end">
+        {/* Floating Resume Download Button - Desktop Version */}
+        <div className="hidden md:block">
           <Tooltip>
             <TooltipTrigger asChild>
               <motion.a
-                href="/Khwaja_Iqyan_Ali_Resume.pdf"
-                download="Khwaja_Iqyan_Ali_Resume"
+                href="/Khwaja_Iqyan_Ali_Resume.pdf?v=2"
+                download="Khwaja_Iqyan_Ali_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer border border-primary/30 hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 z-40"
+                className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer border border-primary/30 hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 z-40 relative group"
               >
-                <Download className="w-5 h-5" />
+                {/* Ambient Pulse Glow */}
+                <span className="absolute -inset-0.5 bg-primary rounded-full blur opacity-30 group-hover:opacity-50 animate-pulse transition-opacity duration-300 pointer-events-none" />
+                <Download className="w-5 h-5 relative z-10" />
               </motion.a>
             </TooltipTrigger>
             <TooltipContent side="left" className="mr-2 font-sans font-medium text-xs">
               Download Resume
             </TooltipContent>
           </Tooltip>
-        ) : (
+        </div>
+
+        {/* Floating Resume Download Button - Mobile Version (No Tooltip wrapper to prevent touch bugs, lifted higher) */}
+        <div className="block md:hidden">
           <motion.a
-            href="/Khwaja_Iqyan_Ali_Resume.pdf"
-            download="Khwaja_Iqyan_Ali_Resume"
+            href="/Khwaja_Iqyan_Ali_Resume.pdf?v=2"
+            download="Khwaja_Iqyan_Ali_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             whileTap={{ scale: 0.95 }}
-            className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer border border-primary/30 transition-all duration-300 shadow-lg shadow-primary/25 z-40"
+            className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center cursor-pointer border border-primary/30 transition-all duration-300 shadow-lg shadow-primary/25 z-40 relative group"
           >
-            <Download className="w-5 h-5" />
+            {/* Ambient Pulse Glow for Mobile */}
+            <span className="absolute -inset-0.5 bg-primary rounded-full blur opacity-40 animate-pulse pointer-events-none" />
+            <Download className="w-6 h-6 relative z-10" />
           </motion.a>
-        )}
+        </div>
 
         <div ref={settingsRef} className="relative hidden md:block">
           <AnimatePresence>
