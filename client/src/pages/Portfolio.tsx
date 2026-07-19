@@ -418,17 +418,17 @@ export default function Portfolio() {
               <div className="absolute top-[65%] left-1/2 -translate-x-1/2 w-[95%] grid grid-cols-4 divide-x divide-white/10 bg-[#0c1223]/88 border border-purple-500/30 rounded-[18px] py-3 px-1 backdrop-blur-xl shadow-2xl z-40 transition-all duration-300 hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] select-none">
                 <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-purple-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>
-                  <span className="text-zinc-100 text-xs font-bold leading-none">2+</span>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">10+</span>
                   <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Projects<br />Done</span>
                 </div>
                 <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-sky-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
-                  <span className="text-zinc-100 text-xs font-bold leading-none">1+</span>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">2+</span>
                   <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Internship<br />Exp.</span>
                 </div>
                 <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-purple-400 mb-1 group-hover/stat:scale-110 transition-transform duration-300"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>
-                  <span className="text-zinc-100 text-xs font-bold leading-none">MERN</span>
+                  <span className="text-zinc-100 text-xs font-bold leading-none">MERN & Flask</span>
                   <span className="text-[7px] text-zinc-400 font-semibold uppercase tracking-wider mt-1 leading-tight text-center">Stack</span>
                 </div>
                 <div className="flex flex-col items-center justify-center text-center px-1 group/stat cursor-default">
