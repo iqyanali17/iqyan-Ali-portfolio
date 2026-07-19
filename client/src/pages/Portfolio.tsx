@@ -1018,7 +1018,7 @@ export default function Portfolio() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Featured <span className="text-gradient">Projects</span></h2>
+            <h2 className="text-4xl md:text-5xl font-display font-bold mb-4">Personal <span className="text-gradient">Projects</span></h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               A selection of my recent work, featuring full-stack applications and experimental interfaces.
             </p>
