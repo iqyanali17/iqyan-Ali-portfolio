@@ -1,4 +1,3 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { projects, skills, experience } from "@/lib/data";
 
 export interface InsertContactMessage {
@@ -8,43 +7,22 @@ export interface InsertContactMessage {
 }
 
 // ============================================
-// PROJECTS HOOKS
+// PROJECTS HOOKS (Instant Static Resolution)
 // ============================================
 export function useProjects() {
-  return useQuery({
-    queryKey: ["/api/projects"],
-    queryFn: async () => projects,
-  });
+  return { data: projects, isLoading: false };
 }
 
 // ============================================
-// SKILLS HOOKS
+// SKILLS HOOKS (Instant Static Resolution)
 // ============================================
 export function useSkills() {
-  return useQuery({
-    queryKey: ["/api/skills"],
-    queryFn: async () => skills,
-  });
+  return { data: skills, isLoading: false };
 }
 
 // ============================================
-// EXPERIENCE HOOKS
+// EXPERIENCE HOOKS (Instant Static Resolution)
 // ============================================
 export function useExperience() {
-  return useQuery({
-    queryKey: ["/api/experience"],
-    queryFn: async () => experience,
-  });
-}
-
-// ============================================
-// CONTACT HOOKS
-// ============================================
-export function useContact() {
-  return useMutation({
-    mutationFn: async (data: InsertContactMessage) => {
-      console.log("Contact form submitted (Frontend only):", data);
-      return { success: true, message: "Message sent successfully" };
-    },
-  });
+  return { data: experience, isLoading: false };
 }

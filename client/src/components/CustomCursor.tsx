@@ -155,16 +155,14 @@ const getThemeColor = (varName: string): string => {
   return `hsl(${val})`;
 };
 
-export function CustomCursor() {
-  const [isMobile, setIsMobile] = useState(false);
+function CustomCursorContent() {
+  const isMobile = false;
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+    document.body.classList.add("has-custom-cursor");
+    return () => {
+      document.body.classList.remove("has-custom-cursor");
     };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // --- UI Settings State ---
@@ -254,6 +252,9 @@ export function CustomCursor() {
   const cometSparksRef = useRef<CometSpark[]>([]);
   const bubblesRef = useRef<Bubble[]>([]);
   const animationFrameRef = useRef<number | null>(null);
+  const isAnimatingRef = useRef(false);
+  const lastMoveTimeRef = useRef(performance.now());
+  const startLoopRef = useRef<() => void>(() => {});
   
   const mouseRef = useRef({ x: -100, y: -100, lastX: -100, lastY: -100 });
   const isVisibleRef = useRef(false);
@@ -429,6 +430,10 @@ export function CustomCursor() {
       const vy = (y - mouseRef.current.lastY) / dt;
 
       mouseRef.current = { x, y, lastX: x, lastY: y };
+      lastMoveTimeRef.current = now;
+      if (!isAnimatingRef.current) {
+        startLoopRef.current();
+      }
       if (!isVisibleRef.current) setIsVisible(true);
 
       const dist = Math.sqrt(vx * vx + vy * vy) * dt;
@@ -489,7 +494,7 @@ export function CustomCursor() {
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [spawnParticles, trailStyle]);
+  }, [isMobile, spawnParticles, trailStyle]);
 
   // Main Canvas Animation Render Cycle
   useEffect(() => {
@@ -854,9 +859,16 @@ export function CustomCursor() {
       ctx.fill();
     };
 
+    const startLoop = () => {
+      if (isAnimatingRef.current || (trailStyle as string) === "hidden") return;
+      isAnimatingRef.current = true;
+      animationFrameRef.current = requestAnimationFrame(animate);
+    };
+    startLoopRef.current = startLoop;
+
     const animate = () => {
       if (reducedMotionRef.current) {
-        animationFrameRef.current = requestAnimationFrame(animate);
+        isAnimatingRef.current = false;
         return;
       }
 
@@ -877,22 +889,50 @@ export function CustomCursor() {
         drawConstellation(now);
       }
 
+      // Idle threshold: if mouse has not moved for 1.5 seconds and particles cleared, pause loop to save CPU/GPU!
+      const idleTime = now - lastMoveTimeRef.current;
+      const hasActiveParticles =
+        particlesRef.current.length > 0 ||
+        trailPointsRef.current.length > 0 ||
+        cometSparksRef.current.length > 0 ||
+        bubblesRef.current.length > 0;
+
+      if (idleTime > 1500 && !hasActiveParticles) {
+        ctx.clearRect(0, 0, width, height);
+        isAnimatingRef.current = false;
+        animationFrameRef.current = null;
+        return;
+      }
+
       animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    animationFrameRef.current = requestAnimationFrame(animate);
+    startLoop();
 
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
+        }
+        isAnimatingRef.current = false;
+      } else {
+        lastMoveTimeRef.current = performance.now();
+        startLoop();
       }
     };
-  }, [trailStyle]);
 
-  // Hide cursor on touch devices (standard hover-less viewport)
-  if (typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0)) {
-    return null;
-  }
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+      isAnimatingRef.current = false;
+    };
+  }, [isMobile, trailStyle]);
 
   // Predefined gorgeous neon cyberpunk colors matching the site's dark aesthetic
   const colorOptions = [
@@ -1118,4 +1158,36 @@ export function CustomCursor() {
       </div>
     </>
   );
+}
+
+export function CustomCursor() {
+  const [isTouchDevice, setIsTouchDevice] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      window.innerWidth < 768 ||
+      "ontouchstart" in window ||
+      navigator.maxTouchPoints > 0 ||
+      (typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches)
+    );
+  });
+
+  useEffect(() => {
+    const checkTouch = () => {
+      const isTouch =
+        window.innerWidth < 768 ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        (typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches);
+      setIsTouchDevice(isTouch);
+    };
+    checkTouch();
+    window.addEventListener("resize", checkTouch);
+    return () => window.removeEventListener("resize", checkTouch);
+  }, []);
+
+  if (isTouchDevice) {
+    return null;
+  }
+
+  return <CustomCursorContent />;
 }

@@ -72,6 +72,12 @@ module.exports = {
         "infinite-scroll": "infinite-scroll 35s linear infinite",
         "infinite-scroll-reverse": "infinite-scroll-reverse 30s linear infinite",
       },
+      transitionDuration: {
+        1200: "1200ms",
+      },
+      transitionTimingFunction: {
+        "bounce-overshoot": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],

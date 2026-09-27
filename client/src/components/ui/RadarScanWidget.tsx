@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 import { 
   Globe, 
   Database, 
@@ -54,7 +54,7 @@ export default function RadarScanWidget() {
       className="relative w-full h-[480px] flex items-center justify-center overflow-hidden bg-transparent"
     >
       {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] [background:radial-gradient(circle,hsl(var(--primary)/0.08)_0%,transparent_70%)] rounded-full blur-[40px] pointer-events-none transform-gpu will-change-transform" />
 
       {/* Radar scanning circle wrapper (Responsive Scale) */}
       <div className="relative w-[480px] h-[480px] flex items-center justify-center scale-[0.55] xs:scale-[0.65] sm:scale-[0.8] md:scale-[0.9] lg:scale-100 origin-center pointer-events-none transition-transform">
