@@ -113,8 +113,8 @@ export function Navigation() {
           >
             {/* Ambient Background Glows */}
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] bg-primary/20 rounded-full blur-[100px] animate-pulse" />
-              <div className="absolute bottom-[20%] right-[20%] w-[300px] h-[300px] bg-secondary/20 rounded-full blur-[100px] animate-pulse delay-700" />
+              <div className="absolute top-[20%] left-[20%] w-[300px] h-[300px] [background:radial-gradient(circle,hsl(var(--primary)/0.25)_0%,transparent_70%)] rounded-full blur-[50px] animate-pulse transform-gpu will-change-transform" />
+              <div className="absolute bottom-[20%] right-[20%] w-[300px] h-[300px] [background:radial-gradient(circle,hsl(var(--secondary)/0.25)_0%,transparent_70%)] rounded-full blur-[50px] animate-pulse delay-700 transform-gpu will-change-transform" />
             </div>
 
             <div className="flex flex-col gap-4 relative z-10 w-full max-w-sm px-6 mt-8">

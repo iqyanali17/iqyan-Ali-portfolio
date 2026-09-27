@@ -13,6 +13,18 @@ export default defineConfig({
   build: {
     outDir: "../dist",
     emptyOutDir: true,
+    target: "es2020",
+    cssCodeSplit: true,
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "vendor-react": ["react", "react-dom", "wouter"],
+          "vendor-motion": ["framer-motion"],
+          "vendor-icons": ["lucide-react", "react-icons"],
+        },
+      },
+    },
   },
   resolve: {
     alias: {

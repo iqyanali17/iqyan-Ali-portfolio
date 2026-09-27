@@ -2,7 +2,7 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  technologies: string;
+  technologies: string[];
   imageUrl: string;
   projectUrl: string | null;
   githubUrl: string | null;
@@ -23,7 +23,7 @@ export interface Experience {
   description: string;
   website: string | null;
   certificate: string | null;
-  certificates: string | null;
+  certificates: string[] | null;
   highlight?: boolean;
 }
 
@@ -33,7 +33,7 @@ export const projects: Project[] = [
     id: 1,
     title: "Movie Ticket Booking Platform",
     description: "Full-stack movie ticket booking and theater management platform featuring interactive seat layout selection, real-time seat status synchronization, and conflict-free reservation checkout. Built with robust role-based access control (Admin/User) powered by Clerk Authentication, and integrated with Razorpay for secure payment gateway processing. Includes an extensive admin panel for film listings, showtime scheduling, booking tracking, and revenue analytics dashboard, backed by MongoDB and real-time event-driven background handlers using Inngest serverless queues for automatic sync of user profiles and automated release of unpaid seats.",
-    technologies: JSON.stringify([
+    technologies: [
       "React 19",
       "Tailwind CSS",
       "Vite",
@@ -48,8 +48,8 @@ export const projects: Project[] = [
       "Razorpay",
       "Svix",
       "TMDB API"
-    ]),
-    imageUrl: "/images/OneSow-UI.png",
+    ],
+    imageUrl: "/images/OneSow-UI.webp",
     projectUrl: "https://one-show.vercel.app/",
     githubUrl: "https://github.com/iqyanali17",
   },
@@ -57,7 +57,7 @@ export const projects: Project[] = [
     id: 2,
     title: "MediTalk — AI Healthcare Platform",
     description: "Full-stack AI-powered medical assistant and healthcare platform featuring context-aware conversational AI with sentiment analysis, real-time patient-doctor messaging, and interactive symptom assessment. Built with robust role-based access control (Admin/Doctor/Patient) powered by Supabase Authentication, and backed by a PostgreSQL database with strict Row Level Security (RLS). Includes a personal health dashboard with medication tracking schedules, AI-powered medical image analysis, a meditation mindfulness timer, and a comprehensive admin console for managing user roles, support tickets, and system-wide medical analytics. Leverages Deno edge functions to orchestrate Google Gemini 2.5 Flash, OpenAI Whisper, and Google Cloud Translation APIs.",
-    technologies: JSON.stringify([
+    technologies: [
       "React 18",
       "TypeScript",
       "Tailwind CSS",
@@ -76,8 +76,8 @@ export const projects: Project[] = [
       "Lucide React",
       "Sonner",
       "PWA"
-    ]),
-    imageUrl: "/images/Meditalk-UI.png",
+    ],
+    imageUrl: "/images/Meditalk-UI.webp",
     projectUrl: "https://meditalk-healthcare-assistant.netlify.app/",
     githubUrl: "https://github.com/iqyanali17",
   },
@@ -85,7 +85,7 @@ export const projects: Project[] = [
     id: 3,
     title: "AI Assessment Creator",
     description: "Full-stack AI-powered assessment generation platform enabling educators to dynamically generate structured exam papers from input criteria or uploaded documents. Features an intuitive dashboard for configuring subjects, class grades, due dates, question count distributions, and marking schemes, backed by a MongoDB database. Leverages a robust asynchronous backend queue processor using BullMQ and Redis (ioredis) to handle Google Gemini API calls with auto-retry mechanisms and model fallbacks. Utilizes Socket.IO for real-time generation status synchronization, Zustand for light state management, and integrates a headless Puppeteer PDF compilation service that converts dynamically generated paper layouts into high-fidelity, printable PDF exam papers.",
-    technologies: JSON.stringify([
+    technologies: [
       "Next.js 16",
       "React 19",
       "TypeScript",
@@ -101,8 +101,8 @@ export const projects: Project[] = [
       "Google Gemini API",
       "Puppeteer",
       "Zod"
-    ]),
-    imageUrl: "/images/ai-assessment-creator.png",
+    ],
+    imageUrl: "/images/ai-assessment-creator.webp",
     projectUrl: "https://ai-assessment-creator-q64s.vercel.app/",
     githubUrl: "https://github.com/iqyanali17/AI_assessment_creator",
   },
@@ -110,8 +110,8 @@ export const projects: Project[] = [
     id: 4,
     title: "AI Image Compressor",
     description: "Full-stack AI-powered image optimization platform with drag-and-drop uploader, AI content classification using Hugging Face models, smart compression recommendations, and real-time analytics dashboard. Features format conversion (JPG/PNG/WebP), before-and-after comparison slider, anonymous JWT authentication, compression history tracking, and WCAG accessibility compliance.",
-    technologies: JSON.stringify(["React 19", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion", "React Router DOM", "Axios", "Flask", "Python", "Pillow", "Hugging Face API", "PyJWT", "MySQL", "CORS"]),
-    imageUrl: "/images/image-compressor-ui.png",
+    technologies: ["React 19", "TypeScript", "Tailwind CSS", "Vite", "Framer Motion", "React Router DOM", "Axios", "Flask", "Python", "Pillow", "Hugging Face API", "PyJWT", "MySQL", "CORS"],
+    imageUrl: "/images/image-compressor-ui.webp",
     projectUrl: "https://image-compressor-rho-three.vercel.app/",
     githubUrl: "https://github.com/iqyanali17/image-compressor.git",
   },
@@ -156,7 +156,7 @@ export const experience: Experience[] = [
     duration: "2025",
     description: "Completed certified Web Developer Internship with real-world deployment & workflow experience. Specialized in full-stack development with MERN stack.",
     website: null,
-    certificate: "/images/Khwaja_Iqyan_Ali_Internship_Certificate_page-0001.jpg",
+    certificate: "/images/Khwaja_Iqyan_Ali_Internship_Certificate_page-0001.webp",
     certificates: null,
   },
   {
@@ -187,13 +187,10 @@ export const experience: Experience[] = [
     description: "Introduction to SQL (Simplilearn), Green Skills & AI (Edunet & AICTE), Software Developer Internship (iLoma technology). Two-time Carrom Championship Winner. Active participant in coding events & quizzes.",
     website: null,
     certificate: null,
-    certificates: JSON.stringify([
+    certificates: [
       "/images/Internship - Khwaja Iqyan Ali Completion.pdf",
-      "/images/Khwaja_Iqyan_Ali_Internship_Certificate_page-0001.jpg",
-      "/images/SQL_Certificate.jpg",
-      "/images/Green_Skills_AI_Certificate.jpg",
-      "/images/Carrom_Championship_Certificate.jpg"
-    ]),
+      "/images/Khwaja_Iqyan_Ali_Internship_Certificate_page-0001.webp"
+    ],
   },
 ];
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogClose } from "@/components/ui/dialog";
 import { 
   Github, 
   ExternalLink, 
@@ -351,12 +351,14 @@ export function ProjectDetailModal({ project, isOpen, onOpenChange }: ProjectDet
 
   if (!activeProject) return null;
 
-  const technologiesArray = JSON.parse(activeProject.technologies);
+  const technologiesArray = Array.isArray(activeProject.technologies)
+    ? activeProject.technologies
+    : [];
   const bgImage = 
     activeProject.id === 1 
-      ? "/images/image.png" 
+      ? "/images/image.webp" 
       : activeProject.id === 2 
-        ? "/images/meditalk-modal-bg.png" 
+        ? "/images/meditalk-modal-bg.webp" 
         : activeProject.imageUrl;
   const theme = PROJECT_THEMES[activeProject.id] || {
     bgClass: "bg-[#F8FAFC]",
@@ -406,7 +408,7 @@ export function ProjectDetailModal({ project, isOpen, onOpenChange }: ProjectDet
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={handleModalClick}
-        className={`max-w-[1240px] w-[96vw] h-[92vh] md:h-[88vh] max-h-[720px] overflow-y-auto flex flex-col p-0 border rounded-[24px] shadow-2xl select-none z-50 overflow-x-hidden [&>button]:hidden group cursor-pointer duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] data-[state=open]:zoom-in-90 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-1/2 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-1/2 ${theme.bgClass} ${theme.isDark ? "border-white/10" : "border-slate-100/80"}`}
+        className={`max-w-[1240px] w-[96vw] h-[92vh] md:h-[88vh] max-h-[720px] overflow-y-auto flex flex-col p-0 border rounded-[24px] shadow-2xl select-none z-50 overflow-x-hidden [&>button]:hidden group cursor-pointer duration-300 ease-bounce-overshoot data-[state=open]:zoom-in-90 data-[state=closed]:zoom-out-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-1/2 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-1/2 ${theme.bgClass} ${theme.isDark ? "border-white/10" : "border-slate-100/80"}`}
       >
         
         {/* Full-width Hero Background Screenshot */}
@@ -415,7 +417,11 @@ export function ProjectDetailModal({ project, isOpen, onOpenChange }: ProjectDet
             <img
               src={bgImage}
               alt={activeProject.title}
-              className={`absolute right-0 top-0 w-full h-full object-cover opacity-100 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05] ${
+              width={1240}
+              height={720}
+              loading="lazy"
+              decoding="async"
+              className={`absolute right-0 top-0 w-full h-full object-cover opacity-100 transition-transform duration-1200 ease-out group-hover:scale-[1.05] ${
                 activeProject.id === 1 || activeProject.id === 2 
                   ? "inset-0 md:w-full object-center md:object-right" 
                   : `md:w-[58%] ${theme.imagePosition}`
@@ -613,3 +619,5 @@ export function ProjectDetailModal({ project, isOpen, onOpenChange }: ProjectDet
     </Dialog>
   );
 }
+
+export default ProjectDetailModal;

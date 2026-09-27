@@ -12,8 +12,10 @@ interface ExperienceCardProps {
 export function ExperienceCard({ item, index }: ExperienceCardProps) {
   const [showCertificates, setShowCertificates] = useState(false);
   
-  const hasCertificates = item.certificate || item.certificates;
-  const certificateList = item.certificates ? JSON.parse(item.certificates) : (item.certificate ? [item.certificate] : []);
+  const certificateList: string[] = Array.isArray(item.certificates) 
+    ? item.certificates 
+    : (item.certificate ? [item.certificate] : []);
+  const hasCertificates = certificateList.length > 0;
 
   return (
     <motion.div
@@ -41,10 +43,10 @@ export function ExperienceCard({ item, index }: ExperienceCardProps) {
         )}
         <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
           <div>
-            <h3 className="text-lg md:text-xl font-bold font-display text-foreground group-hover:text-primary transition-colors">
+            <h3 className="text-lg md:text-xl font-bold font-display text-white group-hover:text-purple-300 transition-colors">
               {item.role}
             </h3>
-            <div className="flex items-center gap-2 text-primary font-medium mt-1">
+            <div className="flex items-center gap-2 text-purple-400 font-medium mt-1">
               <Briefcase size={14} />
               {item.website ? (
                 <a 
@@ -73,12 +75,12 @@ export function ExperienceCard({ item, index }: ExperienceCardProps) {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground bg-muted/30 px-3 py-1 rounded-full self-start">
+          <div className="flex items-center gap-2 text-xs md:text-sm text-zinc-300 bg-white/5 border border-white/10 px-3 py-1 rounded-full self-start">
             <Calendar size={12} />
             <span className="font-mono">{item.duration}</span>
           </div>
         </div>
-        <p className="text-muted-foreground text-sm leading-relaxed border-l-2 border-primary/20 pl-4">
+        <p className="text-zinc-300 text-sm leading-relaxed border-l-2 border-purple-500/40 pl-4">
           {item.description}
         </p>
         
