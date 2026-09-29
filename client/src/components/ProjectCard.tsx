@@ -76,7 +76,7 @@ export function ProjectCard({ project, index, onOpenDetails }: ProjectCardProps)
             {project.imageUrl ? (
               <img
                 src={project.imageUrl}
-                alt={project.title}
+                alt={`${project.title} — Web application developed by Iqyan Ali`}
                 width={640}
                 height={360}
                 loading="lazy"

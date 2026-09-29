@@ -184,7 +184,7 @@ function CustomCursorContent() {
   const settingsRef = useRef<HTMLDivElement>(null);
 
   const [cursorText, setCursorText] = useState<string | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const cursorTextElRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleSetText = (e: Event) => {
@@ -193,16 +193,24 @@ function CustomCursorContent() {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+      if (cursorTextElRef.current) {
+        cursorTextElRef.current.style.transform = `translate3d(${e.clientX + 20}px, ${e.clientY + 20}px, 0)`;
+      }
     };
 
     window.addEventListener("set-cursor-text", handleSetText);
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("set-cursor-text", handleSetText);
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
+
+  useEffect(() => {
+    if (cursorText && cursorTextElRef.current) {
+      cursorTextElRef.current.style.transform = `translate3d(${mouseRef.current.x + 20}px, ${mouseRef.current.y + 20}px, 0)`;
+    }
+  }, [cursorText]);
 
   // Close settings panel when clicking/tapping outside of its container
   useEffect(() => {
@@ -259,6 +267,8 @@ function CustomCursorContent() {
   const mouseRef = useRef({ x: -100, y: -100, lastX: -100, lastY: -100 });
   const isVisibleRef = useRef(false);
   const reducedMotionRef = useRef(false);
+  const viewportWidthRef = useRef(typeof window !== "undefined" ? window.innerWidth : 1920);
+  const viewportHeightRef = useRef(typeof window !== "undefined" ? window.innerHeight : 1080);
 
   // Dynamic references updated immediately to avoid re-binding event listeners
   const trailStyleRef = useRef(trailStyle);
@@ -325,6 +335,8 @@ function CustomCursorContent() {
 
     const resizeCanvas = () => {
       const rect = container.getBoundingClientRect();
+      viewportWidthRef.current = rect.width;
+      viewportHeightRef.current = rect.height;
       const dpr = Math.min(window.devicePixelRatio, 2);
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
@@ -419,9 +431,8 @@ function CustomCursorContent() {
     let lastTime = performance.now();
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = e.clientX;
+      const y = e.clientY;
       const now = performance.now();
       const dt = Math.max((now - lastTime) / 1000, 0.001);
       lastTime = now;
@@ -873,9 +884,8 @@ function CustomCursorContent() {
       }
 
       const now = performance.now();
-      const rect = containerRef.current?.getBoundingClientRect();
-      const width = rect?.width || window.innerWidth;
-      const height = rect?.height || window.innerHeight;
+      const width = viewportWidthRef.current;
+      const height = viewportHeightRef.current;
 
       ctx.clearRect(0, 0, width, height);
 
@@ -967,15 +977,12 @@ function CustomCursorContent() {
       <AnimatePresence>
         {cursorText && !isMobile && (
           <motion.div
+            ref={cursorTextElRef}
             initial={{ opacity: 0, scale: 0.8, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ type: "spring", stiffness: 380, damping: 24 }}
-            className="fixed pointer-events-none z-[100000] px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#0d0f17]/95 via-[#131130]/95 to-[#1a113d]/95 backdrop-blur-md border border-primary/50 text-white font-sans text-[10px] font-bold tracking-widest uppercase shadow-[0_0_25px_rgba(149,104,255,0.45),inset_0_1px_0_rgba(255,255,255,0.1)] whitespace-nowrap flex items-center gap-2"
-            style={{
-              left: mousePos.x + 20,
-              top: mousePos.y + 20,
-            }}
+            className="fixed top-0 left-0 pointer-events-none z-[100000] px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#0d0f17]/95 via-[#131130]/95 to-[#1a113d]/95 backdrop-blur-md border border-primary/50 text-white font-sans text-[10px] font-bold tracking-widest uppercase shadow-[0_0_25px_rgba(149,104,255,0.45),inset_0_1px_0_rgba(255,255,255,0.1)] whitespace-nowrap flex items-center gap-2 will-change-transform"
           >
             {/* Blinking active beacon dot */}
             <span className="relative flex h-1.5 w-1.5">

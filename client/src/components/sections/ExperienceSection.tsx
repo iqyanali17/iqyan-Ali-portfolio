@@ -20,7 +20,6 @@ export function ExperienceSection() {
           fromY={-24}
           exitY={-28}
           stagger={0.14}
-          blur={10}
           duration={0.75}
           className="text-center mb-16 flex flex-col items-center"
         >
@@ -54,7 +53,6 @@ export function ExperienceSection() {
           end="bottom 15%"
           fromY={-20}
           exitY={-25}
-          blur={6}
           className="relative space-y-8 md:space-y-12 before:absolute before:inset-0 before:ml-5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-muted before:to-transparent"
         >
           {experienceLoading ? (

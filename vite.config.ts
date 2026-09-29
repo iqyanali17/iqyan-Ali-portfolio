@@ -21,7 +21,15 @@ export default defineConfig({
         manualChunks: {
           "vendor-react": ["react", "react-dom", "wouter"],
           "vendor-motion": ["framer-motion"],
+          "vendor-gsap": ["gsap"],
           "vendor-icons": ["lucide-react", "react-icons"],
+          "vendor-ui": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-toast",
+            "@radix-ui/react-tooltip",
+            "@radix-ui/react-slot",
+            "@radix-ui/react-label",
+          ],
         },
       },
     },

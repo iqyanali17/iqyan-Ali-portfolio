@@ -120,7 +120,6 @@ export function SkillsSection() {
         fromY={-24}
         exitY={-28}
         stagger={0.14}
-        blur={10}
         duration={0.75}
         className="text-center mb-16"
       >
@@ -158,6 +157,7 @@ export function SkillsSection() {
           className="reveal-line flex flex-col items-center justify-center mb-8"
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tight flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-3 text-white select-none">
+            <span className="sr-only">Technical Skills &amp; Stack: </span>
             <span className="text-white drop-shadow-md">I turn</span>
 
             {/* Dynamic Input Word Capsule */}
@@ -250,7 +250,6 @@ export function SkillsSection() {
         end="bottom 15%"
         fromY={-20}
         exitY={-25}
-        blur={6}
         className="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
         {/* CARD 1: BIO & TERMINAL CODE BOX */}

@@ -55,6 +55,7 @@ export function Navigation() {
           <a
             href="#"
             onClick={() => handleNavClick("")}
+            aria-label="Iqyan Ali Portfolio Homepage"
             className="font-display text-2xl font-bold tracking-tighter hover:text-primary transition-colors"
           >
             Iqyanali<span className="text-primary">.dev</span>
@@ -86,6 +87,7 @@ export function Navigation() {
               href="https://github.com/iqyanali17"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Iqyan Ali GitHub Profile"
               className="px-5 py-2 rounded-full bg-white/5 border border-white/10 hover:bg-primary hover:border-primary text-sm font-medium transition-all duration-300"
             >
               GitHub
@@ -96,6 +98,7 @@ export function Navigation() {
           <button
             className="md:hidden text-foreground p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
