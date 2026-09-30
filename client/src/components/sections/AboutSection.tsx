@@ -101,7 +101,6 @@ export function AboutSection() {
         end="bottom 10%"
         fromY={-20}
         exitY={-25}
-        blur={6}
         duration={0.8}
       >
         {/* ── ROW 1: Tech Stack with icons ── */}

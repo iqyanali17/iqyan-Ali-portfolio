@@ -81,7 +81,6 @@ export function ProjectsSection({ onOpenProjectDetails }: ProjectsSectionProps) 
           fromY={-24}
           exitY={-28}
           stagger={0.14}
-          blur={10}
           duration={0.75}
           className="text-center mb-16"
         >
@@ -105,7 +104,6 @@ export function ProjectsSection({ onOpenProjectDetails }: ProjectsSectionProps) 
             end="bottom 15%"
             fromY={-20}
             exitY={-25}
-            blur={6}
             className="relative"
           >
             {/* Carousel controls header */}

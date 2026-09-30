@@ -37,14 +37,14 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
   children,
   className = '',
   as: Component = 'div',
-  stagger = 0.14,
-  fromY = -24,
-  exitY = -24,
-  blur = 10,
+  stagger = 0.12,
+  fromY = -20,
+  exitY = -20,
+  blur = 0,
   duration = 0.75,
-  exitDuration = 0.35,
-  ease = 'power2.out',
-  exitEase = 'power2.in',
+  exitDuration = 0.32,
+  ease = 'power3.out',
+  exitEase = 'power2.inOut',
   start = 'top 85%',
   end = 'bottom 12%',
   trigger = null,
@@ -53,6 +53,9 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
   ...props
 }) => {
   const containerRef = useRef<HTMLElement>(null);
+
+  // Minimalist blur cap: Ensure any blur is strictly subtle (max 2px) or completely disabled (0)
+  const safeBlur = Math.min(Math.max(0, blur), 2);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -89,7 +92,7 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
 
     let activeTl: gsap.core.Timeline | null = null;
 
-    // 1. COME IN / RE-COME IN: Smooth line-by-line reveal with blur clearing
+    // 1. COME IN / RE-COME IN: Smooth line-by-line reveal with clean transforms
     const playComeIn = () => {
       if (activeTl) activeTl.kill();
       gsap.killTweensOf(targets);
@@ -101,20 +104,23 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
         {
           opacity: 0,
           y: fromY,
-          filter: blur > 0 ? `blur(${blur}px)` : 'none',
+          ...(safeBlur > 0 ? { filter: `blur(${safeBlur}px)` } : { filter: 'none' }),
         },
         {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
           duration,
           stagger: targets.length > 1 ? stagger : 0,
           overwrite: 'auto',
+          onComplete: () => {
+            // Clean up filter completely to keep typography 100% sharp
+            gsap.set(targets, { clearProps: 'filter' });
+          },
         }
       );
     };
 
-    // 2. COME OUT: Smooth line-by-line exit in scroll direction with subtle blur
+    // 2. COME OUT: Smooth line-by-line exit in scroll direction with clean fade
     const playComeOut = (targetY = exitY) => {
       if (activeTl) {
         activeTl.kill();
@@ -125,9 +131,9 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
       gsap.to(targets, {
         opacity: 0,
         y: targetY,
-        filter: blur > 0 ? `blur(${blur * 0.8}px)` : 'none',
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur * 0.5}px)` } : {}),
         duration: exitDuration,
-        stagger: targets.length > 1 ? Math.min(stagger * 0.5, 0.05) : 0,
+        stagger: targets.length > 1 ? Math.min(stagger * 0.5, 0.04) : 0,
         ease: exitEase,
         overwrite: 'auto',
       });
@@ -163,14 +169,14 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
       gsap.set(targets, {
         opacity: 0,
         y: exitY,
-        filter: blur > 0 ? `blur(${blur * 0.8}px)` : 'none',
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur * 0.5}px)` } : { filter: 'none' }),
       });
     } else {
       // Element is below the viewport
       gsap.set(targets, {
         opacity: 0,
         y: fromY,
-        filter: blur > 0 ? `blur(${blur}px)` : 'none',
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur}px)` } : { filter: 'none' }),
       });
     }
 
@@ -180,7 +186,7 @@ export const LineByLineReveal: React.FC<LineByLineRevealProps> = ({
       st.kill();
     };
   }, [
-    blur,
+    safeBlur,
     disabled,
     duration,
     ease,

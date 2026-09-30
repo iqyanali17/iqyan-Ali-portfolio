@@ -416,7 +416,7 @@ export function ProjectDetailModal({ project, isOpen, onOpenChange }: ProjectDet
           <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-[24px]">
             <img
               src={bgImage}
-              alt={activeProject.title}
+              alt={`${activeProject.title} preview — Project developed by Iqyan Ali`}
               width={1240}
               height={720}
               loading="lazy"

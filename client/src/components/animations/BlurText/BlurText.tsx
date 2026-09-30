@@ -18,6 +18,7 @@ export interface BlurTextProps {
   highlightClassName?: string;
   start?: string;
   end?: string;
+  blur?: number;
   children?: React.ReactNode;
 }
 
@@ -27,17 +28,21 @@ export const BlurText: React.FC<BlurTextProps> = ({
   className = '',
   animateBy = 'words',
   direction = 'top',
-  easing = 'power2.out',
-  exitEasing = 'power2.in',
+  easing = 'power3.out',
+  exitEasing = 'power2.inOut',
   onAnimationComplete,
   stepDuration = 0.35,
   highlightWords = [],
   highlightClassName = '',
   start = 'top 90%',
   end = 'top 75px',
+  blur = 0,
   children,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Minimalist blur cap: Ensure any blur is strictly subtle (max 2px) or completely disabled (0)
+  const safeBlur = Math.min(Math.max(0, blur), 2);
 
   // If text is not provided but children is a string, use children as text
   const effectiveText = useMemo(() => {
@@ -68,17 +73,17 @@ export const BlurText: React.FC<BlurTextProps> = ({
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (prefersReducedMotion) {
-      gsap.set(targets, { opacity: 1, y: 0, filter: 'none' });
+      gsap.set(targets, { opacity: 1, y: 0, scale: 1, filter: 'none' });
       return;
     }
 
-    const fromY = direction === 'top' ? -35 : 35;
-    const exitY = direction === 'top' ? -30 : 30;
+    const fromY = direction === 'top' ? -24 : 24;
+    const exitY = direction === 'top' ? -20 : 20;
     const wordDelay = Math.max((delay / 1000) * 0.75, 0.025);
 
     let activeTl: gsap.core.Timeline | null = null;
 
-    // 1. COME IN / RE-COME IN: Words stagger in with signature blur clearing
+    // 1. COME IN / RE-COME IN: Words stagger in cleanly with smooth scale and fade
     const playComeIn = () => {
       if (activeTl) activeTl.kill();
       gsap.killTweensOf(targets);
@@ -86,6 +91,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
       activeTl = gsap.timeline({
         defaults: { ease: easing },
         onComplete: () => {
+          gsap.set(targets, { clearProps: 'filter' });
           if (onAnimationComplete) onAnimationComplete();
         },
       });
@@ -95,20 +101,21 @@ export const BlurText: React.FC<BlurTextProps> = ({
         {
           opacity: 0,
           y: fromY,
-          filter: 'blur(12px)',
+          scale: 0.97,
+          ...(safeBlur > 0 ? { filter: `blur(${safeBlur}px)` } : { filter: 'none' }),
         },
         {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
-          duration: stepDuration * 2.2,
+          scale: 1,
+          duration: stepDuration * 2.0,
           stagger: targets.length > 1 ? wordDelay : 0,
           overwrite: 'auto',
         }
       );
     };
 
-    // 2. COME OUT: Words stagger out with blur into scroll direction
+    // 2. COME OUT: Words stagger out cleanly into scroll direction
     const playComeOut = (targetY = exitY) => {
       if (activeTl) {
         activeTl.kill();
@@ -119,8 +126,9 @@ export const BlurText: React.FC<BlurTextProps> = ({
       gsap.to(targets, {
         opacity: 0,
         y: targetY,
-        filter: 'blur(10px)',
-        duration: 0.32,
+        scale: 0.98,
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur * 0.5}px)` } : {}),
+        duration: 0.3,
         stagger: targets.length > 1 ? Math.min(wordDelay * 0.5, 0.03) : 0,
         ease: exitEasing,
         overwrite: 'auto',
@@ -146,13 +154,15 @@ export const BlurText: React.FC<BlurTextProps> = ({
       gsap.set(targets, {
         opacity: 0,
         y: exitY,
-        filter: 'blur(10px)',
+        scale: 0.98,
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur * 0.5}px)` } : { filter: 'none' }),
       });
     } else {
       gsap.set(targets, {
         opacity: 0,
         y: fromY,
-        filter: 'blur(12px)',
+        scale: 0.97,
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur}px)` } : { filter: 'none' }),
       });
     }
 
@@ -168,6 +178,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
     direction,
     easing,
     exitEasing,
+    safeBlur,
     stepDuration,
     start,
     end,
@@ -179,12 +190,12 @@ export const BlurText: React.FC<BlurTextProps> = ({
     return (
       <div
         ref={containerRef}
-        className={`inline-flex flex-wrap items-center gap-x-2 will-change-[transform,filter,opacity] ${className}`}
+        className={`inline-flex flex-wrap items-center gap-x-2 will-change-[transform,opacity] ${className}`}
       >
         {React.Children.map(children, (child, idx) => (
           <span
             key={idx}
-            className="blur-text-item inline-block will-change-[transform,filter,opacity]"
+            className="blur-text-item inline-block will-change-[transform,opacity]"
           >
             {child}
           </span>
@@ -203,7 +214,7 @@ export const BlurText: React.FC<BlurTextProps> = ({
         return (
           <span
             key={index}
-            className={`blur-text-item inline-block will-change-[transform,filter,opacity] ${
+            className={`blur-text-item inline-block will-change-[transform,opacity] ${
               isHighlighted ? highlightClassName : ''
             }`}
           >

@@ -18,7 +18,7 @@ export default function Preloader() {
 
   useEffect(() => {
     const startTime = Date.now();
-    const duration = 2800; // 2.8s smooth, snappy scan sweep
+    const duration = 1200; // 1.2s swift, smooth scan sweep
 
     const update = () => {
       const elapsed = Date.now() - startTime;
@@ -28,11 +28,11 @@ export default function Preloader() {
       if (currentProgress < 1) {
         requestAnimationFrame(update);
       } else {
-        // Complete! Brief pause, then seamless fade out
+        // Complete! Snappy pause, then seamless fade out
         setTimeout(() => {
           setFading(true);
-          setTimeout(() => setGone(true), 600);
-        }, 350);
+          setTimeout(() => setGone(true), 400);
+        }, 150);
       }
     };
 
@@ -61,7 +61,7 @@ export default function Preloader() {
   return (
     <motion.div
       animate={{ opacity: fading ? 0 : 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center select-none"
       style={{ pointerEvents: fading ? "none" : "all" }}
     >

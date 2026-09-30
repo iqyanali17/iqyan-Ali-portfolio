@@ -6,11 +6,26 @@ export function InteractiveGridBackground() {
   const rippleIdRef = useRef(0);
 
   useEffect(() => {
+    const isTouch = typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches;
+    if (isTouch) return;
+
+    let pendingX = 0;
+    let pendingY = 0;
+    let ticking = false;
+
     const handlePointerMove = (e: PointerEvent) => {
-      if (containerRef.current) {
-        containerRef.current.style.setProperty("--cursor-x", `${e.clientX}px`);
-        containerRef.current.style.setProperty("--cursor-y", `${e.clientY}px`);
-        containerRef.current.style.setProperty("--spotlight-opacity", "1");
+      pendingX = e.clientX;
+      pendingY = e.clientY;
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          if (containerRef.current) {
+            containerRef.current.style.setProperty("--cursor-x", `${pendingX}px`);
+            containerRef.current.style.setProperty("--cursor-y", `${pendingY}px`);
+            containerRef.current.style.setProperty("--spotlight-opacity", "1");
+          }
+          ticking = false;
+        });
       }
     };
 
@@ -35,8 +50,8 @@ export function InteractiveGridBackground() {
     };
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerleave", handlePointerLeave);
-    window.addEventListener("click", handleClick);
+    window.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+    window.addEventListener("click", handleClick, { passive: true });
 
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);

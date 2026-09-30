@@ -53,14 +53,14 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
   className = '',
   as: Component = 'div',
   stagger = 0.06,
-  fromY = -25,
-  exitY = -30,
-  blur = 8,
-  scale = 0.97,
-  duration = 0.9,
-  exitDuration = 0.35,
-  ease = 'power2.out',
-  exitEase = 'power2.in',
+  fromY = -20,
+  exitY = -20,
+  blur = 0,
+  scale = 0.985,
+  duration = 0.8,
+  exitDuration = 0.32,
+  ease = 'power3.out',
+  exitEase = 'power2.inOut',
   start = 'top 88%',
   end = 'bottom 15%',
   trigger = null,
@@ -70,6 +70,9 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
   ...props
 }) => {
   const containerRef = useRef<HTMLElement>(null);
+
+  // Minimalist blur cap: Ensure any blur is strictly subtle (max 2px) or completely disabled (0)
+  const safeBlur = Math.min(Math.max(0, blur), 2);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -107,7 +110,7 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
 
     let activeTl: gsap.core.Timeline | null = null;
 
-    // 1. COME IN / RE-COME IN: Smooth reveal from slightly above with blur clearing
+    // 1. COME IN / RE-COME IN: Smooth modern reveal with clean transforms and crisp rendering
     const playComeIn = () => {
       if (activeTl) {
         activeTl.kill();
@@ -121,22 +124,25 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
         {
           opacity: 0,
           y: fromY,
-          filter: blur > 0 ? `blur(${blur}px)` : 'none',
           scale: scale !== 1 ? scale : 1,
+          ...(safeBlur > 0 ? { filter: `blur(${safeBlur}px)` } : { filter: 'none' }),
         },
         {
           opacity: 1,
           y: 0,
-          filter: 'blur(0px)',
           scale: 1,
           duration,
           stagger: targets.length > 1 ? stagger : 0,
           overwrite: 'auto',
+          onComplete: () => {
+            // Clean up filter and transform props completely for razor-sharp typography
+            gsap.set(targets, { clearProps: 'filter' });
+          },
         }
       );
     };
 
-    // 2. COME OUT: Reverse animation smoothly with blur and fade-out in scroll direction
+    // 2. COME OUT: Reverse animation smoothly with clean fade-out in scroll direction
     const playComeOut = (yOffset = exitY) => {
       if (activeTl) {
         activeTl.kill();
@@ -147,8 +153,8 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
       gsap.to(targets, {
         opacity: 0,
         y: yOffset,
-        filter: blur > 0 ? `blur(${blur}px)` : 'none',
         scale: scale !== 1 ? scale : 1,
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur * 0.5}px)` } : {}),
         duration: exitDuration,
         stagger: targets.length > 1 ? Math.min(stagger * 0.5, 0.03) : 0,
         ease: exitEase,
@@ -186,15 +192,15 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
       gsap.set(targets, {
         opacity: 0,
         y: exitY,
-        filter: blur > 0 ? `blur(${blur}px)` : 'none',
         scale: scale !== 1 ? scale : 1,
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur * 0.5}px)` } : { filter: 'none' }),
       });
     } else {
       gsap.set(targets, {
         opacity: 0,
         y: fromY,
-        filter: blur > 0 ? `blur(${blur}px)` : 'none',
         scale: scale !== 1 ? scale : 1,
+        ...(safeBlur > 0 ? { filter: `blur(${safeBlur}px)` } : { filter: 'none' }),
       });
     }
 
@@ -205,7 +211,7 @@ export const SectionReveal: React.FC<SectionRevealProps> = ({
     };
   }, [
     animateChildren,
-    blur,
+    safeBlur,
     disabled,
     duration,
     ease,
