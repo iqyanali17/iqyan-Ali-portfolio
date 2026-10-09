@@ -1,0 +1,454 @@
+/* ==========================================================
+   PROJECTS SECTION STYLING
+   Scoped styling with dedicated mobile responsive design
+   Desktop styling (>= 992px) remains strictly untouched.
+   ========================================================== */
+
+/* Portfolio section container */
+.portfolio-three-area {
+  position: relative;
+  overflow-x: clip; /* Clip horizontal overflow, allow vertical pin & scroll */
+  overflow-y: visible;
+  width: 100%;
+}
+
+/* Background floating 'works' text container - strictly behind project cards like Experience */
+.portfolio-three-shape {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 0 !important;
+  pointer-events: none;
+  user-select: none;
+  overflow: visible;
+}
+
+.portfolio-three-shape-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.portfolio-three-shape-title {
+  font-family: var(--heading-font), "Phudu", sans-serif !important;
+  font-size: clamp(160px, 22vw, 320px) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.04em !important;
+  line-height: 0.8 !important;
+  color: #0b0c10 !important;
+  opacity: 0.08 !important;
+  margin: 0 !important;
+  user-select: none !important;
+  display: block !important;
+  white-space: nowrap !important;
+}
+
+.portfolio-three-wrapper {
+  position: relative;
+  z-index: 2 !important;
+}
+
+.portfolio-three-item {
+  position: relative;
+  z-index: 2 !important;
+  background: #f5f5f5 !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.portfolio-three-item:hover {
+  transform: translateY(-8px);
+  z-index: 10 !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+@media screen and (max-width: 1199px) {
+  .portfolio-three-shape {
+    top: 170px;
+  }
+}
+
+/* ==========================================================
+   MOBILE & TABLET RESPONSIVE REFINEMENTS (< 992px)
+   ========================================================= */
+@media screen and (max-width: 991px) {
+  .portfolio-three-area {
+    padding-block: 64px 50px !important;
+  }
+
+  .portfolio-three-area .row.tw-mb-15 {
+    margin-bottom: 28px !important;
+  }
+
+  .portfolio-three-area h2.tw-text-15 {
+    font-size: clamp(1.85rem, 6.8vw, 2.45rem) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 10px !important;
+    word-break: break-word;
+  }
+
+  .portfolio-three-area .row.tw-mb-15 p {
+    font-size: clamp(0.92rem, 3.6vw, 1.05rem) !important;
+    line-height: 1.55 !important;
+    max-width: 92% !important;
+    margin: 0 auto !important;
+    word-break: break-word;
+  }
+
+  /* 'works' Watermark - enlarged and pinned behind cards identical to Experience section */
+  .portfolio-three-shape {
+    top: 140px !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    overflow: visible !important;
+  }
+
+  .portfolio-three-shape-title {
+    font-size: clamp(120px, 30vw, 200px) !important;
+    opacity: 0.085 !important;
+    color: #0b0c10 !important;
+    line-height: 0.8 !important;
+    letter-spacing: -0.03em !important;
+    text-transform: uppercase !important;
+    display: block !important;
+    white-space: nowrap !important;
+    max-width: 100% !important;
+  }
+
+  /* Mobile Card Stack Wrapper */
+  .portfolio-three-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0 !important;
+    align-items: stretch !important;
+  }
+
+  /* Dedicated Mobile Card Container - frosted translucent to reveal background watermark */
+  .project-mobile-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 26px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(6px) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+    border-radius: 18px !important;
+    padding: 18px 16px !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease !important;
+    position: relative !important;
+    z-index: 2 !important;
+    overflow: hidden !important;
+  }
+
+  .project-mobile-card:hover {
+    transform: translateY(-5px) !important;
+    border-color: var(--main-two-600) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 20px rgba(237, 90, 47, 0.1) !important;
+  }
+
+  .project-mobile-card:active {
+    transform: scale(0.99) !important;
+  }
+
+  /* Mobile Card Header */
+  .project-mobile-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .project-mobile-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .project-mobile-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #ff5101;
+    background: rgba(255, 81, 1, 0.1);
+    border: 1px solid rgba(255, 81, 1, 0.25);
+    border-radius: 8px;
+    padding: 3px 8px;
+    line-height: 1;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .project-mobile-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.32;
+    color: #111827;
+    word-break: break-word;
+  }
+
+  .project-mobile-title-link {
+    color: #111827;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .project-mobile-title-link:hover,
+  .project-mobile-title-link:active {
+    color: #ff5101;
+  }
+
+  .project-mobile-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+
+  .project-mobile-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .project-mobile-icon-btn:hover {
+    background: #ff5101;
+    color: #ffffff;
+    border-color: #ff5101;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 81, 1, 0.3);
+  }
+
+  .project-mobile-icon-btn:active {
+    transform: scale(0.92);
+  }
+
+  .project-mobile-live-btn {
+    background: rgba(255, 81, 1, 0.1);
+    color: #ff5101;
+    border-color: rgba(255, 81, 1, 0.3);
+  }
+
+  /* Mobile Thumbnail with Live Badge */
+  .project-mobile-thumb-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: #f3f4f6;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    aspect-ratio: 16 / 9;
+  }
+
+  .project-mobile-thumb-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .project-mobile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .project-mobile-thumb-wrap:hover .project-mobile-img,
+  .project-mobile-thumb-wrap:active .project-mobile-img {
+    transform: scale(1.03);
+  }
+
+  .project-mobile-thumb-overlay {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    pointer-events: none;
+  }
+
+  .project-mobile-live-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: pulse-dot 1.5s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* Mobile Description */
+  .project-mobile-desc {
+    font-size: 0.88rem;
+    line-height: 1.58;
+    color: #4b5563;
+    margin-bottom: 12px;
+    word-break: break-word;
+  }
+
+  /* Mobile Tags Chips */
+  .project-mobile-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .project-mobile-tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #374151;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 3px 8px;
+    letter-spacing: 0.02em;
+    transition: border-color 0.2s ease,
+                color 0.2s ease,
+                background-color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .project-mobile-tag:hover,
+  .project-mobile-tag:active {
+    border-color: rgba(255, 81, 1, 0.4);
+    color: #ff5101;
+    background: rgba(255, 81, 1, 0.06);
+  }
+
+  /* Mobile Action Bar */
+  .project-mobile-action-bar {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .project-mobile-primary-cta {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 14px;
+    background: linear-gradient(135deg, #ff5101 0%, #ff6b2b 100%);
+    color: #ffffff !important;
+    font-size: 0.86rem;
+    font-weight: 700;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 3px 12px rgba(255, 81, 1, 0.26);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.2s ease,
+                box-shadow 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .project-mobile-primary-cta:hover {
+    background: linear-gradient(135deg, #e64900 0%, #ff5101 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(255, 81, 1, 0.36);
+    color: #ffffff !important;
+  }
+
+  .project-mobile-primary-cta:active {
+    transform: scale(0.97);
+    box-shadow: 0 2px 6px rgba(255, 81, 1, 0.2);
+  }
+
+  .project-mobile-secondary-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 14px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #1f2937 !important;
+    font-size: 0.86rem;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .project-mobile-secondary-cta:hover {
+    background: #111827;
+    color: #ffffff !important;
+    border-color: #111827;
+    transform: translateY(-1px);
+  }
+
+  .project-mobile-secondary-cta:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Extra Small Phones (<= 420px) */
+@media screen and (max-width: 420px) {
+  .project-mobile-card {
+    padding: 15px 13px !important;
+  }
+
+  .project-mobile-title {
+    font-size: 1.08rem;
+  }
+
+  .project-mobile-desc {
+    font-size: 0.84rem;
+  }
+
+  .project-mobile-action-bar {
+    flex-direction: column;
+  }
+
+  .project-mobile-secondary-cta {
+    width: 100%;
+  }
+}

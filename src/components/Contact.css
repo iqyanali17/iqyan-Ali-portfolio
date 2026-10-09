@@ -1,0 +1,371 @@
+/* ==========================================================
+   CONTACT & FOOTER SECTION STYLING
+   Scoped styling with dedicated mobile responsive design
+   Desktop styling (>= 992px) remains strictly untouched.
+   ========================================================== */
+
+/* Guard against horizontal cutoffs and viewport overflow */
+#contact.footer-three-area {
+  overflow-x: clip;
+  overflow-y: visible;
+  position: relative;
+  width: 100%;
+}
+
+.footer-three-bottom-title {
+  font-family: var(--heading-font);
+  white-space: nowrap;
+}
+
+/* ==========================================================
+   MOBILE & TABLET RESPONSIVE REFINEMENTS (< 992px)
+   ========================================================== */
+@media screen and (max-width: 991px) {
+  #contact.footer-three-area {
+    padding-top: 60px !important;
+    padding-bottom: 24px !important;
+  }
+
+  #contact .row.pb-120 {
+    padding-bottom: 36px !important;
+  }
+
+  .contact-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem !important;
+    letter-spacing: 0.08em;
+    padding: 6px 14px !important;
+    border: 1px solid rgba(255, 81, 1, 0.3) !important;
+    background: rgba(255, 81, 1, 0.06);
+    border-radius: 999px !important;
+    box-shadow: 0 0 12px rgba(255, 81, 1, 0.1);
+  }
+
+  #contact h2.tw-text-15 {
+    font-size: clamp(1.75rem, 6.6vw, 2.45rem) !important;
+    line-height: 1.2 !important;
+    margin-top: 14px !important;
+    margin-bottom: 14px !important;
+    letter-spacing: -0.02em;
+    word-break: break-word;
+  }
+
+  #contact p.tw-text-xl {
+    font-size: clamp(0.92rem, 3.6vw, 1.05rem) !important;
+    line-height: 1.55 !important;
+    margin-bottom: 24px !important;
+    max-width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+    word-break: break-word;
+  }
+
+  /* Social Links Mobile Grid */
+  .contact-mobile-social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 0 4px;
+  }
+
+  .contact-mobile-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: rgba(24, 24, 27, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s ease,
+                border-color 0.25s ease,
+                color 0.25s ease,
+                box-shadow 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .contact-mobile-social-btn:hover {
+    background: rgba(255, 81, 1, 0.12);
+    border-color: rgba(255, 81, 1, 0.5);
+    color: #ff5101;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(255, 81, 1, 0.18);
+  }
+
+  .contact-mobile-social-btn:active {
+    transform: scale(0.97);
+    background: rgba(255, 81, 1, 0.2);
+    border-color: #ff5101;
+  }
+
+  .contact-mobile-social-btn-content {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .contact-mobile-social-icon {
+    font-size: 1.25rem;
+    color: #ff5101;
+    transition: transform 0.2s ease;
+  }
+
+  .contact-mobile-social-btn:hover .contact-mobile-social-icon {
+    transform: scale(1.15);
+  }
+
+  .contact-mobile-social-arrow {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.35);
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+
+  .contact-mobile-social-btn:hover .contact-mobile-social-arrow {
+    color: #ff5101;
+    transform: translate(2px, -2px);
+  }
+
+  /* Highlighted full-width Resume button */
+  .contact-mobile-social-resume {
+    grid-column: span 2;
+    background: linear-gradient(135deg, rgba(255, 81, 1, 0.14) 0%, rgba(24, 24, 27, 0.95) 100%);
+    border: 1px solid rgba(255, 81, 1, 0.35);
+    padding: 13px 16px;
+  }
+
+  .contact-resume-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 3px 8px;
+    background: #ff5101;
+    color: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(255, 81, 1, 0.35);
+  }
+
+  /* Middle Mobile Section Wrapper */
+  .footer-mobile-middle-wrapper {
+    width: 100%;
+    margin-bottom: 24px;
+  }
+
+  .footer-mobile-links-card {
+    background: rgba(18, 18, 22, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 18px 16px;
+    margin-bottom: 14px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .footer-mobile-links-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .footer-mobile-section-heading {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-mobile-badge {
+    font-size: 0.7rem;
+    color: #ff5101;
+    background: rgba(255, 81, 1, 0.1);
+    border: 1px solid rgba(255, 81, 1, 0.25);
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .footer-mobile-nav-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .footer-mobile-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: transform 0.2s ease,
+                background-color 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .footer-mobile-nav-item:hover,
+  .footer-mobile-nav-item:active {
+    background: rgba(255, 81, 1, 0.12);
+    border-color: rgba(255, 81, 1, 0.4);
+    color: #ff5101;
+    transform: translateY(-1px);
+  }
+
+  .footer-mobile-nav-item:active {
+    transform: scale(0.97);
+  }
+
+  .footer-nav-mini-arrow {
+    font-size: 0.75rem;
+    opacity: 0.4;
+    transition: opacity 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+  }
+
+  .footer-mobile-nav-item:hover .footer-nav-mini-arrow,
+  .footer-mobile-nav-item:active .footer-nav-mini-arrow {
+    opacity: 1;
+    color: #ff5101;
+    transform: translate(2px, -2px);
+  }
+
+  /* Mobile Bottom Row: Brand & Back-to-Top Button */
+  .footer-mobile-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(18, 18, 22, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 14px 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    gap: 12px;
+  }
+
+  .footer-mobile-branding {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .footer-mobile-branding-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+
+  .footer-mobile-branding-copy {
+    font-size: 0.76rem;
+    color: #9ca3af;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .footer-mobile-btt-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    background: #ff5101;
+    color: #ffffff;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(255, 81, 1, 0.4);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.25s ease,
+                box-shadow 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .footer-mobile-btt-btn:hover {
+    background: #ff6622;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 81, 1, 0.6);
+    color: #ffffff;
+  }
+
+  .footer-mobile-btt-btn:active {
+    transform: scale(0.92);
+    box-shadow: 0 2px 8px rgba(255, 81, 1, 0.3);
+  }
+
+  .footer-mobile-btt-icon {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  .footer-mobile-btt-label {
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  /* Bottom Big Watermark Title */
+  .footer-bottom-title-wrap {
+    overflow: hidden;
+    width: 100%;
+    padding: 0 8px;
+  }
+
+  .footer-three-bottom-title {
+    font-size: clamp(2.3rem, 11vw, 4.2rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    margin: 0 !important;
+    padding-bottom: 12px;
+    opacity: 0.92;
+    text-align: center;
+  }
+
+  /* Background Shape constraint */
+  .footer-bg-shape {
+    max-width: 100% !important;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+}
+
+/* Extra small devices (<= 360px) fine tuning */
+@media screen and (max-width: 360px) {
+  .footer-mobile-nav-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-mobile-social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-mobile-social-resume {
+    grid-column: span 1;
+  }
+}

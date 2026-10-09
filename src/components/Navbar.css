@@ -1,0 +1,229 @@
+/* ==========================================================
+   NAVBAR SECTION STYLING (Desktop & Mobile)
+   ========================================================== */
+
+/* Clean, Large Premium Navbar Styling */
+.header-three {
+  padding-block: 28px !important;
+  background-color: #f5f5f5 !important;
+  border-bottom: none !important;
+  transition: padding 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.35s ease,
+              box-shadow 0.35s ease;
+}
+
+.header-three::before,
+.header-three::after {
+  display: none !important;
+}
+
+.header-three.fixed-header {
+  position: sticky !important;
+  inset-block-start: 0;
+  width: 100%;
+  z-index: 999 !important;
+  background-color: rgba(245, 245, 245, 0.95) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  padding-block: 18px !important;
+}
+
+/* Logo - Large Premium Brand */
+.header-three-logo {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  background: #ffffff !important;
+  border: 1px solid #e7e5df !important;
+  padding: 12px 24px !important;
+  border-radius: 14px !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  transition: transform 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease !important;
+}
+
+.header-three-logo:hover {
+  border-color: var(--main-two-600) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(237, 90, 47, 0.15) !important;
+}
+
+.header-three-logo a {
+  white-space: nowrap !important;
+  display: inline-block !important;
+  text-decoration: none !important;
+}
+
+.header-three-logo .logo-brand-text {
+  font-family: var(--heading-font), "Phudu", sans-serif !important;
+  font-size: 1.6rem !important;
+  font-weight: 900 !important;
+  text-transform: lowercase !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  color: #0b0c10 !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  display: inline-block !important;
+}
+
+.header-three-logo .logo-brand-text .domain-accent {
+  color: var(--main-two-600) !important;
+}
+
+/* Nav Menu Content - Open, Large, Premium (NO rounded pill border) */
+.navbar-clean-center {
+  flex-shrink: 0 !important;
+}
+
+.navbar-clean-nav {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.navbar-clean-nav > li {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  list-style: none !important;
+  position: relative !important;
+}
+
+.navbar-clean-nav > li > a {
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  font-family: var(--body-font), sans-serif !important;
+  font-size: 1.15rem !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+  padding: 8px 4px !important;
+  text-decoration: none !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  position: relative !important;
+  letter-spacing: -0.01em !important;
+  transition: color 0.25s ease !important;
+}
+
+.navbar-clean-nav > li > a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--main-two-600);
+  transition: width 0.25s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.navbar-clean-nav > li > a:hover {
+  color: var(--main-two-600) !important;
+  background: transparent !important;
+}
+
+.navbar-clean-nav > li > a:hover::after {
+  width: 100%;
+}
+
+.navbar-clean-nav > li > a:focus,
+.navbar-clean-nav > li > a:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Header Right Buttons - Large & Premium */
+.header-three-menu button {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+  background: #ffffff !important;
+  border: 1px solid #e7e5df !important;
+  border-radius: 14px !important;
+  width: 54px !important;
+  height: 54px !important;
+  transition: transform 0.25s ease,
+              border-color 0.25s ease,
+              box-shadow 0.25s ease !important;
+}
+
+.header-three-menu button:hover {
+  border-color: var(--main-two-600) !important;
+  transform: translateY(-2px);
+}
+
+.header-three-button a {
+  border-radius: 12px !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.8px !important;
+  padding: 15px 32px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.3s ease,
+              box-shadow 0.3s ease,
+              background-color 0.3s ease,
+              color 0.3s ease !important;
+}
+
+.header-three-button a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+}
+
+/* Mobile Navbar Polish (max-width: 575px) */
+@media screen and (max-width: 575px) {
+  .header-three {
+    padding-block: 16px !important;
+  }
+  .header-three.fixed-header {
+    padding-block: 12px !important;
+  }
+  .header-three-logo {
+    padding: 8px 14px !important;
+    border-radius: 12px !important;
+  }
+  .header-three-logo .logo-brand-text {
+    font-size: 1.35rem !important;
+  }
+  .header-three-menu button {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 12px !important;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .header-three-logo {
+    padding: 6px 12px !important;
+  }
+  .header-three-logo .logo-brand-text {
+    font-size: 1.2rem !important;
+  }
+  .header-three-menu button {
+    width: 42px !important;
+    height: 42px !important;
+  }
+}

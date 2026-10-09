@@ -1,0 +1,11 @@
+/* ==========================================================
+   SKILLS / CORE EXPERTISE SECTION STYLING
+   ========================================================== */
+
+.service-three-title {
+  transition: color 0.3s ease;
+}
+
+.service-three-single:hover .service-three-title {
+  color: var(--main-two-600) !important;
+}

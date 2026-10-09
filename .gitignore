@@ -16,3 +16,9 @@ Thumbs.db
 # Temporary / Log files
 *.log
 scratch/
+
+# Dependencies
+node_modules/
+
+# Production build output
+dist/

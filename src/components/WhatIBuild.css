@@ -1,0 +1,255 @@
+/* ==========================================================
+   WHAT I BUILD SECTION STYLING
+   ========================================================== */
+
+/* Section base */
+.feature-three-area {
+  position: relative;
+  background-color: #010406;
+}
+
+/* ==========================================================
+   MOBILE & TABLET RESPONSIVE STYLING (max-width: 991px)
+   Does NOT affect desktop (>= 992px)
+   ========================================================== */
+@media screen and (max-width: 991px) {
+  /* Prevent any desktop hover reveal element from leaking into mobile */
+  .hover__reveal-bg {
+    display: none !important;
+  }
+
+  .feature-three-area {
+    padding-block: 70px 60px !important;
+  }
+
+  /* Section Header */
+  .feature-three-area .row.tw-mb-15 {
+    margin-bottom: 28px !important;
+  }
+
+  .feature-three-area h2.tw-text-15 {
+    font-size: clamp(1.85rem, 7vw, 2.35rem) !important;
+    line-height: 1.25 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .feature-three-area .row.tw-mb-15 p {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    max-width: 95% !important;
+    margin: 0 auto !important;
+  }
+
+  /* Container wrapper */
+  .feature-three-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  /* Each Row / Card on Mobile */
+  .feature-three-single {
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-radius: 16px !important;
+    padding: 18px 16px !important;
+    margin-bottom: 0 !important;
+    transition: background 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease,
+                transform 0.2s ease !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .feature-three-single:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Interactive Pseudo-Classes on Mobile */
+  .feature-three-single:hover,
+  .feature-three-single:active,
+  .feature-three-single.current {
+    background: linear-gradient(135deg, rgba(255, 81, 1, 0.08) 0%, rgba(255, 255, 255, 0.025) 100%) !important;
+    border-color: rgba(255, 81, 1, 0.32) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 81, 1, 0.06) !important;
+  }
+
+  .feature-three-single:active {
+    transform: scale(0.99) !important;
+  }
+
+  /* Mobile Item Content Flow */
+  .feature-three-mobile-item {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+
+  /* Top Meta Row (ID, Category, Tag) */
+  .feature-three-mobile-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+    width: 100% !important;
+  }
+
+  .feature-three-mobile-badges {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+
+  .feature-three-mobile-id {
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    color: var(--main-two-600, #ff5101) !important;
+    font-family: var(--heading-font), monospace !important;
+    letter-spacing: 0.04em !important;
+    line-height: 1 !important;
+  }
+
+  .feature-three-mobile-cat {
+    font-size: 0.76rem !important;
+    font-weight: 600 !important;
+    color: #9ca3af !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.06em !important;
+    padding: 3px 8px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    border-radius: 6px !important;
+    line-height: 1.2 !important;
+  }
+
+  .feature-three-mobile-tag {
+    font-size: 0.72rem !important;
+    font-weight: 600 !important;
+    color: #f3f4f6 !important;
+    background: rgba(255, 81, 1, 0.12) !important;
+    border: 1px solid rgba(255, 81, 1, 0.28) !important;
+    padding: 3px 9px !important;
+    border-radius: 20px !important;
+    letter-spacing: 0.02em !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Title Row - Flawless typography, zero cutting off */
+  .feature-three-mobile-title-wrap {
+    width: 100% !important;
+  }
+
+  .feature-three-mobile-title {
+    font-size: clamp(1.1rem, 4.4vw, 1.28rem) !important;
+    line-height: 1.4 !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    margin: 0 !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    transition: color 0.25s ease !important;
+  }
+
+  .feature-three-single:hover .feature-three-mobile-title,
+  .feature-three-single.current .feature-three-mobile-title {
+    color: #ffffff !important;
+  }
+
+  /* Interactive Expandable Image Preview */
+  .feature-three-mobile-preview {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-6px);
+    transition: max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.32s ease,
+                transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                margin 0.3s ease !important;
+    margin-top: 0;
+    width: 100% !important;
+  }
+
+  .feature-three-mobile-preview.active {
+    max-height: 240px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 14px;
+  }
+
+  .feature-three-mobile-img-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .feature-three-mobile-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .feature-three-single.current .feature-three-mobile-img-box img {
+    transform: scale(1.03);
+  }
+
+  .feature-three-mobile-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.1) 60%, transparent 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 12px;
+  }
+
+  .feature-three-mobile-explore-btn {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .feature-three-mobile-explore-btn i {
+    font-size: 0.85rem;
+    color: var(--main-two-600, #ff5101);
+  }
+}
+
+/* Extra Small Phones (max-width: 480px) */
+@media screen and (max-width: 480px) {
+  .feature-three-area {
+    padding-block: 60px 50px !important;
+  }
+
+  .feature-three-single {
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+  }
+
+  .feature-three-mobile-title {
+    font-size: 1.12rem !important;
+  }
+
+  .feature-three-mobile-preview.active {
+    max-height: 200px;
+  }
+}
