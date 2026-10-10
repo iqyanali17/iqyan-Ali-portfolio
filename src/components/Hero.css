@@ -1,0 +1,648 @@
+/* ==========================================================
+   HERO SECTION STYLING (Section 1)
+   ========================================================== */
+
+/* Desktop Guards (>= 1200px) */
+@media screen and (min-width: 1200px) {
+  .banner-three-title {
+    position: relative !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+  }
+
+  .banner-three-man {
+    position: absolute !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+  }
+
+  .banner-three-wrap {
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .banner-three-center {
+    position: relative !important;
+    top: 55px !important;
+    z-index: 25 !important;
+    pointer-events: auto !important;
+  }
+}
+
+.banner-three-center-title {
+  margin-block-end: 14px !important;
+}
+
+/* Tablet & Mobile Breakpoints (max-width: 1199px) */
+@media screen and (max-width: 1199px) {
+  .banner-three-area {
+    padding-block: 130px 60px !important;
+    overflow: hidden !important;
+  }
+
+  .banner-three-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+
+
+  /* Big background title: scaled gracefully, no overflow */
+  .banner-three-title {
+    order: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
+    font-size: clamp(64px, 11vw, 150px) !important;
+    line-height: 0.95 !important;
+    letter-spacing: -0.025em !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    user-select: none !important;
+  }
+
+  /* Developer portrait: framed cleanly, overlapping title base */
+  .banner-three-wrapper .banner-three-man,
+  .banner-three-man.position-absolute {
+    order: 2 !important;
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    transform: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+    max-width: 540px !important;
+    height: 440px !important;
+    margin-top: -30px !important;
+    margin-bottom: 0 !important;
+    z-index: 2 !important;
+    pointer-events: none !important;
+  }
+
+  .banner-three-man img {
+    max-height: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.08));
+  }
+
+  /* Center content wrapper */
+  .banner-three-wrap {
+    order: 3 !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 3 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: stretch !important;
+    gap: 28px !important;
+    margin-top: 10px !important;
+  }
+
+  /* Center pulsating dot badge */
+  .banner-three-line-shape {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 0 auto 12px auto !important;
+    order: 0 !important;
+  }
+
+  .banner-three-line-shape > img {
+    display: none !important;
+  }
+
+  .banner-three-carcel-shape {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+  }
+
+  /* Center headline statement & Explore Projects CTA */
+  .banner-three-center {
+    order: 1 !important;
+    width: 100% !important;
+    max-width: 760px !important;
+    top: 0 !important;
+    margin: 0 auto !important;
+    padding: 0 16px !important;
+    text-align: center !important;
+  }
+
+  .banner-three-center-title {
+    font-size: clamp(1.4rem, 3.2vw, 2.1rem) !important;
+    line-height: 1.3 !important;
+    max-width: 100% !important;
+    margin: 0 auto 18px auto !important;
+    letter-spacing: -0.01em !important;
+    color: #0b0c10 !important;
+    -webkit-text-stroke: 1px #0b0c10 !important;
+    paint-order: stroke fill !important;
+  }
+
+  .banner-three-button {
+    margin-top: 10px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .banner-three-button a {
+    padding: 14px 32px !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.8px !important;
+  }
+
+  /* Left card (Intro + Focus List): restored from display:none */
+  .banner-three-left {
+    display: block !important;
+    order: 2 !important;
+    flex: 1 1 340px !important;
+    max-width: 480px !important;
+    width: 100% !important;
+    margin-block-end: 0 !important;
+    background: #ffffff !important;
+    border: 1px solid #e7e5df !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 18px !important;
+    padding: 28px 24px !important;
+  }
+
+  .banner-three-left-title {
+    font-size: 1.35rem !important;
+    line-height: 1.35 !important;
+    margin-bottom: 18px !important;
+    font-weight: 700 !important;
+  }
+
+  .banner-three-list {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .banner-three-list ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+  }
+
+  .banner-three-list li {
+    font-size: 0.95rem !important;
+    margin-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    color: #374151 !important;
+  }
+
+  .banner-three-list li img {
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* Right cards (Stats): restored from display:none */
+  .banner-three-right {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    order: 3 !important;
+    flex: 1 1 340px !important;
+    max-width: 480px !important;
+    width: 100% !important;
+    margin-block-end: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .banner-three-right .banner-three-counter-item {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 22px 24px !important;
+    border-radius: 16px !important;
+    border: 1px solid #e7e5df !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+    background: #ffffff !important;
+  }
+
+  .banner-three-right .banner-three-counter-item.bg-black {
+    background: #000000 !important;
+    border-color: #222222 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .banner-three-right .banner-three-counter-title {
+    font-size: 2.5rem !important;
+    line-height: 1 !important;
+    margin-bottom: 6px !important;
+  }
+
+  .banner-three-right .banner-three-counter-paragraph {
+    font-size: 0.95rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* Mobile Screens (max-width: 767px): Section 1 */
+@media screen and (max-width: 767px) {
+  .banner-three-area {
+    padding-block: 85px 36px !important;
+  }
+
+  .banner-three-wrapper {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+  }
+
+  /* Big background title: full width edge-to-edge */
+  .banner-three-title {
+    font-size: clamp(84px, 26vw, 120px) !important;
+    line-height: 0.85 !important;
+    letter-spacing: -0.03em !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  .banner-three-title .title-word {
+    display: inline-block !important;
+    white-space: nowrap !important;
+  }
+
+  .banner-three-title .title-letter {
+    display: inline-block !important;
+    will-change: transform, opacity, filter;
+  }
+
+  /* Big central developer portrait */
+  .banner-three-wrapper .banner-three-man,
+  .banner-three-man.position-absolute {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: 6px !important;
+    width: clamp(280px, 78vw, 340px) !important;
+    height: clamp(415px, 112vw, 490px) !important;
+    z-index: 4 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-end !important;
+    pointer-events: none !important;
+  }
+
+  .banner-three-man img {
+    height: 100% !important;
+    max-height: 100% !important;
+    width: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.08));
+  }
+
+  /* Wrap: flex row flanking the portrait with left & right cards */
+  .banner-three-wrapper .banner-three-wrap,
+  .banner-three-wrap.z-1 {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    margin-top: clamp(215px, 57vw, 260px) !important;
+    padding: 0 !important;
+  }
+
+  /* Left card (Intro + Focus): compact flanking card on the left side */
+  .banner-three-left {
+    order: 1 !important;
+    display: block !important;
+    width: clamp(100px, 26.5vw, 114px) !important;
+    max-width: 114px !important;
+    box-sizing: border-box !important;
+    padding: 6px 5px !important;
+    border-radius: 9px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(231, 229, 223, 0.95) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07) !important;
+    margin: 0 !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .banner-three-left-title {
+    font-size: clamp(0.50rem, 1.5vw, 0.60rem) !important;
+    line-height: 1.18 !important;
+    margin-bottom: 4px !important;
+    font-weight: 700 !important;
+  }
+
+  .banner-three-list li {
+    font-size: clamp(0.40rem, 1.2vw, 0.46rem) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 2.5px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+    color: #374151 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+
+  .banner-three-list li span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    width: 7px !important;
+    height: 7px !important;
+    margin-top: 2px !important;
+  }
+
+  .banner-three-list li img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  /* Right cards (Stats): compact flanking cards on the right side */
+  .banner-three-right {
+    order: 2 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    width: clamp(90px, 24vw, 104px) !important;
+    max-width: 104px !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+
+  .banner-three-right .banner-three-counter-item {
+    padding: 5px 6px !important;
+    border-radius: 7px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(231, 229, 223, 0.95) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+    margin: 0 !important;
+    margin-block-start: 0 !important;
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .banner-three-right .banner-three-counter-item.bg-black {
+    background: rgba(0, 0, 0, 0.95) !important;
+    border-color: #222222 !important;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .banner-three-right .banner-three-counter-title {
+    font-size: clamp(0.92rem, 2.8vw, 1.10rem) !important;
+    line-height: 1 !important;
+    margin-bottom: 1px !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .banner-three-right .banner-three-counter-paragraph {
+    font-size: clamp(0.42rem, 1.2vw, 0.48rem) !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+  }
+
+  /* Radar dot shape divider between portrait/cards and headline statement */
+  .banner-three-wrapper .banner-three-line-shape,
+  .banner-three-line-shape.position-absolute {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    order: 3 !important;
+    margin: -14px auto 14px auto !important;
+    z-index: 3 !important;
+  }
+
+  .banner-three-line-shape::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 50% !important;
+    height: 1px !important;
+    background: #e7e5df !important;
+    z-index: 1 !important;
+  }
+
+  .banner-three-line-shape > img {
+    display: none !important;
+  }
+
+  .banner-three-carcel-shape {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    width: 44px !important;
+    height: 44px !important;
+    background: #f5f5f5 !important;
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 5 !important;
+  }
+
+  /* Headline statement & Explore Projects CTA: cleanly placed AFTER the image and orange dot */
+  .banner-three-center {
+    order: 4 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 8px !important;
+    text-align: center !important;
+    position: relative !important;
+    top: 0 !important;
+    z-index: 5 !important;
+  }
+
+  /* Desktop Outlined Typography (Phudu, 1px stroke, hollow white fill) */
+  .banner-three-center-title {
+    font-family: var(--heading-font), "Phudu", sans-serif !important;
+    font-size: clamp(1.35rem, 4.6vw, 1.8rem) !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.01em !important;
+    text-transform: uppercase !important;
+    color: #ffffff !important;
+    -webkit-text-stroke: 1px #0b0c10 !important;
+    paint-order: stroke fill !important;
+    margin: 0 auto 16px auto !important;
+    text-align: center !important;
+    max-width: 520px !important;
+  }
+
+  .banner-three-button {
+    margin-top: 6px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .banner-three-button a {
+    padding: 13px 28px !important;
+    font-size: 0.88rem !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* Section 1: Hero Center Headline Animation & Minimalist Hover Effect */
+.banner-three-center-title {
+  cursor: default;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              text-shadow 0.4s ease !important;
+}
+
+.banner-three-center-title:hover {
+  text-shadow: 0 0 24px rgba(255, 81, 1, 0.22);
+}
+
+.banner-three-center-title .hero-desc-word {
+  display: inline-block;
+  will-change: transform, opacity, filter, color;
+  transition: color 0.3s ease,
+              -webkit-text-stroke-color 0.3s ease,
+              text-shadow 0.3s ease;
+}
+
+.banner-three-center-title.is-revealed .hero-desc-word {
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s ease,
+              -webkit-text-stroke-color 0.3s ease,
+              text-shadow 0.3s ease;
+}
+
+.banner-three-center-title .hero-desc-word:hover {
+  transform: translateY(-3px) scale(1.03) !important;
+  color: #ff5101 !important;
+  -webkit-text-stroke-color: #ff5101 !important;
+  text-shadow: 0 0 18px rgba(255, 81, 1, 0.38) !important;
+}
+
+/* Hero CTA Button: Identical styling & hover animation to Navbar Let's Talk button */
+.banner-three-center {
+  position: relative !important;
+  z-index: 999 !important;
+  pointer-events: auto !important;
+}
+
+.banner-three-button {
+  position: relative !important;
+  z-index: 1000 !important;
+  pointer-events: auto !important;
+}
+
+.banner-three-button a {
+  position: relative !important;
+  z-index: 1001 !important;
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  border-radius: 12px !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.8px !important;
+  padding: 15px 32px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              background-color 0.3s ease !important;
+  display: inline-block !important;
+}
+
+.banner-three-button a:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(255, 81, 1, 0.28), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.banner-three-button a:active {
+  transform: scale(0.97) translateY(0) !important;
+}
+
+/* Ensure background decorative elements never intercept clicks or hovers */
+.banner-three-man,
+.banner-three-man *,
+.banner-three-line-shape,
+.banner-three-line-shape *,
+.banner-three-carcel-shape,
+.banner-three-carcel-shape * {
+  pointer-events: none !important;
+}
+
+/* Card interactive transitions & micro-animations */
+.banner-three-left {
+  transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.banner-three-left:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.banner-three-counter-item {
+  transition: box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.banner-three-counter-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Iqyan portrait smooth transition */
+.banner-three-man img {
+  will-change: transform, opacity;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+.banner-three-man:hover img {
+  transform: scale(1.02);
+  filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.14));
+}

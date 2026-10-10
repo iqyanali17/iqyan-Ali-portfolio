@@ -100,8 +100,7 @@
    ** RTL
 
    ================================== Css table of contents End======================================== */
-/* Font Family*/
-@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Phudu:wght@300..900&display=swap");
+/* Font Family - loaded via index.html */
 /* ========================= Variable Css Start ======================== */
 :root {
   /* Font Family Variable */
@@ -6850,7 +6849,7 @@ input:focus-visible {
   visibility: visible;
 }
 .body-overlay:hover {
-  cursor: url(../images/cross-out.png), pointer;
+  cursor: pointer;
 }
 
 .twoffcanvas {
@@ -9281,13 +9280,13 @@ body.tw-magic-cursor #magic-cursor {
 .service-ip-wrapper:hover::before {
   height: 214px;
 }
-.service-ip-wrapper:hover::before.two::before {
+.service-ip-wrapper.two:hover::before {
   height: 244px;
 }
-.service-ip-wrapper:hover::before.three::before {
+.service-ip-wrapper.three:hover::before {
   height: 274px;
 }
-.service-ip-wrapper:hover::before.four::before {
+.service-ip-wrapper.four:hover::before {
   height: 322px;
 }
 .service-ip-wrapper:hover .service-ip-title {

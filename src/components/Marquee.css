@@ -1,0 +1,22 @@
+/* ==========================================================
+   MARQUEE SECTION STYLING
+   ========================================================== */
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-container-flex {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.marquee-container-flex:hover {
+  animation-play-state: paused;
+}

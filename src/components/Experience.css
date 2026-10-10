@@ -1,0 +1,61 @@
+/* ==========================================================
+   EXPERIENCE SECTION STYLING
+   ========================================================== */
+
+/* Experience Section Light Theme Enhancements */
+.experience-area {
+  background-color: #f8f7f4 !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-area .experience-card {
+  background: #ffffff !important;
+  border: 1px solid #e7e5df !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease !important;
+}
+
+.experience-area .experience-card:hover {
+  transform: translateY(-5px) !important;
+  border-color: var(--main-two-600) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 20px rgba(237, 90, 47, 0.1) !important;
+}
+
+/* Experience Sticky Watermark - Behind Cards */
+.experience-shape {
+  position: absolute;
+  top: 200px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 0 !important;
+  pointer-events: none;
+  user-select: none;
+  overflow: visible;
+}
+
+.experience-shape-title {
+  font-family: var(--heading-font), "Phudu", sans-serif !important;
+  font-size: clamp(90px, 14vw, 280px) !important;
+  font-weight: 900 !important;
+  line-height: 0.8 !important;
+  letter-spacing: -0.04em !important;
+  text-transform: uppercase !important;
+  color: #0b0c10 !important;
+  opacity: 0.045 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+@media screen and (max-width: 1199px) {
+  .experience-shape {
+    top: 170px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .experience-shape {
+    top: 140px;
+  }
+}

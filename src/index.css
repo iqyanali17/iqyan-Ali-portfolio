@@ -1,0 +1,105 @@
+/* ==========================================================
+   GLOBAL COMMON STYLES & DESIGN SYSTEM
+   Main common styling shared across the application
+   ========================================================== */
+
+/* External Library Styles */
+@import "/assets/css/bootstrap.min.css";
+@import "aos/dist/aos.css";
+@import "/assets/css/main.css";
+
+/* Global Document Resets */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Global Container Responsive Padding Adjustments */
+@media screen and (max-width: 1199px) {
+  .tw-container-1800-px {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    max-width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .tw-container-1800-px {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+  .tw-main-menu-mobile a {
+    font-size: 1.4rem !important;
+  }
+}
+
+/* ==========================================================
+   UNIFIED PREMIUM HOVER & TOUCH ANIMATION FOR ALL CTA BUTTONS
+   (.tw-hover-btn: Navbar Let's Talk, Hero Explore Projects, etc.)
+   Consistent across all screen sizes (desktop and mobile)
+   ========================================================== */
+.tw-hover-btn {
+  position: relative !important;
+  z-index: 1 !important;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.8px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15) !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              background-color 0.3s ease,
+              color 0.3s ease !important;
+  -webkit-tap-highlight-color: transparent !important;
+  text-decoration: none !important;
+}
+
+.tw-hover-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(255, 81, 1, 0.28), 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.tw-hover-btn:active {
+  transform: scale(0.97) translateY(0) !important;
+  box-shadow: 0 2px 10px rgba(255, 81, 1, 0.2), 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+.tw-hover-btn .tw-hover-btn-circle-dot {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease !important;
+  line-height: 20px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  pointer-events: none !important;
+}
+
+.tw-hover-btn:hover .tw-hover-btn-circle-dot,
+.tw-hover-btn:active .tw-hover-btn-circle-dot,
+.tw-hover-btn:focus .tw-hover-btn-circle-dot {
+  width: 520px !important;
+  height: 520px !important;
+}
+
+/* Decorative background shapes & images must never intercept pointer events globally */
+.banner-three-line-shape,
+.banner-three-line-shape *,
+.banner-three-carcel-shape,
+.banner-three-carcel-shape *,
+.banner-three-man,
+.banner-three-man * {
+  pointer-events: none !important;
+}
