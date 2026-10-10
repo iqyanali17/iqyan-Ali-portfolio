@@ -1,0 +1,112 @@
+import { motion } from "framer-motion";
+import { Calendar, Briefcase, Award, FolderOpen, Star } from "lucide-react";
+import type { Experience } from "@/lib/data";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+interface ExperienceCardProps {
+  item: Experience;
+  index: number;
+}
+
+export function ExperienceCard({ item, index }: ExperienceCardProps) {
+  const [showCertificates, setShowCertificates] = useState(false);
+  
+  const certificateList: string[] = Array.isArray(item.certificates) 
+    ? item.certificates 
+    : (item.certificate ? [item.certificate] : []);
+  const hasCertificates = certificateList.length > 0;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="relative pl-8 md:pl-12"
+    >
+      {/* Centered Timeline dot visible on all screens */}
+      <div className="absolute left-[16px] top-6 w-2 h-2 rounded-full bg-primary" />
+
+      <div className={cn(
+        "glass-card p-6 rounded-2xl group transition-all duration-300 relative overflow-hidden",
+        item.highlight 
+          ? "border-primary/50 bg-primary/5 shadow-lg shadow-primary/10 ring-1 ring-primary/20" 
+          : "hover:bg-white/5"
+      )}>
+        {item.highlight && (
+          <div className="absolute top-0 right-0 p-2">
+            <div className="bg-primary/20 text-primary text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-bl-lg flex items-center gap-1">
+              <Star size={10} fill="currentColor" /> Current Role
+            </div>
+          </div>
+        )}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
+          <div>
+            <h3 className="text-lg md:text-xl font-bold font-display text-white group-hover:text-purple-300 transition-colors">
+              {item.role}
+            </h3>
+            <div className="flex items-center gap-2 text-purple-400 font-medium mt-1">
+              <Briefcase size={14} />
+              {item.website ? (
+                <a 
+                  href={item.website} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-secondary transition-colors underline underline-offset-2"
+                >
+                  {item.company}
+                </a>
+              ) : (
+                <span>{item.company}</span>
+              )}
+              {hasCertificates && (
+                <button
+                  onClick={() => setShowCertificates(!showCertificates)}
+                  className="ml-2 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                  title={certificateList.length > 1 ? "View All Certificates" : "View Certificate"}
+                >
+                  {certificateList.length > 1 ? (
+                    <FolderOpen size={18} className="text-primary hover:text-secondary" />
+                  ) : (
+                    <Award size={18} className="text-primary hover:text-secondary" />
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-xs md:text-sm text-zinc-300 bg-white/5 border border-white/10 px-3 py-1 rounded-full self-start">
+            <Calendar size={12} />
+            <span className="font-mono">{item.duration}</span>
+          </div>
+        </div>
+        <p className="text-zinc-300 text-sm leading-relaxed border-l-2 border-purple-500/40 pl-4">
+          {item.description}
+        </p>
+        
+        {showCertificates && certificateList.length > 0 && (
+          <div className="mt-4 p-4 bg-white/5 rounded-lg border border-white/10">
+            <h4 className="text-sm font-semibold text-primary mb-3">Certificates:</h4>
+            <div className="grid grid-cols-1 gap-2">
+              {certificateList.map((cert: string, certIndex: number) => (
+                <button
+                  key={certIndex}
+                  onClick={() => window.open(cert, '_blank')}
+                  className="flex items-center gap-2 p-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors text-left"
+                >
+                  <Award size={14} className="text-primary" />
+                  <span className="text-sm text-muted-foreground hover:text-foreground">
+                    {decodeURIComponent(cert.split('/').pop() || '')
+                      .replace(/\.[^/.]+$/, '')
+                      .replace(/[-_]/g, ' ')
+                      .trim() || `Certificate ${certIndex + 1}`}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
