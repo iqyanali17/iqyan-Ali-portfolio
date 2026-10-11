@@ -160,19 +160,55 @@
 /* Header Right Buttons - Large & Premium */
 .header-three-menu button {
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
-  background: #ffffff !important;
+  background-color: #ffffff !important;
   border: 1px solid #e7e5df !important;
   border-radius: 14px !important;
   width: 54px !important;
   height: 54px !important;
-  transition: transform 0.25s ease,
-              border-color 0.25s ease,
-              box-shadow 0.25s ease !important;
+  color: #0b0c10 !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.header-three-menu button .header-menu-icon,
+.header-three-menu button img {
+  color: inherit !important;
+  fill: currentColor !important;
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s ease,
+              fill 0.3s ease,
+              filter 0.3s ease !important;
 }
 
 .header-three-menu button:hover {
+  background-color: var(--main-two-600) !important;
   border-color: var(--main-two-600) !important;
+  color: #ffffff !important;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 81, 0, 0.35) !important;
+}
+
+.header-three-menu button:hover .header-menu-icon {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  transform: scale(1.1);
+}
+
+.header-three-menu button:hover img {
+  filter: brightness(0) invert(1) !important;
+  transform: scale(1.1);
+}
+
+.header-three-menu button:active {
+  transform: translateY(0) scale(0.96);
+  box-shadow: 0 4px 14px rgba(255, 81, 0, 0.25) !important;
 }
 
 .header-three-button a {
