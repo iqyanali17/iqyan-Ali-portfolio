@@ -1,0 +1,157 @@
+/* ==========================================================
+   STICKY FLOATING ACTIONS (Resume Download & Back To Top)
+   Clean, modern floating buttons matching the lime & orange themes
+   ========================================================== */
+
+.sticky-floating-stack {
+  position: fixed;
+  right: 50px;
+  bottom: 50px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+}
+
+/* Base button styling */
+.sticky-floating-btn {
+  pointer-events: auto;
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background-color: var(--main-600);
+  color: #02090F;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(3, 4, 28, 0.22);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease,
+              visibility 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sticky-floating-btn svg {
+  display: block;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              stroke 0.3s ease;
+}
+
+/* Clean Orange Theme Hover Effect */
+.sticky-floating-btn:hover {
+  background-color: var(--main-two-600) !important;
+  color: #ffffff !important;
+  transform: translateY(-3px) scale(1.06);
+  box-shadow: 0 10px 24px rgba(255, 81, 0, 0.42) !important;
+}
+
+.sticky-floating-btn:hover svg {
+  transform: scale(1.1);
+}
+
+.sticky-floating-btn:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 4px 12px rgba(255, 81, 0, 0.3) !important;
+}
+
+/* Tooltip Badge for Resume Button */
+.sticky-floating-btn .sticky-btn-tooltip {
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  background-color: #0b0c10;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--body-font), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.25s ease,
+              transform 0.25s ease,
+              visibility 0.25s ease;
+}
+
+.sticky-floating-btn .sticky-btn-tooltip::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #0b0c10;
+}
+
+.sticky-floating-btn:hover .sticky-btn-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Back To Top Visibility Toggle */
+.sticky-back-to-top-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.5) translateY(10px);
+  max-height: 0;
+  margin-top: -12px;
+  overflow: hidden;
+  transition: opacity 0.3s ease,
+              visibility 0.3s ease,
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              max-height 0.3s ease,
+              margin-top 0.3s ease,
+              background-color 0.3s ease,
+              box-shadow 0.3s ease,
+              color 0.3s ease;
+}
+
+.sticky-back-to-top-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1) translateY(0);
+  max-height: 50px;
+  margin-top: 0;
+}
+
+.sticky-back-to-top-btn.is-visible:hover {
+  transform: translateY(-3px) scale(1.06);
+}
+
+/* Mobile Responsive Optimization */
+@media screen and (max-width: 575px) {
+  .sticky-floating-stack {
+    right: 20px;
+    bottom: 24px;
+    gap: 10px;
+  }
+
+  .sticky-floating-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sticky-floating-btn .sticky-btn-tooltip {
+    display: none; /* Hide tooltip on touch devices to avoid layout overlap */
+  }
+}
